@@ -1,4 +1,4 @@
-;(function(win, undefined) {
+(function(win, undefined) {
 	'use strict';
 
 	var SHARED_PATH = '../../shared',
@@ -22,6 +22,6 @@
 	require([
 		'jquery'
 	], function($) {
-		console.log('hello world!')
+		console.log('hello world!');
 	});
 }(window));
