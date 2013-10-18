@@ -10,14 +10,14 @@
 		"tabs"
 	],
 
-	/*"content_scripts": [
+	"content_scripts": [
 		{
 			"matches": [
 				"<all_urls>"
 			],
-			"js": []
+			"js": ["shared/scripts/require.js", "content/scripts/require-cs.js", "content/scripts/main.js"]
 		}
-	],*/
+	],
 
 	"web_accessible_resources": [
 
