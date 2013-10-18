@@ -15,12 +15,14 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": ["shared/scripts/require.js", "content/scripts/require-cs.js", "content/scripts/main.js"]
+			"js": ["shared/scripts/libs/require.js", "content/scripts/require-cs.js", "content/scripts/main.js"]
 		}
 	],
 
 	"web_accessible_resources": [
-
+		"content/*",
+		//"options/*",
+		"shared/*"
 	]//,
 
 	//"options_page": "options/index.html",
