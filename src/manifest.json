@@ -1,0 +1,34 @@
+{
+	"manifest_version": 2,
+	"name": "Project Harmony",
+	"version": "0.1.0",
+	"description": "Assists non-sighted users with playing a amospheric melody that collerates with the colours in an image on the active webpage.",
+
+	"author": "Joshua Thornton",
+
+	"permissions": [
+		"tabs"
+	],
+
+	/*"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": []
+		}
+	],*/
+
+	"web_accessible_resources": [
+
+	]//,
+
+	//"options_page": "options/index.html",
+
+	/*"background": {
+		"scripts": ["shared/scripts/require.js", "background/main.js"],
+		"persistent": true
+	},
+
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"*/
+}
