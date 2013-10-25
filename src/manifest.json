@@ -7,8 +7,14 @@
 	"author": "Joshua Thornton",
 
 	"permissions": [
-		"tabs"
+		"tabs",
+		"http://*/",
+		"https://*/"
 	],
+
+	"background": {
+		"scripts": ["shared/scripts/libs/require.js", "background/main.js"]
+	},
 
 	"content_scripts": [
 		{
