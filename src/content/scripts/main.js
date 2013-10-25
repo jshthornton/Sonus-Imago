@@ -55,7 +55,7 @@
 				if(keyCode !== 120) return;
 
 				$active = $(document.activeElement);
-				console.log('Active Element: ');
+				console.log('Active Element:');
 				console.dir($active[0]);
 
 				if(!$active.length) return;
@@ -66,30 +66,13 @@
 				$img = $active;
 				$active = null;
 
-				var imgWidth = $img.prop('width'),
-					imgHeight = $img.prop('height');
+				chrome.runtime.sendMessage({
+					type: 'getImageData',
+					imageSrc: $img.prop('src')
+				}, function(resp) {
+					console.dir(resp);
+				});
 
-				var $canvas = $('<canvas />'),
-					canvas = $canvas[0],
-					ctx;
-
-				if(!canvas.getContext) return;
-
-				ctx = canvas.getContext('2d');
-
-				$(document.body).append($canvas); //Debug Code
-
-				canvas.width = imgWidth;
-				canvas.height = imgHeight;
-				
-				console.dir(canvas);
-
-				ctx.drawImage($img[0], 0, 0);
-
-				//$canvas.remove();
-
-				$canvas = null;
-				canvas = null;
 			});
 		});
 
