@@ -43,8 +43,15 @@
 			console.groupCollapsed('Segment');
 			console.log('Width: %i', segmentWidth);
 			console.log('Height: %i', segmentHeight);
-			
 
+			for(var pixel = 0; pixel < imgWidth * imgHeight; pixel++) {
+				var row = Math.floor(pixel / imgWidth),
+					column = pixel % imgWidth;
+
+				console.log(pixel, row, column);
+			}
+			
+			/*
 			var segments = [];
 
 			for(var y = 0; y < numRows; y++) {
@@ -86,7 +93,7 @@
 			} // row
 
 			console.log(segments);
-
+			*/
 			console.groupEnd();
 
 			//console.log(data);
