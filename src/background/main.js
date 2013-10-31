@@ -27,6 +27,10 @@
 			return 0;
 		}
 
+		function normalise() {
+
+		}
+
 		function getSegments(imgData) {
 			var imgWidth = imgData.width,
 				imgHeight = imgData.height,
@@ -43,48 +47,47 @@
 			console.groupCollapsed('Segment');
 			console.log('Width: %i', segmentWidth);
 			console.log('Height: %i', segmentHeight);
-
-			for(var pixel = 0; pixel < imgWidth * imgHeight; pixel++) {
-				var row = Math.floor(pixel / imgWidth),
-					column = pixel % imgWidth;
-
-				console.log(pixel, row, column);
-			}
 			
-			/*
 			var segments = [];
 
 			for(var y = 0; y < numRows; y++) {
-				console.group('Row: %i', y);
+				console.group('y: %i', y);
 
 				for(var x = 0; x < numCols; x++) {
-					console.group('Column: %i', x);
+					console.group('x: %i', x);
 
 					var segment = [];
 
-					segments.push(segment);
+					//segments.push(segment);
 
-					var segmentX = x * segmentWidth * 4,
-						segmentY = y * segmentHeight * 4,
+					var segmentX = x * segmentWidth,
+						segmentY = y * segmentHeight,
 						flatSegmentY = segmentY * imgWidth;
 
-					console.log(segmentX, segmentY, flatSegmentY);
+					console.log('sX: %d, sY: %d, fsY: %d', segmentX, segmentY, flatSegmentY);
 
 					for(var offsetY = 0; offsetY < segmentHeight; offsetY++) {
-						for(var offsetX = 0; offsetX < segmentWidth; offsetX++) {
-							var pixelIndex = flatSegmentY + offsetY + offsetX,
-								rgba = {
-									r: imgData.data[pixelIndex],
-									g: imgData.data[pixelIndex + 1],
-									b: imgData.data[pixelIndex + 2],
-									a: imgData.data[pixelIndex + 3]
-								};
+						var flatOffsetY = offsetY * imgWidth;
 
-							console.log(pixelIndex);
+						for(var offsetX = 0; offsetX < segmentWidth; offsetX++) {
+							var pixelIndex = segmentX + offsetX + flatSegmentY + flatOffsetY,
+								dataPoint = pixelIndex * 4;
+							
+							console.log('oY: %d, oX: %d, foY: %d, pI: %d, dP: %d', offsetY, offsetX, flatOffsetY, pixelIndex, dataPoint);
+
+
+							var rgba = {
+									r: imgData.data[dataPoint],
+									g: imgData.data[dataPoint + 1],
+									b: imgData.data[dataPoint + 2],
+									a: imgData.data[dataPoint + 3]
+								};
 
 							segment.push(rgba);
 						}
 					}
+
+					console.log(segment);
 
 					console.groupEnd();
 				} //column
@@ -92,8 +95,8 @@
 				console.groupEnd();
 			} // row
 
-			console.log(segments);
-			*/
+			//console.log(segments);
+			
 			console.groupEnd();
 
 			//console.log(data);
