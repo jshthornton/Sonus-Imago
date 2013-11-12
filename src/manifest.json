@@ -7,20 +7,28 @@
 	"author": "Joshua Thornton",
 
 	"permissions": [
-		"tabs"
+		"tabs",
+		"http://*/",
+		"https://*/"
 	],
 
-	/*"content_scripts": [
+	"background": {
+		"scripts": ["shared/scripts/libs/require.js", "background/main.js"]
+	},
+
+	"content_scripts": [
 		{
 			"matches": [
 				"<all_urls>"
 			],
-			"js": []
+			"js": ["shared/scripts/libs/require.js", "content/scripts/require-cs.js", "content/scripts/main.js"]
 		}
-	],*/
+	],
 
 	"web_accessible_resources": [
-
+		"content/*",
+		//"options/*",
+		"shared/*"
 	]//,
 
 	//"options_page": "options/index.html",
