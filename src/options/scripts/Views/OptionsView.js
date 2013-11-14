@@ -1,0 +1,5 @@
+define([
+	'Backbone'
+], function(Backbone) {
+
+});
