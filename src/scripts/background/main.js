@@ -1,24 +1,6 @@
 (function(undefined) {
 	'use strict';
 
-	var SHARED_PATH = '../shared',
-		SHARED_SCRIPTS_PATH = SHARED_PATH + '/scripts';
-
-	require.config({
-		baseUrl: chrome.extension.getURL('/background'),
-
-		paths: {
-			'jquery': SHARED_SCRIPTS_PATH + '/libs/jquery',
-			'Class': SHARED_SCRIPTS_PATH + '/libs/Class',
-			'_': SHARED_SCRIPTS_PATH + '/libs/lodash',
-			'text': SHARED_SCRIPTS_PATH + '/libs/text'
-		},
-
-		shim: {
-			Class: []
-		}
-	});
-
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		var numCols = 5,
 			numRows = 5;
@@ -112,15 +94,6 @@
 		function getImageData(src, resp) {
 			var img = new Image();
 			img.onload = function() {
-				if(imgWidth < numCols || imgHeight < numRows) {
-					resp.resolve({
-						error: true,
-						msg: 'Image is too small to analyis'
-					});
-
-					return;
-				}
-				
 				var canvas = document.createElement('canvas'),
 					ctx = canvas.getContext('2d'),
 					imgWidth = img.width,
