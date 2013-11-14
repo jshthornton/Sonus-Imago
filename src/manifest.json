@@ -13,7 +13,7 @@
 	],
 
 	"background": {
-		"scripts": ["shared/scripts/libs/require.js", "background/main.js"]
+		"scripts": ["scripts/require.js", "scripts/require-config.js", "scripts/background/main.js"]
 	},
 
 	"content_scripts": [
@@ -21,7 +21,7 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": ["shared/scripts/libs/require.js", "content/scripts/require-cs.js", "content/scripts/main.js"]
+			"js": ["scripts/require.js", "scripts/require-cs.js", "scripts/require-config.js"/*, "scripts/content/main.js"*/]
 		}
 	],
 

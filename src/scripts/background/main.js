@@ -1,24 +1,6 @@
 (function(undefined) {
 	'use strict';
 
-	var SHARED_PATH = '../shared',
-		SHARED_SCRIPTS_PATH = SHARED_PATH + '/scripts';
-
-	require.config({
-		baseUrl: chrome.extension.getURL('/background'),
-
-		paths: {
-			'jquery': SHARED_SCRIPTS_PATH + '/libs/jquery',
-			'Class': SHARED_SCRIPTS_PATH + '/libs/Class',
-			'_': SHARED_SCRIPTS_PATH + '/libs/lodash',
-			'text': SHARED_SCRIPTS_PATH + '/libs/text'
-		},
-
-		shim: {
-			Class: []
-		}
-	});
-
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		var numCols = 5,
 			numRows = 5;
