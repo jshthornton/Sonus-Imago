@@ -5,7 +5,7 @@
 		SHARED_SCRIPTS_PATH = SHARED_PATH + '/scripts';
 
 	require.config({
-		baseUrl: chrome.extension.getURL('/content/scripts'),
+		baseUrl: chrome.extension.getURL('/options/scripts'),
 
 		paths: {
 			'jquery': SHARED_SCRIPTS_PATH + '/libs/jquery',
@@ -26,11 +26,14 @@
 	});
 
 	require([
-		'jquery'
-	], function($) {
+		'jquery',
+		'Views/OptionsView'
+	], function($, OptionsView) {
 		
 		$(document).ready(function() {
-			
+			var optionsView = new OptionsView({
+				el: document.body
+			});
 		});
 	});
 }(window));
