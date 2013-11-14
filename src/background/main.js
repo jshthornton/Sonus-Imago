@@ -112,6 +112,15 @@
 		function getImageData(src, resp) {
 			var img = new Image();
 			img.onload = function() {
+				if(imgWidth < numCols || imgHeight < numRows) {
+					resp.resolve({
+						error: true,
+						msg: 'Image is too small to analyis'
+					});
+
+					return;
+				}
+				
 				var canvas = document.createElement('canvas'),
 					ctx = canvas.getContext('2d'),
 					imgWidth = img.width,
