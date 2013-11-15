@@ -2,7 +2,7 @@ define([
 	'_',
 	'Backbone',
 	'text!./templates/Options.jst',
-	'shared/models/Options'
+	'models/option'
 ], function(_, Backbone, template, Option) {
 
 	var V = Backbone.View.extend({
