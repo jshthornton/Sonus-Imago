@@ -2,8 +2,9 @@ define([
 	'_',
 	'Backbone',
 	'text!./templates/Options.jst',
-	'models/option'
-], function(_, Backbone, template, option) {
+	'models/option',
+	'collections/mood-packs'
+], function(_, Backbone, template, option, moodPacks) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -11,14 +12,15 @@ define([
 		//$volumeRange
 
 		initialize: function() {
-			console.log(option)
+			console.log(moodPacks)
 			this.render();
 		},
 
 		render: function() {
 			var compiled = _.template(template),
 				output = compiled({
-					option: option
+					option: option,
+					moodPacks: moodPacks
 				}),
 				$tmpl = $(output);
 
