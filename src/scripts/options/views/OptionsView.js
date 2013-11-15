@@ -4,12 +4,14 @@ define([
 	'text!./templates/Options.jst',
 	'models/option'
 ], function(_, Backbone, template, option) {
+	'use strict';
 
 	var V = Backbone.View.extend({
 		//$volumeText
 		//$volumeRange
 
 		initialize: function() {
+			console.log(option)
 			this.render();
 		},
 

@@ -1,6 +1,8 @@
 define([
 	'Backbone'
 ], function(Backbone) {
+	'use strict';
+
 	var M = Backbone.Model.extend({
 		defaults: {
 			gridSize: 5,
