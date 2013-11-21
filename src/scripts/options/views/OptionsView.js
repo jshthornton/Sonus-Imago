@@ -33,7 +33,8 @@ define([
 			'change #grid-size': 'onGridSizeChange',
 			'change .volume': 'onVolumeChange',
 			'change #mood-pack': 'onMoodPackChange',
-			'submit #options': 'onSubmit'
+			'submit #options': 'onSubmit',
+			'reset #options': 'onReset'
 		},
 
 		onGridSizeChange: function(e) {
@@ -72,6 +73,14 @@ define([
 			e.preventDefault();
 
 			options.saveAll();
+		},
+
+		onReset: function(e) {
+			e.preventDefault();
+
+			options.resetInitial();
+
+			this.render();
 		}
 	});
 
