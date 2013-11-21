@@ -21,17 +21,14 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": ["scripts/require.js", "scripts/require-cs.js", "scripts/require-config.js"/*, "scripts/content/main.js"*/]
+			"js": ["scripts/require.js", "scripts/require-cs.js", "scripts/require-config.js", "scripts/content/main.js"]
 		}
 	],
 
 	"web_accessible_resources": [
-		"content/*",
-		//"options/*",
-		"shared/*"
+		"scripts/*"
 	],
 	"options_page": "options.html",
-
 
 
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
