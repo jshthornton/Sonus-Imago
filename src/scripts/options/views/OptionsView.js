@@ -1,10 +1,10 @@
 define([
-	'_',
+	'underscore',
 	'Backbone',
 	'text!./templates/Options.jst',
-	'models/option',
+	'collections/options',
 	'collections/mood-packs'
-], function(_, Backbone, template, option, moodPacks) {
+], function(_, Backbone, template, options, moodPacks) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -12,14 +12,14 @@ define([
 		//$volumeRange
 
 		initialize: function() {
-			console.log(moodPacks)
+			//console.log(options)
 			this.render();
 		},
 
 		render: function() {
 			var compiled = _.template(template),
 				output = compiled({
-					option: option,
+					options: options,
 					moodPacks: moodPacks
 				}),
 				$tmpl = $(output);
@@ -31,7 +31,9 @@ define([
 		//Events
 		events: {
 			'change #grid-size': 'onGridSizeChange',
-			'change .volume': 'onVolumeChange'
+			'change .volume': 'onVolumeChange',
+			'change #mood-pack': 'onMoodPackChange',
+			'submit #options': 'onSubmit'
 		},
 
 		onGridSizeChange: function(e) {
@@ -39,7 +41,7 @@ define([
 			console.log(this, select);
 		},
 
-		onVolumeChange: function(e) {
+		onVolumeChange: _.throttle(function(e) {
 			var val = e.currentTarget.value;
 
 			this.$volumeText = this.$volumeText || $('#volume', this.$el);
@@ -50,6 +52,18 @@ define([
 			} else if(this.$volumeRange[0] !== e.currentTarget) {
 				this.$volumeRange[0].value = val;
 			}
+
+			options.get('volume').set('value', val);
+		}, 200),
+
+		onMoodPackChange: function() {
+
+		},
+
+		onSubmit: function(e) {
+			e.preventDefault();
+
+			options.saveAll();
 		}
 	});
 

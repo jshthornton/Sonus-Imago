@@ -1,35 +1,36 @@
 <h1>Options</h1>
+<form id="options">
+	<section>
+		<h2>Image</h2>
 
-<section>
-	<h2>Image</h2>
+		<label for="grid-size">Grid size</label>
+		<select id="grid-size">
+			<option value="4">4x4</option>
+			<option value="5">5x5</option>
+			<option value="6">6x6</option>
+		</select>
+	</section>
 
-	<label for="grid-size">Grid size</label>
-	<select id="grid-size">
-		<option value="4">4x4</option>
-		<option value="5">5x5</option>
-		<option value="6">6x6</option>
-	</select>
-</section>
+	<section>
+		<h2>Sound</h2>
 
-<section>
-	<h2>Sound</h2>
+		<label for="volume">Volume</label>
+		<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.options.get('volume').get('value') %>">
+		<input class="volume" type="number" id="volume" value="<%= it.options.get('volume').get('value') %>" required pattern="^[0-9][0-9]?$|^100$">
 
-	<label for="volume">Volume</label>
-	<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.option.get('volume') %>">
-	<input class="volume" type="number" id="volume" value="<%= it.option.get('volume') %>" required pattern="^[0-9][0-9]?$|^100$">
+		<label for="mood-pack">Mood pack</label>
+		<select id="mood-pack">
+			<% it.moodPacks.forEach(function(moodPack) { %>
+				<option value="<%= moodPack.get('id') %>"><%= moodPack.get('name') %></option>
+			<% }) %>
+			<!--<option value="custom">Custom</option>-->
+		</select>
 
-	<label for="mood-pack">Mood pack</label>
-	<select id="mood-pack">
-		<% it.moodPacks.forEach(function(moodPack) { %>
-			<option value="<%= moodPack.get('id') %>"><%= moodPack.get('name') %></option>
-		<% }) %>
-		<option value="custom">Custom</option>
-	</select>
+		<!--<button type="button">Calibrate</button>-->
+		
+	</section>
 
-	<button type="button">Calibrate</button>
-	
-</section>
-
-<section>
-	<button type="submit">Save</button>
-</section>
+	<section>
+		<button id="save" type="submit">Save</button>
+	</section>
+</form>

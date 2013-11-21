@@ -1,5 +1,5 @@
 require([
-	'_',
+	'underscore',
 	'jquery',
 	'options/views/OptionsView'
 ], function(_, $, OptionsView) {

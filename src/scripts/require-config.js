@@ -7,15 +7,16 @@
 			paths: {
 				'jquery': 'libs/jquery',
 				'Class': 'libs/Class',
-				'_': 'libs/lodash',
+				'underscore': 'libs/lodash',
 				'text': 'libs/text',
-				'Backbone': 'libs/Backbone'
+				'Backbone': 'libs/Backbone',
+				'localstorage': 'libs/Backbone.localStorage'
 			},
 
 			shim: {
 				Class: [],
 				Backbone: {
-					deps: ['_', 'jquery'],
+					deps: ['underscore', 'jquery'],
 					exports: 'Backbone'
 				}
 			}

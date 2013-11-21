@@ -1,6 +1,7 @@
 define([
 	'Backbone',
-	'models/MoodPack'
+	'models/MoodPack',
+	'localstorage'
 ], function(Backbone, MoodPack) {
 	var C = Backbone.Collection.extend({});
 
