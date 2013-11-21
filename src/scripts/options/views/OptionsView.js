@@ -55,7 +55,7 @@ define([
 			this.$volumeText = this.$volumeText || $('#volume', this.$el);
 			this.$volumeRange = this.$volumeRange || $('#volume-range', this.$el);
 
-			if(this.$volumeText[0] !== e.currentTarget) {w
+			if(this.$volumeText[0] !== e.currentTarget) {
 				this.$volumeText[0].value = val;
 			} else if(this.$volumeRange[0] !== e.currentTarget) {
 				this.$volumeRange[0].value = val;
