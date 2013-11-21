@@ -37,8 +37,16 @@ define([
 		},
 
 		onGridSizeChange: function(e) {
-			var select = e.currentTarget;
-			console.log(this, select);
+			var select = e.currentTarget,
+				value = parseInt(select.selectedOptions[0].value, 10),
+				gridSize = options.get('gridSize'),
+				size;
+
+			size = _.find(gridSize.get('sizes'), function(_size) {
+				return value === _size.value;
+			});
+
+			gridSize.set('value', size);
 		},
 
 		onVolumeChange: _.throttle(function(e) {
@@ -47,7 +55,7 @@ define([
 			this.$volumeText = this.$volumeText || $('#volume', this.$el);
 			this.$volumeRange = this.$volumeRange || $('#volume-range', this.$el);
 
-			if(this.$volumeText[0] !== e.currentTarget) {
+			if(this.$volumeText[0] !== e.currentTarget) {w
 				this.$volumeText[0].value = val;
 			} else if(this.$volumeRange[0] !== e.currentTarget) {
 				this.$volumeRange[0].value = val;

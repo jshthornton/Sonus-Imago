@@ -5,9 +5,17 @@
 
 		<label for="grid-size">Grid size</label>
 		<select id="grid-size">
-			<option value="4">4x4</option>
-			<option value="5">5x5</option>
-			<option value="6">6x6</option>
+			<% 
+			var gridSize = it.options.get('gridSize');
+			%>
+
+			<% gridSize.get('sizes').forEach(function(_size) { %>
+				<option <% if(_.isEqual(gridSize.get('value'), _size)) { %> selected="selected" <% } %> value="<%= _size.value %>"><%= _size.label %></option>
+			<% }); %>
+
+			<%
+			gridSize = undefined;
+			%>
 		</select>
 	</section>
 
