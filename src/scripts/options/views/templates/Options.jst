@@ -5,17 +5,11 @@
 
 		<label for="grid-size">Grid size</label>
 		<select id="grid-size">
-			<% 
-			var gridSize = it.options.get('gridSize');
-			%>
+			<% var gridSize = it.options.get('gridSize'); %>
 
 			<% gridSize.get('sizes').forEach(function(_size) { %>
 				<option <% if(_.isEqual(gridSize.get('value'), _size)) { %> selected="selected" <% } %> value="<%= _size.value %>"><%= _size.label %></option>
 			<% }); %>
-
-			<%
-			gridSize = undefined;
-			%>
 		</select>
 	</section>
 

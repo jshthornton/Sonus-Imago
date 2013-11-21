@@ -9,29 +9,20 @@ define([
 	//console.log(moodPacks)
 
 	var C = AppCollection.extend({
-			localStorage: new Backbone.LocalStorage('options')
-		}),
-		c = new C();
+			localStorage: new Backbone.LocalStorage('options'),
 
-	/*c.reset([
-		{id: 'gridSize', value: 5},
-		{id: 'volume', value: 80},
-		{id: 'moodPack', value: moodPacks.get('gb')}
-	]);*/
+			resetInitial: function() {
+				var gridSizes = [{label: '4x4', value: 4}, {label: '5x5', value: 5}, {label: '6x6', value: 6}];
 
-	var gridSizes = [{label: '4x4', value: 4}, {label: '5x5', value: 5}, {label: '6x6', value: 6}];
+				this.reset([
+					{id: 'gridSize', value: gridSizes[1], sizes: gridSizes},
+					{id: 'volume', value: 80},
+					{id: 'moodPack', value: moodPacks.get('gb')}
+				]);
 
-	c.add([
-		{id: 'gridSize', value: gridSizes[1], sizes: gridSizes},
-		{id: 'volume', value: 80},
-		{id: 'moodPack', value: moodPacks.get('gb')}
-	]);
+				gridSizes = null;
+			}
+		});
 
-	gridSizes = null;
-
-	c.saveAll();
-
-	console.log(c);
-
-	return c;
+	return new C();
 });

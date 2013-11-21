@@ -12,7 +12,7 @@ define([
 		//$volumeRange
 
 		initialize: function() {
-			//console.log(options)
+			console.log(options)
 			this.render();
 		},
 

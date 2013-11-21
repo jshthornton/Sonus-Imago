@@ -1,6 +1,22 @@
 (function(undefined) {
 	'use strict';
 
+	chrome.runtime.onInstalled.addListener(function(){
+		require([
+			'jquery',
+			'underscore',
+			'collections/options'
+		], function($, _, options) {
+			options.localStorage._clear(); //@TODO: remove, dev only code.
+
+			if(options.length === 0) {
+				//Initial Setup
+				options.resetInitial();
+				options.saveAll();
+			}
+		});
+	});
+
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		var numCols = 5,
 			numRows = 5;
