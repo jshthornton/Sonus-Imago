@@ -10,6 +10,7 @@ define([
 	var V = Backbone.View.extend({
 		//$volumeText
 		//$volumeRange
+		//$status
 
 		initialize: function() {
 			console.log(options)
@@ -24,6 +25,10 @@ define([
 				}),
 				$tmpl = $(output);
 
+			this.$volumeText = $('#volume', $tmpl);
+			this.$volumeRange = $('#volume-range', $tmpl);
+
+			this.$status = $('#status', $tmpl);
 
 			$('main', this.$el).html($tmpl);
 		},
@@ -48,13 +53,12 @@ define([
 			});
 
 			gridSize.set('value', size);
+
+			this.$status.addClass('unsaved');
 		},
 
 		onVolumeChange: _.throttle(function(e) {
 			var val = e.currentTarget.value;
-
-			this.$volumeText = this.$volumeText || $('#volume', this.$el);
-			this.$volumeRange = this.$volumeRange || $('#volume-range', this.$el);
 
 			if(this.$volumeText[0] !== e.currentTarget) {
 				this.$volumeText[0].value = val;
@@ -63,6 +67,8 @@ define([
 			}
 
 			options.get('volume').set('value', val);
+
+			this.$status.addClass('unsaved');
 		}, 200),
 
 		onMoodPackChange: function() {
@@ -73,6 +79,8 @@ define([
 			e.preventDefault();
 
 			options.saveAll();
+
+			this.$status.removeClass('unsaved');
 		},
 
 		onReset: function(e) {
@@ -81,6 +89,8 @@ define([
 			options.resetInitial();
 
 			this.render();
+
+			this.$status.addClass('unsaved');
 		}
 	});
 
