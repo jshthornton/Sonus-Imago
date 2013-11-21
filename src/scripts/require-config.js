@@ -1,12 +1,32 @@
-require.config({
-	paths: {
-		'jquery': 'libs/jquery',
-		'Class': 'libs/Class',
-		'_': 'libs/lodash',
-		'text': 'libs/text'
-	},
+(function(win) {
+	'use strict';
 
-	shim: {
-		Class: []
+	var config = {
+			baseUrl: chrome.extension.getURL('/scripts'),
+
+			paths: {
+				'jquery': 'libs/jquery',
+				'Class': 'libs/Class',
+				'underscore': 'libs/lodash',
+				'text': 'libs/text',
+				'Backbone': 'libs/Backbone',
+				'localstorage': 'libs/Backbone.localStorage'
+			},
+
+			shim: {
+				Class: [],
+				Backbone: {
+					deps: ['underscore', 'jquery'],
+					exports: 'Backbone'
+				}
+			}
+		};
+
+	if('require' in win) {
+		require.config(config);
+	} else {
+		win.require = config;
 	}
-});
+
+	config = null;
+}(window));
