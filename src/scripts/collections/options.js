@@ -6,8 +6,6 @@ define([
 ], function(Backbone, AppCollection, moodPacks) {
 	'use strict';
 
-	//console.log(moodPacks)
-
 	var C = AppCollection.extend({
 			localStorage: new Backbone.LocalStorage('options'),
 

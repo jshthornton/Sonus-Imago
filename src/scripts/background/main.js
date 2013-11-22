@@ -1,6 +1,10 @@
 (function(undefined) {
 	'use strict';
 
+
+
+
+
 	chrome.runtime.onInstalled.addListener(function(){
 		require([
 			'jquery',
@@ -20,10 +24,6 @@
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		var numCols = 5,
 			numRows = 5;
-
-		function getMoodType() {
-			return 0;
-		}
 
 		function getSegments(imgData) {
 			var imgWidth = imgData.width,
@@ -90,6 +90,8 @@
 
 					console.log(segment);
 
+
+
 					segments.push(segment);
 
 					console.groupEnd();
@@ -107,63 +109,13 @@
 			return segments;
 		}
 
-		function getImageData(src, resp) {
-			var img = new Image();
-			img.onload = function() {
-				var canvas = document.createElement('canvas'),
-					ctx = canvas.getContext('2d'),
-					imgWidth = img.width,
-					imgHeight = img.height,
-					excessWidth = imgWidth % numCols,
-					excessHeight = imgHeight % numRows,
-					offsetX = Math.floor(excessWidth / 2),
-					offsetY = Math.floor(excessHeight / 2),
-					fauxWidth = imgWidth - excessWidth,
-					fauxHeight = imgHeight - excessHeight;
-
-
-				ctx.drawImage(img, 0, 0);
-
-				var imgData = ctx.getImageData(offsetX, offsetY, fauxWidth, fauxHeight);
-
-				console.groupCollapsed('Image Information');
-
-				console.groupCollapsed('Raw');
-				console.log('Width: %i', imgWidth);
-				console.log('Height: %i', imgHeight);
-				console.groupEnd();
-
-				console.groupCollapsed('Excess');
-				console.log('Width: %i', excessWidth);
-				console.log('Height: %i', excessHeight);
-				console.groupEnd();
-
-				console.groupCollapsed('Offset');
-				console.log('X: %i', offsetX);
-				console.log('Y: %i', offsetY);
-				console.groupEnd();
-
-				console.groupCollapsed('Faux');
-				console.log('Width: %i', fauxWidth);
-				console.log('Height: %i', fauxHeight);
-				console.groupEnd();
-
-				console.groupEnd();
-
-				canvas = null;
-
-				resp.resolve({
-					width: imgData.width,
-					height: imgData.height,
-					segments: getSegments(imgData)
-				});
-			};
-			img.src = src;
-		}
-
 		require([
-			'jquery'
-		], function($) {
+			'jquery',
+			'background/ImageAnalyser',
+			'collections/options'
+		], function($, ImageAnalyser, options) {
+			options.fetch();
+
 			var responseDef = new $.Deferred();
 
 			responseDef.then(function() {
@@ -175,8 +127,10 @@
 			
 			switch(request.type) {
 				case 'getImageData':
-					console.log('Request: %O', request);
-					getImageData(request.imageSrc, responseDef);
+					var imageAnalyser = new ImageAnalyser(request.imageSrc);
+
+					//console.log('Request: %O', request);
+					//getImageData(request.imageSrc, responseDef);
 					break;
 			}
 		});

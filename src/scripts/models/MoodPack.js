@@ -5,6 +5,10 @@ define([
 		defaults: {
 			id: null,
 			name: null
+		},
+
+		getMood: function(rgba) {
+
 		}
 	});
 

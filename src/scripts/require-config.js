@@ -14,7 +14,9 @@
 			},
 
 			shim: {
-				Class: [],
+				Class: {
+					exports: 'Class'
+				},
 				Backbone: {
 					deps: ['underscore', 'jquery'],
 					exports: 'Backbone'
