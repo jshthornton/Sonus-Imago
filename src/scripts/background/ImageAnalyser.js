@@ -1,8 +1,9 @@
 define([
+	'require',
 	'Class',
 	'underscore',
 	'collections/options'
-], function(Class, _, options) {
+], function(require, Class, _, options) {
 	var Cls = Class.extend({
 		//_imgSrc
 
@@ -10,7 +11,6 @@ define([
 			_.bindAll(this);
 
 			this._imgSrc = imgSrc;
-			if(imgSrc) this.loadImage(); 
 		},
 
 		loadImage: function(imgSrc) {
@@ -18,8 +18,8 @@ define([
 			if(typeof this._imgSrc !== 'string') throw new Error('Unable to load image. No image source provided.');
 
 			var img = new Image();
-			img.onload = this._onImageLoad;
-			img.onerror = this._onImageError;
+			img.addEventListener('load', this._onImageLoad);
+			img.addEventListener('error', this._onImageError);
 			img.src = this._imgSrc;
 
 			console.log('Loading Image: %s', this._imgSrc);
@@ -76,6 +76,68 @@ define([
 			var imgData = ctx.getImageData(offsetX, offsetY, fauxWidth, fauxHeight);
 
 			canvas = null;
+
+			this.getSegments(imgData);
+		},
+
+		getSegments: function(imgData) {
+			var numCols = 5,
+				numRows = 5,
+				imgWidth = imgData.width,
+				imgHeight = imgData.height,
+				segmentWidth = imgWidth / numCols,
+				segmentHeight = imgHeight / numRows;
+
+			console.groupCollapsed('Image Data (Canvas Export)');
+			console.log('Width: %i', imgWidth);
+			console.log('Height: %i', imgHeight);
+			console.log('Data length: %i', imgData.data.length);
+			//console.log('Data: %O', imgData.data); //Very slow, only use if needed for debugging
+			console.groupEnd();
+
+			console.groupCollapsed('Segment');
+			console.log('Width: %i', segmentWidth);
+			console.log('Height: %i', segmentHeight);
+
+			var segments = [];
+
+			for(var y = 0; y < numRows; y++) {
+				//console.group('y: %i', y);
+
+				for(var x = 0; x < numCols; x++) {
+					var worker = new Worker(require.toUrl('./ImageAnalyserWorker.js'));
+
+					worker.addEventListener('message', function(e) {
+						var data = e.data;
+						if(data.id === 'segment') {
+							console.log(data.segment);
+						}
+					}, false);
+
+					worker.postMessage({
+						cmd: 'doSegment',
+						imgData: imgData,
+						imgWidth: imgWidth,
+						imgHeight: imgHeight,
+						x: x,
+						y: y,
+						segmentWidth: segmentWidth,
+						segmentHeight: segmentHeight
+					});
+
+					//worker.postMessage({'cmd': 'stop'});
+				} //column
+
+				//console.groupEnd();
+			} // row
+
+			//console.log(segments);
+
+			console.groupEnd();
+
+			//console.log(data);
+
+			//return segments;
 		},
 
 		_onImageError: function(e) {
