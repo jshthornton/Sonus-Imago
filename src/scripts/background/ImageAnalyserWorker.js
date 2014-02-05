@@ -95,7 +95,15 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	}*/
 
 	function normalise(color, direction) {
+		var remainder = color % 85;
+
 		color = 85 * parseInt(color / 85, 10);
+
+		if(direction === 'closest') {
+			if(remainder > 42) {
+				color += 85;
+			}
+		}
 
 		if(direction === 'up') {
 			color += 85;
@@ -114,9 +122,15 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	//Check if all three are equal (white, grey, black)
 	//Normalise all
 	if(isEqualRange(segment.r, segment.g, 20) && isEqualRange(segment.r, segment.b, 20)) {
-		segment.r = normalise(segment.r, 'down');
-		segment.g = normalise(segment.g, 'down');
-		segment.b = normalise(segment.b, 'down');
+		if((segment.r >= 42 && segment.r <= 85) || (segment.r >= 213 && segment.r <= 255)) {
+			segment.r = normalise(segment.r, 'up');
+			segment.g = normalise(segment.g, 'up');
+			segment.b = normalise(segment.b, 'up');
+		} else {
+			segment.r = normalise(segment.r, 'down');
+			segment.g = normalise(segment.g, 'down');
+			segment.b = normalise(segment.b, 'down');
+		}
 	} else {
 		//Check for the primary colour
 		var first,
@@ -155,14 +169,20 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			}
 		}
 
-		//Find the second highest, is it closer to the first or the third
-		if(segment[first] - segment[second] > segment[second] - segment[third]) {
-			//Closest to first -> match it to first
-			segment[second] = normalise(segment[second], 'up');
+		//if(segment[second]) is closer to a normalised point, then making it the normalised one rather than following the first or third
+		if(segment[second] % 85 < segment[first] - segment[second]) {
+			segment[second] = normalise(segment[second], 'closest');
 		} else {
-			//Closest to lowest -> decrease to 85, 170, 255
-			segment[second] = normalise(segment[second], 'down');
+			//Find the second highest, is it closer to the first or the third
+			if(segment[first] - segment[second] < segment[second] - segment[third]) {
+				//Closest to first -> match it to first
+				segment[second] = normalise(segment[second], 'up');
+			} else {
+				//Closest to lowest -> decrease to 85, 170, 255
+				segment[second] = normalise(segment[second], 'down');
+			}
 		}
+
 		
 		//then increase primary to 85, 170, 255
 		segment[first] = normalise(segment[first], 'up');
