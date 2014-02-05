@@ -3,6 +3,43 @@ require([
 ], function($) {
 	'use strict';
 
+	chrome.runtime.onMessage.addListener(
+		function(request, sender, sendResponse) {
+			if(!sender.tab) {
+				switch (request.cmd) {
+					case 'makeImage':
+						var segments = JSON.parse(request.segments);
+						console.log(segments);
+
+						var $container = $('<div></div>')
+							.css({
+							})
+							.width(50 * request.numCols);
+
+						for(var i = 0, len = segments.length; i < len; i++) {
+							var segment = segments[i],
+								alpha = segment.a / 255;
+
+							alpha = parseFloat(alpha).toFixed(2);
+
+							var $segment = $('<div></div>')
+								.css({
+									'background-color': 'rgba(' + segment.r + ',' + segment.g + ',' + segment.b + ',' + alpha + ')',
+									'float': 'left'
+								})
+								.width(50)
+								.height(50);
+
+							$container.append($segment);
+						}
+
+						$(document.body).prepend($container);
+						break;
+				};
+			}
+		}
+	);
+
 	function tabbableImage($imgs) {
 		$imgs.prop('tabIndex', 0);
 	};
