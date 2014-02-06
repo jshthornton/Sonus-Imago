@@ -12,6 +12,7 @@ define([
 		//_imgSrc
 		//segments
 		//trueLength
+		//_def
 
 		init: function(imgSrc) {
 			_.bindAll(this);
@@ -19,9 +20,16 @@ define([
 			this._imgSrc = imgSrc;
 			this.segments = [];
 			this.trueLength = 0;
+			this._def = new $.Deferred();
 		},
 
-		loadImage: function(imgSrc) {
+		analyse: function(imgSrc) {
+			this._loadImage(imgSrc);
+
+			return this._def.promise();
+		},
+
+		_loadImage: function(imgSrc) {
 			this._imgSrc = this._imgSrc || imgSrc;
 			if(typeof this._imgSrc !== 'string') throw new Error('Unable to load image. No image source provided.');
 
@@ -175,6 +183,8 @@ define([
 							numRows: numRows
 						});
 					});
+
+					this._def.resolve(this.segments);
 				}
 			}
 		}

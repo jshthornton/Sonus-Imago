@@ -22,22 +22,30 @@
 			'jquery',
 			'background/ImageAnalyser',
 			'collections/options'
-		], function($, ImageAnalyser, options) {
+		], function($, ImageAnalyser, options, Band) {
 			options.fetch();
 
-			var responseDef = new $.Deferred();
+/*			var responseDef = new $.Deferred();
 
 			responseDef.then(function() {
 				sendResponse(Array.prototype.slice.call(arguments, 0));
 				console.groupEnd(); //Message
-			});
+			});*/
 
 			console.groupCollapsed('Message');
 			
 			switch(request.type) {
 				case 'getImageData':
 					var imageAnalyser = new ImageAnalyser(request.imageSrc);
-					imageAnalyser.loadImage();
+					imageAnalyser.analyse().then(function(segments) {
+						console.log('analysis complete');
+						console.log(arguments);
+
+						var moodPack = options.get('moodPack');
+						moodPack.parse(segments);
+
+						console.groupEnd();
+					});
 
 					//console.log('Request: %O', request);
 					//getImageData(request.imageSrc, responseDef);
