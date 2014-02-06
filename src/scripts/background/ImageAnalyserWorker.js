@@ -64,41 +64,21 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	//Average
 	var size = segmentWidth * segmentHeight;
-	segment.r = parseInt(segment.r / size, 10);
-	segment.g = parseInt(segment.g / size, 10);
-	segment.b = parseInt(segment.b / size, 10);
-	segment.a = parseInt(segment.a / size, 10);
 
-/*	function normalise(a, b, c) {
-		if(a > b && a > c) {
-			return _normalise(a, true);
-		}
-
-		return _normalise(a, false);
+	function average(color, size) {
+		return parseInt(color / size, 10);
 	}
 
-	function _normalise(colour, primary) {
-		var remainder = colour % 85;
+	segment.r = average(segment.r, size);
+	segment.g = average(segment.g, size);
+	segment.b = average(segment.b, size);
+	segment.a = average(segment.a, size);
 
-		//colour = 85 * parseInt(colour / 85, 10);
-
-		if(primary) {
-			//colour += 85;
-			colour = 255;
-		} else if(colour > 127) {
-			colour = 255;
-		} else {
-			colour = 0;
-		}
-
-		return colour;
-	}*/
 
 	function normalise(color, direction) {
 		var precision,
 			low,
 			high;
-		//var remainder = color % 85;
 
 		if(color >= 170) {
 			precision = 255/3;
@@ -117,98 +97,65 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			color = high;
 		}
 
-/*		if(direction === 'up') {
-			color += 85;
-		}*/
-
 		return parseInt(color, 10);
 	}
 
-	segment.r = normalise(segment.r);
-	segment.g = normalise(segment.g);
-	segment.b = normalise(segment.b);
+	//segment.r = normalise(segment.r);
+	//segment.g = normalise(segment.g);
+	//segment.b = normalise(segment.b);
 
-	return segment;
+	//Check for the primary colour
+	var first,
+		second,
+		third;
 
-
-	//Check if all three are equal (white, grey, black)
-	//Normalise all
-/*	if(isEqualRange(segment.r, segment.g, 20) && isEqualRange(segment.r, segment.b, 20)) {
-		if((segment.r >= 42 && segment.r <= 85) || (segment.r >= 213 && segment.r <= 255)) {
-			segment.r = normalise(segment.r, 'up');
-			segment.g = normalise(segment.g, 'up');
-			segment.b = normalise(segment.b, 'up');
+	if(segment.r >= segment.g && segment.r >= segment.b) {
+		//Red
+		first = 'r';
+		if(segment.g > segment.b) {
+			second = 'g';
+			third = 'b';
 		} else {
-			segment.r = normalise(segment.r, 'down');
-			segment.g = normalise(segment.g, 'down');
-			segment.b = normalise(segment.b, 'down');
+			second = 'b';
+			third = 'g';
 		}
+	} else if(segment.g >= segment.b && segment.g >= segment.r) {
+		//Green
+		first = 'g';
+		if(segment.r > segment.b) {
+			second = 'r';
+			third = 'b';
+		} else {
+			second = 'b';
+			third = 'r';
+		}
+	} else if(segment.b >= segment.r && segment.b >= segment.g) {
+		//Blue
+		first = 'b';
+		if(segment.r > segment.g) {
+			second = 'r';
+			third = 'g';
+		} else {
+			second = 'g';
+			third = 'r';
+		}
+	}
+
+	var firstDiff = segment[first] - segment[second],
+		thirdDiff = segment[second] - segment[third];
+
+	//Normalise primary and third
+	segment[first] = normalise(segment[first]);
+	segment[third] = normalise(segment[third]);
+
+	//Find the second highest, is it closer to the first or the third
+	if(firstDiff < thirdDiff) {
+		//Closest to first -> match it to first
+		segment[second] = segment[first];
 	} else {
-		//Check for the primary colour
-		var first,
-			second,
-			third;
-
-		if(segment.r >= segment.g && segment.r >= segment.b) {
-			//Red
-			first = 'r';
-			if(segment.g > segment.b) {
-				second = 'g';
-				third = 'b';
-			} else {
-				second = 'b';
-				third = 'g';
-			}
-		} else if(segment.g >= segment.b && segment.g >= segment.r) {
-			//Green
-			first = 'g';
-			if(segment.r > segment.b) {
-				second = 'r';
-				third = 'b';
-			} else {
-				second = 'b';
-				third = 'r';
-			}
-		} else if(segment.b >= segment.r && segment.b >= segment.g) {
-			//Blue
-			first = 'b';
-			if(segment.r > segment.g) {
-				second = 'r';
-				third = 'g';
-			} else {
-				second = 'g';
-				third = 'r';
-			}
-		}
-
-		var firstDiff = segment[first] - segment[second],
-			fixedDiff = segment[second] % 85;
-
-		//if(segment[second]) is closer to a normalised point, then making it the normalised one rather than following the first or third
-		if(segment[second] % 85 < segment[first] - segment[second]) {
-			segment[second] = normalise(segment[second], 'closest');
-		} else {
-			//Find the second highest, is it closer to the first or the third
-			if(segment[first] - segment[second] < segment[second] - segment[third]) {
-				//Closest to first -> match it to first
-				segment[second] = normalise(segment[second], 'up');
-			} else {
-				//Closest to lowest -> decrease to 85, 170, 255
-				segment[second] = normalise(segment[second], 'down');
-			}
-		}
-
-		
-		//then increase primary to 85, 170, 255
-		segment[first] = normalise(segment[first], 'up');
-
-		//Decrease lowest to 85, 170, 255
-		segment[third] = normalise(segment[third], 'down');
-	}*/
-
-	//console.dir(segment);
-
-	//segments.push(segment);
+		//Closest to lowest -> decrease to 85, 170, 255
+		segment[second] = segment[third];
+	}
 
 	return segment;
 }
