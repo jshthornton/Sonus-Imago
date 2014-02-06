@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Colours</title>
+
+	<style type="text/css">
+		.pallete {
+			width: 280px;
+			float: left;
+		}
+		.block {
+			position: relative;
+			width: 64px;
+			height: 64px;
+			float: left;
+			border: 1px solid #ccc;
+			margin: 2px;
+		}
+		.block.black {
+			width: 274px;
+		}
+		.block span {
+			font-family: Arial;
+			font-size: 10px;
+			text-align: center;
+			display: block;
+			font-weight: bold;
+			background-color: rgba(255, 255, 255, 0.4); 
+			padding: 3px 0px;
+			width: 100%;
+			position: absolute;
+			top: 50%;
+			margin-top: -6px;
+		}
+		.clear {
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script>
+		;(function() {
+			function addBlock(r, g, b, $pallete) {
+				var $block = $('<div class="block"><span>' + r + ',' + g + ',' + b + '</span></div>')
+					.css('background-color', 'rgb(' + r + ',' + g + ',' + b + ')');
+
+				if(r === 0 && g === 0 && b === 0) {
+					$block.addClass('black');
+				}
+
+				$pallete.append($block);
+			}
+
+			function clearer($pallete) {
+				$pallete.append($('<div class="clear"></div>'));
+			}
+
+			function pallete(color) {
+				var $pallete = $('<div class="pallete"></div>');
+
+				for(var p = 255; p >= 0; p -= 85) {
+					var dec;
+					if(p === 255) {
+						dec = 255/3;
+					} else if(p === 170) {
+						dec = 255/6;
+					} else {
+						dec = 255/12;
+					}
+					for(var s = p; s >= 0; s -= dec) {
+						s = parseInt(s, 10);
+						if(color === 'red') {
+							addBlock(p, s, s, $pallete);
+						} else if(color === 'green') {
+							addBlock(s, p, s, $pallete);
+						} else if(color === 'blue') {
+							addBlock(s, s, p, $pallete);
+						} else if(color === 'magenta') {
+							addBlock(p, s, p, $pallete);
+						} else if(color === 'cyan') {
+							addBlock(s, p, p, $pallete);
+						} else if(color === 'yellow') {
+							addBlock(p, p, s, $pallete);
+						}
+					}
+
+					clearer($pallete);
+				}
+
+				$(document.body).append($pallete);
+			}
+
+			pallete('red');
+			pallete('magenta');
+			pallete('blue');
+			pallete('cyan');
+			pallete('green');
+			pallete('yellow');
+
+
+/*			var r = 255;
+			for(var g = 255; g > 0; g -= 85) {
+				for(var b = 0; b <= 255; b += 85) {
+					addBlock(r, g, b);
+				}
+			}
+
+			clearer();
+
+			var b = 255;
+			for(var g = 0; g <= 255; g += 85) {
+				for(var r = 0; r <= 255; r += 85) {
+					addBlock(r, g, b);
+				}
+			}
+
+			clearer();
+
+			var g = 255;
+			for(var r = 0; r <= 255; r += 85) {
+				for(var b = 0; b <= 255; b += 85) {
+					addBlock(r, g, b);
+				}
+			}*/
+
+			/*for(var r = 0; r <= 255; r += 85) {
+				for(var g = 0; g <= 255; g += 85) {
+					for(var b = 0; b <= 255; b += 85) {
+						
+					}
+				}
+			}*/
+
+
+		}());
+	</script>
+</body>
+</html>

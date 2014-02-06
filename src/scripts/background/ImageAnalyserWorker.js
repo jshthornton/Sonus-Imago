@@ -95,33 +95,45 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	}*/
 
 	function normalise(color, direction) {
-		var remainder = color % 85;
+		var precision,
+			low,
+			high;
+		//var remainder = color % 85;
 
-		color = 85 * parseInt(color / 85, 10);
-
-		if(direction === 'closest') {
-			if(remainder > 42) {
-				color += 85;
-			}
+		if(color >= 170) {
+			precision = 255/3;
+		} else if(color >= 85) {
+			precision = 255/6;
+		} else {
+			precision = 255/12;
 		}
 
-		if(direction === 'up') {
+		low = precision * parseInt(color / precision, 10);
+		high = low + precision;
+
+		if(color - low < high - color) {
+			color = low;
+		} else {
+			color = high;
+		}
+
+/*		if(direction === 'up') {
 			color += 85;
-		}
+		}*/
 
-		return color;
+		return parseInt(color, 10);
 	}
 
-	//segment.r = normalise(segment.r, segment.g, segment.b);
-	//segment.g = normalise(segment.g, segment.r, segment.b);
-	//segment.b = normalise(segment.b, segment.g, segment.r);
+	segment.r = normalise(segment.r);
+	segment.g = normalise(segment.g);
+	segment.b = normalise(segment.b);
 
-	//return segment;
+	return segment;
 
 
 	//Check if all three are equal (white, grey, black)
 	//Normalise all
-	if(isEqualRange(segment.r, segment.g, 20) && isEqualRange(segment.r, segment.b, 20)) {
+/*	if(isEqualRange(segment.r, segment.g, 20) && isEqualRange(segment.r, segment.b, 20)) {
 		if((segment.r >= 42 && segment.r <= 85) || (segment.r >= 213 && segment.r <= 255)) {
 			segment.r = normalise(segment.r, 'up');
 			segment.g = normalise(segment.g, 'up');
@@ -169,6 +181,9 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			}
 		}
 
+		var firstDiff = segment[first] - segment[second],
+			fixedDiff = segment[second] % 85;
+
 		//if(segment[second]) is closer to a normalised point, then making it the normalised one rather than following the first or third
 		if(segment[second] % 85 < segment[first] - segment[second]) {
 			segment[second] = normalise(segment[second], 'closest');
@@ -189,7 +204,7 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 		//Decrease lowest to 85, 170, 255
 		segment[third] = normalise(segment[third], 'down');
-	}
+	}*/
 
 	//console.dir(segment);
 
