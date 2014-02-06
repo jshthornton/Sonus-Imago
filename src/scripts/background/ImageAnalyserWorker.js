@@ -74,6 +74,7 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	segment.b = average(segment.b, size);
 	segment.a = average(segment.a, size);
 
+	//return segment;
 
 	function normalise(color, direction) {
 		var precision,

@@ -5,7 +5,7 @@
 	<title>Colours</title>
 
 	<style type="text/css">
-		.pallete {
+		.palete {
 			width: 280px;
 			float: left;
 		}
@@ -43,7 +43,7 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script>
 		;(function() {
-			function addBlock(r, g, b, $pallete) {
+			function addBlock(r, g, b, $palete) {
 				var $block = $('<div class="block"><span>' + r + ',' + g + ',' + b + '</span></div>')
 					.css('background-color', 'rgb(' + r + ',' + g + ',' + b + ')');
 
@@ -51,15 +51,15 @@
 					$block.addClass('black');
 				}
 
-				$pallete.append($block);
+				$palete.append($block);
 			}
 
-			function clearer($pallete) {
-				$pallete.append($('<div class="clear"></div>'));
+			function clearer($palete) {
+				$palete.append($('<div class="clear"></div>'));
 			}
 
-			function pallete(color) {
-				var $pallete = $('<div class="pallete"></div>');
+			function palete(color) {
+				var $palete = $('<div class="palete"></div>');
 
 				for(var p = 255; p >= 0; p -= 85) {
 					var dec;
@@ -73,32 +73,32 @@
 					for(var s = p; s >= 0; s -= dec) {
 						s = parseInt(s, 10);
 						if(color === 'red') {
-							addBlock(p, s, s, $pallete);
+							addBlock(p, s, s, $palete);
 						} else if(color === 'green') {
-							addBlock(s, p, s, $pallete);
+							addBlock(s, p, s, $palete);
 						} else if(color === 'blue') {
-							addBlock(s, s, p, $pallete);
+							addBlock(s, s, p, $palete);
 						} else if(color === 'magenta') {
-							addBlock(p, s, p, $pallete);
+							addBlock(p, s, p, $palete);
 						} else if(color === 'cyan') {
-							addBlock(s, p, p, $pallete);
+							addBlock(s, p, p, $palete);
 						} else if(color === 'yellow') {
-							addBlock(p, p, s, $pallete);
+							addBlock(p, p, s, $palete);
 						}
 					}
 
-					clearer($pallete);
+					clearer($palete);
 				}
 
-				$(document.body).append($pallete);
+				$(document.body).append($palete);
 			}
 
-			pallete('red');
-			pallete('magenta');
-			pallete('blue');
-			pallete('cyan');
-			pallete('green');
-			pallete('yellow');
+			palete('red');
+			palete('magenta');
+			palete('blue');
+			palete('cyan');
+			palete('green');
+			palete('yellow');
 
 
 /*			var r = 255;
