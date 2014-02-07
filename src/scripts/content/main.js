@@ -11,8 +11,12 @@ require([
 						var segments = JSON.parse(request.segments);
 						console.log(segments);
 
-						var $container = $('<div></div>')
+						var $container = $('<div id="_ProjectHarmonyContainer"></div>')
 							.css({
+								'position': 'fixed',
+								'top': 0,
+								'right': 0,
+								'border': '2px solid #323232'
 							})
 							.width(50 * request.numCols);
 
@@ -32,6 +36,8 @@ require([
 
 							$container.append($segment);
 						}
+
+						$('#_ProjectHarmonyContainer').remove();
 
 						$(document.body).prepend($container);
 						break;
