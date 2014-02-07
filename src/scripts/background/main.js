@@ -21,8 +21,9 @@
 		require([
 			'jquery',
 			'background/ImageAnalyser',
-			'collections/options'
-		], function($, ImageAnalyser, options, Band) {
+			'collections/options',
+			'collections/mood-packs'
+		], function($, ImageAnalyser, options, moodPacks) {
 			options.fetch();
 
 /*			var responseDef = new $.Deferred();
@@ -38,11 +39,10 @@
 				case 'getImageData':
 					var imageAnalyser = new ImageAnalyser(request.imageSrc);
 					imageAnalyser.analyse().then(function(segments) {
-						console.log('analysis complete');
-						console.log(arguments);
-
-						var moodPack = options.get('moodPack');
-						moodPack.parse(segments);
+						var moodPackId = options.get('moodPack').get('value'),
+							moodPack = moodPacks.get(moodPackId);
+						
+						moodPack.generateMusic(segments);
 
 						console.groupEnd();
 					});

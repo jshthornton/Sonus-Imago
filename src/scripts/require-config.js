@@ -10,7 +10,8 @@
 				'underscore': 'libs/lodash',
 				'text': 'libs/text',
 				'Backbone': 'libs/Backbone',
-				'localstorage': 'libs/Backbone.localStorage'
+				'localstorage': 'libs/Backbone.localStorage',
+				'Band': 'libs/Band'
 			},
 
 			shim: {

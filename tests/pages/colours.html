@@ -44,7 +44,7 @@
 	<script>
 		;(function() {
 			function addBlock(r, g, b, $palete) {
-				var $block = $('<div class="block"><span>' + r + ',' + g + ',' + b + '</span></div>')
+				var $block = $('<div class="block"><span>' + r + '_' + g + '_' + b + '</span></div>')
 					.css('background-color', 'rgb(' + r + ',' + g + ',' + b + ')');
 
 				if(r === 0 && g === 0 && b === 0) {

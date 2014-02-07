@@ -1,9 +1,8 @@
 define([
 	'Backbone',
 	'./AppCollection',
-	'./mood-packs',
 	'localstorage'
-], function(Backbone, AppCollection, moodPacks) {
+], function(Backbone, AppCollection) {
 	'use strict';
 
 	var C = AppCollection.extend({
@@ -15,7 +14,7 @@ define([
 				this.reset([
 					{id: 'gridSize', value: gridSizes[1], sizes: gridSizes},
 					{id: 'volume', value: 80},
-					{id: 'moodPack', value: moodPacks.get('gb')}
+					{id: 'moodPack', value: 'gb'}
 				]);
 
 				gridSizes = null;
