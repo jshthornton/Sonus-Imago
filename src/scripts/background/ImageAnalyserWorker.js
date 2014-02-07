@@ -76,17 +76,18 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	//return segment;
 
-	function normalise(color, direction) {
-		var precision,
-			low,
+	function normalise(color, precision) {
+		var low,
 			high;
 
-		if(color >= 170) {
-			precision = 255/3;
-		} else if(color >= 85) {
-			precision = 255/6;
-		} else {
-			precision = 255/12;
+		if(!precision) {
+			if(color >= 170) {
+				precision = 255/3;
+			} else if(color >= 85) {
+				precision = 255/6;
+			} else {
+				precision = 255/12;
+			}
 		}
 
 		low = precision * parseInt(color / precision, 10);
@@ -151,16 +152,18 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	//Find the second highest, is it closer to the first or the third
 	if(firstDiff < thirdDiff) {
-		//Closest to first -> match it to first
 		segment[second] = segment[first];
 	} else {
-		//Closest to lowest -> decrease to 85, 170, 255
 		segment[second] = segment[third];
+	}
+
+	if(segment[first] === segment[second] && segment[first] === segment[third]) {
+		segment[third] = segment[second] = segment[first] = normalise(segment[first], 85);
 	}
 
 	return segment;
 }
-
+/*
 function isEqualRange(a, b, range) {
 	return (a >= b - range && a <= b + range);
-}
+}*/
