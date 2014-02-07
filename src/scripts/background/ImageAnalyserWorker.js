@@ -85,12 +85,14 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			benchmark = opts.benchmark || color;
 
 		if(!precision) {
-			if(benchmark >= 170) {
+			if(benchmark <= 255) {
 				precision = 255/3;
-			} else if(benchmark >= 85) {
-				precision = 255/6;
-			} else {
-				precision = 255/12;
+			} 
+			if(benchmark <= 170) {
+				precision = 170/3;
+			} 
+			if(benchmark <= 85) {
+				precision = 85/3;
 			}
 		}
 

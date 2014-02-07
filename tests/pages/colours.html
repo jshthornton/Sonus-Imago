@@ -66,24 +66,27 @@
 					if(p === 255) {
 						dec = 255/3;
 					} else if(p === 170) {
-						dec = 255/6;
+						dec = 170/3;
 					} else {
-						dec = 255/12;
+						dec = 85/3;
 					}
-					for(var s = p; s >= 0; s -= dec) {
-						s = parseInt(s, 10);
+					for(var i = 0; i <= 3; i++) {
+						var _s = parseInt(p - (dec * i), 10);
+
+						if(_s < 0) continue;
+
 						if(color === 'red') {
-							addBlock(p, s, s, $palete);
+							addBlock(p, _s, _s, $palete);
 						} else if(color === 'green') {
-							addBlock(s, p, s, $palete);
+							addBlock(_s, p, _s, $palete);
 						} else if(color === 'blue') {
-							addBlock(s, s, p, $palete);
+							addBlock(_s, _s, p, $palete);
 						} else if(color === 'magenta') {
-							addBlock(p, s, p, $palete);
+							addBlock(p, _s, p, $palete);
 						} else if(color === 'cyan') {
-							addBlock(s, p, p, $palete);
+							addBlock(_s, p, p, $palete);
 						} else if(color === 'yellow') {
-							addBlock(p, p, s, $palete);
+							addBlock(p, p, _s, $palete);
 						}
 					}
 
@@ -99,7 +102,6 @@
 			palete('cyan');
 			palete('green');
 			palete('yellow');
-
 
 /*			var r = 255;
 			for(var g = 255; g > 0; g -= 85) {
