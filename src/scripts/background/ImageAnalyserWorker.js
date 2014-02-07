@@ -76,14 +76,18 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	//return segment;
 
-	function normalise(color, precision) {
-		var low,
-			high;
+	function normalise(opts) {
+		var color = opts.color,
+			precision = opts.precision,
+			direction = opts.direction,
+			low,
+			high,
+			benchmark = opts.benchmark || color;
 
 		if(!precision) {
-			if(color >= 170) {
+			if(benchmark >= 170) {
 				precision = 255/3;
-			} else if(color >= 85) {
+			} else if(benchmark >= 85) {
 				precision = 255/6;
 			} else {
 				precision = 255/12;
@@ -93,10 +97,18 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		low = precision * parseInt(color / precision, 10);
 		high = low + precision;
 
-		if(color - low < high - color) {
-			color = low;
+		if(direction) {
+			if(direction === 'up') {
+				color = high;
+			} else if(direction === 'down') {
+				color = low;
+			}
 		} else {
-			color = high;
+			if(color - low < high - color) {
+				color = low;
+			} else {
+				color = high;
+			}
 		}
 
 		return parseInt(color, 10);
@@ -147,8 +159,15 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		thirdDiff = segment[second] - segment[third];
 
 	//Normalise primary and third
-	segment[first] = normalise(segment[first]);
-	segment[third] = normalise(segment[third]);
+	segment[first] = normalise({
+		color: segment[first],
+		precision: 85,
+		direction: (segment[first] > 85) ? 'up' : undefined
+	});
+	segment[third] = normalise({
+		color: segment[third], 
+		benchMark: segment[first]
+	});
 
 	//Find the second highest, is it closer to the first or the third
 	if(firstDiff < thirdDiff) {
@@ -158,7 +177,10 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	}
 
 	if(segment[first] === segment[second] && segment[first] === segment[third]) {
-		segment[third] = segment[second] = segment[first] = normalise(segment[first], 85);
+		segment[third] = segment[second] = segment[first] = normalise({
+			color: segment[first], 
+			precision: 85
+		});
 	}
 
 	return segment;
