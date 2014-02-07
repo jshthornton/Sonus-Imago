@@ -168,7 +168,7 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	});
 	segment[third] = normalise({
 		color: segment[third], 
-		benchMark: segment[first]
+		benchmark: segment[first]
 	});
 
 	//Find the second highest, is it closer to the first or the third
