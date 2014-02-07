@@ -8,7 +8,7 @@
 			<% var gridSize = it.options.get('gridSize'); %>
 
 			<% gridSize.get('sizes').forEach(function(_size) { %>
-				<option <% if(_.isEqual(gridSize.get('value'), _size)) { %> selected="selected" <% } %> value="<%= _size.value %>"><%= _size.label %></option>
+				<option <% if(gridSize.get('value') === _size.id) { %> selected="selected" <% } %> value="<%= _size.id %>"><%= _size.label %></option>
 			<% }); %>
 		</select>
 	</section>

@@ -44,15 +44,10 @@ define([
 
 		onGridSizeChange: function(e) {
 			var select = e.currentTarget,
-				value = parseInt(select.selectedOptions[0].value, 10),
-				gridSize = options.get('gridSize'),
-				size;
+				value = select.selectedOptions[0].value,
+				gridSize = options.get('gridSize');
 
-			size = _.find(gridSize.get('sizes'), function(_size) {
-				return value === _size.value;
-			});
-
-			gridSize.set('value', size);
+			gridSize.set('value', value);
 
 			this.$status.addClass('unsaved');
 		},
