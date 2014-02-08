@@ -3,8 +3,9 @@ define([
 	'Backbone',
 	'text!./templates/Options.jst',
 	'collections/options',
-	'collections/mood-packs'
-], function(_, Backbone, template, options, moodPacks) {
+	'collections/moodPacks',
+	'models/Option/GridSize'
+], function(_, Backbone, template, options, moodPacks, GridSize) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -21,7 +22,8 @@ define([
 			var compiled = _.template(template),
 				output = compiled({
 					options: options,
-					moodPacks: moodPacks
+					moodPacks: moodPacks,
+					sizes: GridSize.SIZES
 				}),
 				$tmpl = $(output);
 

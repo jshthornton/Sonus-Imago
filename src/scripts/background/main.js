@@ -22,7 +22,7 @@
 			'jquery',
 			'background/ImageAnalyser',
 			'collections/options',
-			'collections/mood-packs'
+			'collections/moodPacks'
 		], function($, ImageAnalyser, options, moodPacks) {
 			options.fetch();
 
@@ -42,7 +42,14 @@
 						var moodPackId = options.get('moodPack').get('value'),
 							moodPack = moodPacks.get(moodPackId);
 						
-						moodPack.generateMusic(segments);
+						var music = moodPack.generateMusic(segments);
+
+						music.onFinished(function() {
+							console.log('Finished');
+							sendResponse();
+						});
+
+						music.play();
 
 						console.groupEnd();
 					});

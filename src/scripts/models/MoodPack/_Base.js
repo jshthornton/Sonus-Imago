@@ -13,6 +13,8 @@ define([
 
 		generateMusic: function(segments) {
 			var music = MoodPack.music;
+			music.destroy();
+			
 			music.setTimeSignature(4, 4);
 			music.setTempo(120);
 
@@ -26,8 +28,6 @@ define([
 			this._finishInstruments();
 
 			music.end();
-
-			music.play();
 
 			return music;
 		},

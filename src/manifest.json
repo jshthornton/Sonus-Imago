@@ -13,7 +13,8 @@
 	],
 
 	"background": {
-		"scripts": ["scripts/require.js", "scripts/require-config.js", "scripts/background/main.js"]
+		"scripts": ["scripts/require.js", "scripts/require-config.js", "scripts/background/main.js"],
+		"persistent": false
 	},
 
 	"content_scripts": [

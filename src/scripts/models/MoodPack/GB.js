@@ -1,11 +1,8 @@
 define([
 	'Backbone',
 	'underscore',
-	'models/MoodPack',
-	'localstorage'
+	'./_Base'
 ], function(Backbone, _, MoodPack) {
-	var C = Backbone.Collection.extend({});
-
 	var GB = MoodPack.extend({
 		defaults: {
 			id: 'gb',
@@ -193,6 +190,8 @@ define([
 				notes(color);
 			} else {
 				for(var i = 0; i < instruments.length; i++) {
+					if(notes[i] === undefined) continue;
+
 					var parts = notes[i].split('|');
 
 					if(parts[1] === 'rest') {
@@ -209,7 +208,5 @@ define([
 		}
 	});
 
-	var c = new C([new GB], {});
-
-	return c;
+	return GB;
 });
