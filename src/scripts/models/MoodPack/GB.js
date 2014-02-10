@@ -14,99 +14,384 @@ define([
 			'255_255_255': function(color) {
 				//White
 				var instruments = GB.instruments;
-				instruments.note1.setVolume(2);
+				instruments[0].setVolume(50);
 
 				instruments[0].note('crotchet', 'C6');
 				instruments[1].rest('crotchet');
 				instruments[2].rest('crotchet');
 				instruments[3].rest('crotchet');
 			}, 
-			'170_170_170': [], //Light Grey
-			'85_85_85': [], //Dark Grey
-			'0_0_0': [], //Black
+			'170_170_170': [
+				//Light Grey
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
+				'crotchet|C3'
+			],
+			'85_85_85': [
+				//Dark Grey
+				'crotchet|C5',
+				'crotchet|G5',
+				'crotchet|C3',
+				'crotchet|Eb5'
+			],
+			'0_0_0': function(color) {
+				var instruments = GB.instruments;
+				//instruments[0].setVolume(2);
+
+				instruments[0].note('crotchet', 'C2');
+				instruments[1].note('crotchet', 'C3');
+				instruments[2].rest('crotchet');
+				instruments[3].rest('crotchet');
+			}, //Black
 
 			//Reds
-			'255_170_170': [], //Red 1
-			'255_85_85': [], //Red 1
-			'255_0_0': [
-				'crotchet|E5',
-				'crotchet|E5',
-				'crotchet|E5',
-				'crotchet|rest',
+			'255_170_170': [
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
+				'crotchet|rest'
 			], //Red 1
-			'170_0_0': [], //Red 1
-			'85_0_0': [], //Red 1
+			'255_85_85': [
+				'crotchet|C5',
+				'crotchet|E5',
+				'crotchet|G5',
+				'crotchet|rest'
+			], //Red 1
+			'255_0_0': [
+				'crotchet|C4',
+				'crotchet|E4',
+				'crotchet|G4',
+				'crotchet|rest'
+			], //Red 1
+			'170_0_0': [
+				'crotchet|C3',
+				'crotchet|E3',
+				'crotchet|G3',
+				'crotchet|rest'
+			], //Red 1
+			'85_0_0': [
+				'crotchet|C2',
+				'crotchet|E2',
+				'crotchet|G2',
+				'crotchet|rest'
+			], //Red 1
 
-			'170_113_113': [], //Red 2
-			'170_56_56': [], //Red 2
-			'85_28_28': [], //Red 2
+			'170_113_113': [
+				'crotchet|C4',
+				'crotchet|D4',
+				'crotchet|E4',
+				'crotchet|G4'
+			], //Red 2
+			'170_56_56': [
+				'crotchet|C3',
+				'crotchet|D3',
+				'crotchet|E3',
+				'crotchet|G3'
+			], //Red 2
+			'85_28_28': [
+				'crotchet|C2',
+				'crotchet|D2',
+				'crotchet|E2',
+				'crotchet|G2'
+			], //Red 2
 
-			'85_56_56': [], //Red 3
+			'85_56_56': [
+				'crotchet|C2',
+				'crotchet|D2',
+				'crotchet|E2',
+				'crotchet|Gb2'
+			], //Red 3
 
 			//Magentas
-			'255_170_255': [], //Magenta 1
-			'255_85_255': [], //Magenta 1
-			'255_0_255': [], //Magenta 1
-			'170_0_170': [], //Magenta 1
-			'85_0_85': [], //Magenta 1
+			'255_170_255': [
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G#6',
+				'crotchet|rest'
+			], //Magenta 1
+			'255_85_255': [
+				'crotchet|C5',
+				'crotchet|E5',
+				'crotchet|G#5',
+				'crotchet|rest'
+			], //Magenta 1
+			'255_0_255': [
+				'crotchet|C4',
+				'crotchet|E4',
+				'crotchet|G#4',
+				'crotchet|rest'
+			], //Magenta 1
+			'170_0_170': [
+				'crotchet|C3',
+				'crotchet|E3',
+				'crotchet|G#3',
+				'crotchet|rest'
+			], //Magenta 1
+			'85_0_85': [
+				'crotchet|C2',
+				'crotchet|E2',
+				'crotchet|G#2',
+				'crotchet|rest'
+			], //Magenta 1
 
-			'170_113_170': [], //Magenta 2
-			'170_56_170': [], //Magenta 2
-			'85_28_85': [], //Magenta 2
+			'170_113_170': [
+				'crotchet|C4',
+				'crotchet|Eb4',
+				'crotchet|G4',
+				'crotchet|Bb4'
+			], //Magenta 2
+			'170_56_170': [
+				'crotchet|C3',
+				'crotchet|Eb3',
+				'crotchet|G3',
+				'crotchet|Bb3'
+			], //Magenta 2
+			'85_28_85': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|G2',
+				'crotchet|Bb2'
+			], //Magenta 2
 
-			'85_56_85': [], //Magenta 3
+			'85_56_85': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|Gb2',
+				'crotchet|Bb2'
+			], //Magenta 3
 
 			//Blues
-			'170_170_255': [], //Blue 1
-			'85_85_255': [], //Blue 1
-			'0_0_255': [], //Blue 1
-			'0_0_170': [], //Blue 1
-			'0_0_85': [], //Blue 1
+			'170_170_255': [
+				'crotchet|C6',
+				'crotchet|Eb6',
+				'crotchet|G6',
+				'crotchet|rest'
+			], //Blue 1
+			'85_85_255': [
+				'crotchet|C5',
+				'crotchet|Eb5',
+				'crotchet|G5',
+				'crotchet|rest'
+			], //Blue 1
+			'0_0_255': [
+				'crotchet|C4',
+				'crotchet|Eb4',
+				'crotchet|G4',
+				'crotchet|rest'
+			], //Blue 1
+			'0_0_170': [
+				'crotchet|C3',
+				'crotchet|Eb3',
+				'crotchet|G3',
+				'crotchet|rest'
+			], //Blue 1
+			'0_0_85': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|G2',
+				'crotchet|rest'
+			], //Blue 1
 
-			'113_113_170': [], //Blue 2
-			'56_56_170': [], //Blue 2
-			'28_28_85': [], //Blue 2
+			'113_113_170': [
+				'crotchet|C4',
+				'crotchet|Eb4',
+				'crotchet|Gb4',
+				'crotchet|rest'
+			], //Blue 2
+			'56_56_170': [
+				'crotchet|C3',
+				'crotchet|Eb3',
+				'crotchet|Gb3',
+				'crotchet|rest'
+			], //Blue 2
+			'28_28_85': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|Gb2',
+				'crotchet|rest'
+			], //Blue 2
 
-			'56_56_85': [], //Blue 3
+			'56_56_85': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|G2',
+				'crotchet|A2'
+			], //Blue 3
 
 			//Cyans
-			'170_255_255': [], //Cyan 1
-			'85_255_255': [], //Cyan 1
-			'0_255_255': [], //Cyan 1
-			'0_170_170': [], //Cyan 1
-			'0_85_85': [], //Cyan 1
+			'170_255_255': [
+				'crotchet|G5',
+				'crotchet|B5',
+				'crotchet|D6',
+				'crotchet|F#6'
+			], //Cyan 1
+			'85_255_255': [
+				'crotchet|G4',
+				'crotchet|B4',
+				'crotchet|D5',
+				'crotchet|F#5'
+			], //Cyan 1
+			'0_255_255': [
+				'crotchet|G3',
+				'crotchet|B3',
+				'crotchet|D4',
+				'crotchet|F#4'
+			], //Cyan 1
+			'0_170_170': [
+				'crotchet|G2',
+				'crotchet|B2',
+				'crotchet|D3',
+				'crotchet|F#3'
+			], //Cyan 1
+			'0_85_85': [
+				'crotchet|G1',
+				'crotchet|B1',
+				'crotchet|D2',
+				'crotchet|F#2'
+			], //Cyan 1
 
-			'113_170_170': [], //Cyan 2
-			'56_170_170': [], //Cyan 2
-			'28_85_85': [], //Cyan 2
+			'113_170_170': [
+				'crotchet|G3',
+				'crotchet|Bb3',
+				'crotchet|D4',
+				'crotchet|F4'
+			], //Cyan 2
+			'56_170_170': [
+				'crotchet|G2',
+				'crotchet|Bb2',
+				'crotchet|D3',
+				'crotchet|F3'
+			], //Cyan 2
+			'28_85_85': [
+				'crotchet|G1',
+				'crotchet|Bb1',
+				'crotchet|D2',
+				'crotchet|F2'
+			], //Cyan 2
 
-			'56_85_85': [], //Cyan 3
+			'56_85_85': [
+				'crotchet|G1',
+				'crotchet|Bb1',
+				'crotchet|Db2',
+				'crotchet|F#2'
+			], //Cyan 3
 
 			//Greens
-			'170_255_170': [], //Green 1
-			'85_255_85': [], //Green 1
-			'0_255_0': [], //Green 1
-			'0_170_0': [], //Green 1
-			'0_85_0': [], //Green 1
+			'170_255_170': [
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
+				'crotchet|A6'
+			], //Green 1
+			'85_255_85': [
+				'crotchet|C5',
+				'crotchet|E5',
+				'crotchet|G5',
+				'crotchet|A5'
+			], //Green 1
+			'0_255_0': [
+				'crotchet|C4',
+				'crotchet|E4',
+				'crotchet|G4',
+				'crotchet|A4'
+			], //Green 1
+			'0_170_0': [
+				'crotchet|C3',
+				'crotchet|E3',
+				'crotchet|G3',
+				'crotchet|A3'
+			], //Green 1
+			'0_85_0': [
+				'crotchet|C2',
+				'crotchet|E2',
+				'crotchet|G2',
+				'crotchet|A2'
+			], //Green 1
 
-			'113_170_113': [], //Green 2
-			'56_170_56': [], //Green 2
-			'28_85_28': [], //Green 2
+			'113_170_113': [
+				'crotchet|C4',
+				'crotchet|E4',
+				'crotchet|Gb4',
+				'crotchet|A4'
+			], //Green 2
+			'56_170_56': [
+				'crotchet|C3',
+				'crotchet|E3',
+				'crotchet|Gb3',
+				'crotchet|A3'
+			], //Green 2
+			'28_85_28': [
+				'crotchet|C2',
+				'crotchet|E2',
+				'crotchet|Gb2',
+				'crotchet|A2'
+			], //Green 2
 
-			'56_85_56': [], //Green 3
+			'56_85_56': [
+				'crotchet|C2',
+				'crotchet|Eb2',
+				'crotchet|Gb2',
+				'crotchet|A2'
+			], //Green 3
 
 			//Yellows
-			'255_255_170': [], //Yellow 1
-			'255_255_85': [], //Yellow 1
-			'255_255_0': [], //Yellow 1
-			'170_170_0': [], //Yellow 1
-			'85_85_0': [], //Yellow 1
+			'255_255_170': [
+				'crotchet|F6',
+				'crotchet|A6',
+				'crotchet|G6',
+				'crotchet|Bb6'
+			], //Yellow 1
+			'255_255_85': [
+				'crotchet|F5',
+				'crotchet|A5',
+				'crotchet|C6',
+				'crotchet|Eb6'
+			], //Yellow 1
+			'255_255_0': [
+				'crotchet|F4',
+				'crotchet|A4',
+				'crotchet|C5',
+				'crotchet|Eb5'
+			], //Yellow 1
+			'170_170_0': [
+				'crotchet|F3',
+				'crotchet|A3',
+				'crotchet|C4',
+				'crotchet|Eb4'
+			], //Yellow 1
+			'85_85_0': [
+				'crotchet|F2',
+				'crotchet|A2',
+				'crotchet|C3',
+				'crotchet|Eb3'
+			], //Yellow 1
 
-			'170_170_113': [], //Yellow 2
-			'170_170_56': [], //Yellow 2
-			'85_85_28': [], //Yellow 2
+			'170_170_113': [
+				'crotchet|F4',
+				'crotchet|A4',
+				'crotchet|Cb5',
+				'crotchet|rest'
+			], //Yellow 2
+			'170_170_56': [
+				'crotchet|F3',
+				'crotchet|A3',
+				'crotchet|Cb4',
+				'crotchet|rest'
+			], //Yellow 2
+			'85_85_28': [
+				'crotchet|F2',
+				'crotchet|A2',
+				'crotchet|Cb3',
+				'crotchet|rest'
+			], //Yellow 2
 
-			'85_85_56': [] //Yellow 3
+			'85_85_56': [
+				'crotchet|F2',
+				'crotchet|A2',
+				'crotchet|Cb3',
+				'crotchet|Eb3'
+			] //Yellow 3
 		},
 
 		_createInstruments: function() {
