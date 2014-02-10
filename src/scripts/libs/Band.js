@@ -367,17 +367,21 @@
 					totalPlayTime = 0;
 					reset();
 					// Make callback asynchronous
-					setTimeout(function() {
-						tickerCallback(currentSeconds);
-					}, 1);
+					if(typeof tickerCallback === 'function') {
+						setTimeout(function() {
+							tickerCallback(currentSeconds);
+						}, 1);
+					}
 				}, true);
 			} else {
 				totalPlayTime = 0;
 				reset();
 				// Make callback asynchronous
-				setTimeout(function() {
-					tickerCallback(currentSeconds);
-				}, 1);
+				if(typeof tickerCallback === 'function') {
+					setTimeout(function() {
+						tickerCallback(currentSeconds);
+					}, 1);
+				}
 			}
 		};
 
@@ -699,7 +703,7 @@
 		function reset() {
 			clearTimeout(bufferTimeout);
 			allSounds.forEach(function(sound) {
-				if (sound.node) {
+				if (sound.node && sound.node.playbackState !== sound.node.FINISHED_STATE) {
 					sound.node.stop(0);
 				}
 			});
