@@ -113,6 +113,12 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			}
 		}
 
+		if(color > 255) {
+			color = 255;
+		} else if(color < 0) {
+			color = 0;
+		}
+
 		return parseInt(color, 10);
 	}
 
@@ -168,7 +174,8 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	});
 	segment[third] = normalise({
 		color: segment[third], 
-		benchmark: segment[first]
+		benchmark: segment[first],
+		precision: (segment[first] === 28 || segment[first] === 0) ? 85 : undefined
 	});
 
 	//Find the second highest, is it closer to the first or the third
