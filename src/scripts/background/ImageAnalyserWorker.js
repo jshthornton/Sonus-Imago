@@ -29,8 +29,6 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		a: 0
 	};
 
-	//segments.push(segment);
-
 	var precision = parseInt((imgWidth * imgHeight) / 10000, 10),
 		segmentX = x * segmentWidth,
 		segmentY = y * segmentHeight,
@@ -42,17 +40,12 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	precision = 1;
 
-	//console.log('sX: ' + segmentX + ', sY: ' + segmentY + ', fsY: ' + flatSegmentY);
-
-
 	for(var offsetY = 0; offsetY < segmentHeight; offsetY += precision) {
 		var flatOffsetY = offsetY * imgWidth;
 
 		for(var offsetX = 0; offsetX < segmentWidth; offsetX += precision) {
 			var pixelIndex = segmentX + offsetX + flatSegmentY + flatOffsetY,
 				dataPoint = pixelIndex * 4;
-			
-			//console.log('oY: ' + offsetY + ', oX: ' + offsetX + ', foY: ' + flatOffsetY + ', pI: ' + pixelIndex + ', dP: ' + dataPoint);
 
 			segment.r += imgData.data[dataPoint];
 			segment.g += imgData.data[dataPoint + 1];
@@ -122,10 +115,6 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		return parseInt(color, 10);
 	}
 
-	//segment.r = normalise(segment.r);
-	//segment.g = normalise(segment.g);
-	//segment.b = normalise(segment.b);
-
 	//Check for the primary colour
 	var first,
 		second,
@@ -194,7 +183,3 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 
 	return segment;
 }
-/*
-function isEqualRange(a, b, range) {
-	return (a >= b - range && a <= b + range);
-}*/

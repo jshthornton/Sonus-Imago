@@ -370,26 +370,26 @@ define([
 			'170_170_113': [
 				'crotchet|F4',
 				'crotchet|A4',
-				'crotchet|Cb5',
+				'crotchet|B4',
 				'crotchet|rest'
 			], //Yellow 2
 			'170_170_56': [
 				'crotchet|F3',
 				'crotchet|A3',
-				'crotchet|Cb4',
+				'crotchet|B3',
 				'crotchet|rest'
 			], //Yellow 2
 			'85_85_28': [
 				'crotchet|F2',
 				'crotchet|A2',
-				'crotchet|Cb3',
+				'crotchet|B2',
 				'crotchet|rest'
 			], //Yellow 2
 
 			'85_85_56': [
 				'crotchet|F2',
 				'crotchet|A2',
-				'crotchet|Cb3',
+				'crotchet|B2',
 				'crotchet|Eb3'
 			] //Yellow 3
 		},
@@ -398,10 +398,10 @@ define([
 			var music = GB.music,
 				instruments = GB.instruments;
 
-			instruments[0] = music.createInstrument();
-			instruments[1] = music.createInstrument();
-			instruments[2] = music.createInstrument();
-			instruments[3] = music.createInstrument();
+			instruments[0] = music.createInstrument('square');
+			instruments[1] = music.createInstrument('square');
+			instruments[2] = music.createInstrument('square');
+			instruments[3] = music.createInstrument('square');
 
 			instruments[0].rest('semiquaver');
 			instruments[1].rest('semiquaver');
