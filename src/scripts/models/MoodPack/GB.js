@@ -107,31 +107,31 @@ define([
 			'255_170_255': [
 				'crotchet|C6',
 				'crotchet|E6',
-				'crotchet|G#6',
+				'crotchet|G6',
 				'crotchet|rest'
 			], //Magenta 1
 			'255_85_255': [
 				'crotchet|C5',
 				'crotchet|E5',
-				'crotchet|G#5',
+				'crotchet|G5',
 				'crotchet|rest'
 			], //Magenta 1
 			'255_0_255': [
 				'crotchet|C4',
 				'crotchet|E4',
-				'crotchet|G#4',
+				'crotchet|G4',
 				'crotchet|rest'
 			], //Magenta 1
 			'170_0_170': [
 				'crotchet|C3',
 				'crotchet|E3',
-				'crotchet|G#3',
+				'crotchet|G3',
 				'crotchet|rest'
 			], //Magenta 1
 			'85_0_85': [
 				'crotchet|C2',
 				'crotchet|E2',
-				'crotchet|G#2',
+				'crotchet|G2',
 				'crotchet|rest'
 			], //Magenta 1
 
@@ -224,31 +224,31 @@ define([
 				'crotchet|G5',
 				'crotchet|B5',
 				'crotchet|D6',
-				'crotchet|F#6'
+				'crotchet|F6'
 			], //Cyan 1
 			'85_255_255': [
 				'crotchet|G4',
 				'crotchet|B4',
 				'crotchet|D5',
-				'crotchet|F#5'
+				'crotchet|F5'
 			], //Cyan 1
 			'0_255_255': [
 				'crotchet|G3',
 				'crotchet|B3',
 				'crotchet|D4',
-				'crotchet|F#4'
+				'crotchet|F4'
 			], //Cyan 1
 			'0_170_170': [
 				'crotchet|G2',
 				'crotchet|B2',
 				'crotchet|D3',
-				'crotchet|F#3'
+				'crotchet|F3'
 			], //Cyan 1
 			'0_85_85': [
 				'crotchet|G1',
 				'crotchet|B1',
 				'crotchet|D2',
-				'crotchet|F#2'
+				'crotchet|F2'
 			], //Cyan 1
 
 			'113_170_170': [
@@ -274,7 +274,7 @@ define([
 				'crotchet|G1',
 				'crotchet|Bb1',
 				'crotchet|Db2',
-				'crotchet|F#2'
+				'crotchet|F2'
 			], //Cyan 3
 
 			//Greens
@@ -398,10 +398,10 @@ define([
 			var music = GB.music,
 				instruments = GB.instruments;
 
-			instruments[0] = music.createInstrument('square');
-			instruments[1] = music.createInstrument('square');
-			instruments[2] = music.createInstrument('square');
-			instruments[3] = music.createInstrument('square');
+			instruments[0] = music.createInstrument(undefined, 'piano');
+			instruments[1] = music.createInstrument(undefined, 'piano');
+			instruments[2] = music.createInstrument(undefined, 'piano');
+			instruments[3] = music.createInstrument(undefined, 'piano');
 
 			instruments[0].rest('semiquaver');
 			instruments[1].rest('semiquaver');
@@ -413,10 +413,10 @@ define([
 			//return;
 			var instruments = GB.instruments;
 
-			instruments[0].setVolume(100);
-			instruments[1].setVolume(100);
-			instruments[2].setVolume(100);
-			instruments[3].setVolume(100);
+			instruments[0].setVolume(50);
+			instruments[1].setVolume(50);
+			instruments[2].setVolume(50);
+			instruments[3].setVolume(50);
 
 /*			//White
 			if(color.r === 255 && color.g === 255 && color.b === 255) {

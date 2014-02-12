@@ -1,8 +1,9 @@
 define([
 	'Backbone',
 	'underscore',
-	'Band'
-], function(Backbone, _, Band) {
+	'Band',
+	'libs/instruments/piano'
+], function(Backbone, _, Band, piano) {
 	var MoodPack = Backbone.Model.extend({
 		//_generateNotes
 		//_createInstruments
@@ -41,8 +42,11 @@ define([
 		},
 	});
 
-	MoodPack.music = new Band('equalTemperament', 'european');
+	MoodPack.music = new Band('acoustic_grand_piano-ogg', 'european');
 	MoodPack.instruments = [];
+
+	var audioContext = MoodPack.music.getAudioContext();
+	piano.process(audioContext);
 
 	return MoodPack;
 });
