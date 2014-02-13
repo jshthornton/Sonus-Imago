@@ -2,7 +2,6 @@ self.addEventListener('message', function(e) {
 	var data = e.data;
 	switch (data.cmd) {
 		case 'doSegment':
-			self.postMessage('WORKER STARTED');
 			var segment = calcSegment(data.imgData, data.imgWidth, data.imgHeight, data.x, data.y, data.segmentWidth, data.segmentHeight);
 			self.postMessage({
 				id: 'segment',
@@ -170,7 +169,7 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	segment[third] = normalise({
 		color: segment[third], 
 		benchmark: segment[first],
-		precision: (segment[first] === 113 || segment[first] === 28 || segment[first] === 0) ? 85 : undefined
+		precision: (segment[first] === 28 || segment[first] === 0) ? 85 : undefined
 	});
 
 	//Find the second highest, is it closer to the first or the third
