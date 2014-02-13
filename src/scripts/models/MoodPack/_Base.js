@@ -2,8 +2,9 @@ define([
 	'Backbone',
 	'underscore',
 	'Band',
-	'libs/instruments/piano'
-], function(Backbone, _, Band, piano) {
+	'libs/instruments/piano',
+	'collections/options'
+], function(Backbone, _, Band, piano, options) {
 	var MoodPack = Backbone.Model.extend({
 		//_generateNotes
 		//_createInstruments
@@ -13,11 +14,15 @@ define([
 		},
 
 		generateMusic: function(segments) {
-			var music = MoodPack.music;
+			var music = MoodPack.music,
+				volume = options.get('volume').get('value');
+
 			music.destroy();
 			
+			music.setMasterVolume(volume / 100);
 			music.setTimeSignature(4, 4);
 			music.setTempo(120);
+
 
 			MoodPack.instruments.length = 0;
 			this._createInstruments();

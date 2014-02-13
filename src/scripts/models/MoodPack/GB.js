@@ -11,16 +11,13 @@ define([
 
 		_palete: {
 			//Shades
-			'255_255_255': function(color) {
+			'255_255_255': [
 				//White
-				var instruments = GB.instruments;
-				instruments[0].setVolume(50);
-
-				instruments[0].note('crotchet', 'C6');
-				instruments[1].rest('crotchet');
-				instruments[2].rest('crotchet');
-				instruments[3].rest('crotchet');
-			}, 
+				'crotchet|C6',
+				'crotchet|rest',
+				'crotchet|rest',
+				'crotchet|rest'
+			], 
 			'170_170_170': [
 				//Light Grey
 				'crotchet|C6',
@@ -35,15 +32,13 @@ define([
 				'crotchet|C3',
 				'crotchet|Eb5'
 			],
-			'0_0_0': function(color) {
-				var instruments = GB.instruments;
-				//instruments[0].setVolume(2);
-
-				instruments[0].note('crotchet', 'C2');
-				instruments[1].note('crotchet', 'C3');
-				instruments[2].rest('crotchet');
-				instruments[3].rest('crotchet');
-			}, //Black
+			'0_0_0': [
+				//Black
+				'crotchet|C2',
+				'crotchet|C3',
+				'crotchet|rest',
+				'crotchet|rest'
+			],
 
 			//Reds
 			'255_170_170': [
@@ -412,11 +407,6 @@ define([
 		_generateNotes: function(color) {
 			//return;
 			var instruments = GB.instruments;
-
-			instruments[0].setVolume(50);
-			instruments[1].setVolume(50);
-			instruments[2].setVolume(50);
-			instruments[3].setVolume(50);
 
 /*			//White
 			if(color.r === 255 && color.g === 255 && color.b === 255) {
