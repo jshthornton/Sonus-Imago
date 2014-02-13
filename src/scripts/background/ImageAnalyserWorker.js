@@ -75,19 +75,25 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			direction = opts.direction,
 			low,
 			high,
-			benchmark = opts.benchmark || color;
+			benchmark = opts.benchmark || color,
+			max = 255;
 
 		if(!precision) {
-			if(benchmark <= 255) {
-				precision = 255/3;
-			} 
-			if(benchmark <= 170) {
-				precision = 170/3;
-			} 
-			if(benchmark <= 85) {
+			if(benchmark === 0) {
+				max = 0;
+			} else if(benchmark <= 85) {
 				precision = 85/3;
-			}
+				max = 85;
+			} else if(benchmark <= 170) {
+				precision = 170/3;
+				max = 170;
+			} else if(benchmark <= 255) {
+				precision = 255/3;
+				max = 255;
+			} 
 		}
+
+		if(max === 0) return 0;
 
 		low = precision * parseInt(color / precision, 10);
 		high = low + precision;
@@ -106,8 +112,8 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 			}
 		}
 
-		if(color > 255) {
-			color = 255;
+		if(color > max) {
+			color = max;
 		} else if(color < 0) {
 			color = 0;
 		}
@@ -158,13 +164,13 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 	//Normalise primary and third
 	segment[first] = normalise({
 		color: segment[first],
-		precision: 85,
-		direction: (segment[first] > 85) ? 'up' : undefined
+		precision: 85//,
+		//direction: (segment[first] > 85) ? 'up' : undefined
 	});
 	segment[third] = normalise({
 		color: segment[third], 
 		benchmark: segment[first],
-		precision: (segment[first] === 28 || segment[first] === 0) ? 85 : undefined
+		precision: (segment[first] === 113 || segment[first] === 28 || segment[first] === 0) ? 85 : undefined
 	});
 
 	//Find the second highest, is it closer to the first or the third
