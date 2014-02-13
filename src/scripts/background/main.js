@@ -22,8 +22,9 @@
 			'jquery',
 			'background/ImageAnalyser',
 			'collections/options',
-			'collections/moodPacks'
-		], function($, ImageAnalyser, options, moodPacks) {
+			'collections/moodPacks',
+			'libs/instruments/piano'
+		], function($, ImageAnalyser, options, moodPacks, piano) {
 			options.fetch();
 
 /*			var responseDef = new $.Deferred();
@@ -40,16 +41,17 @@
 					var imageAnalyser = new ImageAnalyser(request.imageSrc);
 					imageAnalyser.analyse().then(function(segments) {
 						var moodPackId = options.get('moodPack').get('value'),
-							moodPack = moodPacks.get(moodPackId);
+						moodPack = moodPacks.get(moodPackId);
+
+						/*	music.onFinished(function() {
+								console.log('Finished');
+								sendResponse();
+							});*/
 						
-						var music = moodPack.generateMusic(segments);
-
-						music.onFinished(function() {
-							console.log('Finished');
-							sendResponse();
+						piano.ready.then(function() {
+							var music = moodPack.generateMusic(segments);
+							music.play();
 						});
-
-						music.play();
 
 						console.groupEnd();
 					});

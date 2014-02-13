@@ -58,6 +58,7 @@
 			currentSeconds = 0,
 			defaultBufferSize = 50,
 			bufferTimeout,
+			decodeDeferred,
 			tickerCallback,
 			paused = false,
 			playing = false,
@@ -430,6 +431,10 @@
 			return Math.round(totalDuration);
 		};
 
+		this.getAudioContext = function() {
+			return ac;
+		};
+
 		/**
 		 * Sets the ticker callback function. This function will be called
 		 * every time the current seconds has changed.
@@ -512,7 +517,7 @@
 								sounds.push({
 									startTime: startTime,
 									stopTime: stopTime,
-									node: instrument.instrument.createSound(gain, pitches[p.trim()]),
+									node: instrument.instrument.createSound(gain, pitches[p.trim()], p.trim()),
 									gain: gain,
 									volumeLevel: volumeLevel
 								});
@@ -703,7 +708,7 @@
 		function reset() {
 			clearTimeout(bufferTimeout);
 			allSounds.forEach(function(sound) {
-				if (sound.node && sound.node.playbackState !== sound.node.FINISHED_STATE) {
+				if (sound.node && sound.node.playbackState === sound.node.PLAYING_STATE) {
 					sound.node.stop(0);
 				}
 			});
@@ -803,10 +808,6 @@
 		this.BandJS = cls;
 	}
 
-
-
-
-
 	//Packs
 	/**
 	 * Oscillator Instrument Pack,
@@ -838,8 +839,7 @@
 			}
 		};
 	});
-
-
+	
 	/**
 	 * Equal Temperament tuning
 	 * Source: http://www.phy.mtu.edu/~suits/notefreqs.html
