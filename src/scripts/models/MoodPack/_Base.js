@@ -45,6 +45,10 @@ define([
 				});
 			}
 		},
+
+		getMusicInstance: function() {
+			return MoodPack.music;
+		}
 	});
 
 	MoodPack.music = new Band('acoustic_grand_piano-ogg', 'european');
