@@ -51,7 +51,7 @@ define([
 		}
 	});
 
-	MoodPack.music = new Band('acoustic_grand_piano-ogg', 'european');
+	MoodPack.music = new Band('european');
 	MoodPack.instruments = [];
 
 	return MoodPack;

@@ -1,9 +1,10 @@
 define([
+	'underscore',
 	'Band',
 	'jquery',
 	'libs/Base64Binary',
 	'libs/soundfont/acoustic_grand_piano-ogg'
-], function(Band, $, Base64Binary, pianoData) {
+], function(_, Band, $, Base64Binary, pianoData) {
 	var _def = new $.Deferred(),
 		_buffers = {},
 		total,
@@ -11,13 +12,11 @@ define([
 
 	var piano = {
 		ready: _def.promise(),
-		process: function(audioContext) {
-			if(_def.state() === 'resolved') return;
-
+		process: _.once(function(audioContext) {
 			total = 0;
 			finishedCount = 0;
 
-			_.forOwn(pianoData, function(base64_str, pitch) {
+			_.forOwn(pianoData.data, function(base64_str, pitch) {
 				total++;
 
 				var arrayBuffer = Base64Binary.decodeArrayBuffer(base64_str);
@@ -32,12 +31,16 @@ define([
 					}
 				});
 			});
-		}
+
+			requirejs.undef('libs/soundfont/acoustic_grand_piano-ogg');
+			pianoData.destroy();
+			pianoData = null;
+		})
 	};
 
 	Band.loadPack('instrument', 'piano', function(name, audioContext) {
 		return {
-			createSound: function(destination, base64_str, pitch) {
+			createSound: function(destination, pitch) {
 				var o = audioContext.createBufferSource(),
 					_buffer = _buffers[pitch];
 
