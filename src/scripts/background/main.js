@@ -27,6 +27,14 @@
 		], function($, ImageAnalyser, options, moodPacks, piano) {
 			options.fetch();
 
+			var moodPackId = options.get('moodPack').get('value'),
+				moodPack = moodPacks.get(moodPackId),
+				music = moodPack.getMusicInstance();
+
+			if(music.get('playing') === true) {
+				return false;
+			}
+
 /*			var responseDef = new $.Deferred();
 
 			responseDef.then(function() {
@@ -40,9 +48,6 @@
 				case 'getImageData':
 					var imageAnalyser = new ImageAnalyser(request.imageSrc);
 					imageAnalyser.analyse().then(function(segments) {
-						var moodPackId = options.get('moodPack').get('value'),
-						moodPack = moodPacks.get(moodPackId);
-
 						/*	music.onFinished(function() {
 								console.log('Finished');
 								sendResponse();
