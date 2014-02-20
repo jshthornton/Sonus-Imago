@@ -17,6 +17,14 @@
 		});
 	});
 
+	require([
+		'models/MoodPack/_Base',
+		'libs/instruments/piano'
+	], function(MoodPack, piano) {
+		var audioContext = MoodPack.music.getAudioContext();
+		piano.process(audioContext);
+	});
+
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		require([
 			'jquery',
@@ -35,34 +43,25 @@
 				return false;
 			}
 
-/*			var responseDef = new $.Deferred();
-
-			responseDef.then(function() {
-				sendResponse(Array.prototype.slice.call(arguments, 0));
-				console.groupEnd(); //Message
-			});*/
-
 			console.groupCollapsed('Message');
 			
 			switch(request.type) {
-				case 'getImageData':
+				case 'harmonise':
 					var imageAnalyser = new ImageAnalyser(request.imageSrc);
 					imageAnalyser.analyse().then(function(segments) {
-						/*	music.onFinished(function() {
-								console.log('Finished');
-								sendResponse();
-							});*/
-						
 						piano.ready.then(function() {
 							var music = moodPack.generateMusic(segments);
+
+							music.onFinished(function() {
+								console.log('Finished');
+								sendResponse();
+							});
+							
 							music.play();
 						});
 
 						console.groupEnd();
 					});
-
-					//console.log('Request: %O', request);
-					//getImageData(request.imageSrc, responseDef);
 					break;
 			}
 		});

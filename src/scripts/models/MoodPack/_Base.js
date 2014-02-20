@@ -54,8 +54,5 @@ define([
 	MoodPack.music = new Band('acoustic_grand_piano-ogg', 'european');
 	MoodPack.instruments = [];
 
-	var audioContext = MoodPack.music.getAudioContext();
-	piano.process(audioContext);
-
 	return MoodPack;
 });

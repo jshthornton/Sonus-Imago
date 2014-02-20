@@ -91,7 +91,7 @@ require([
 			$active = null;
 
 			chrome.runtime.sendMessage({
-				type: 'getImageData',
+				type: 'harmonise',
 				imageSrc: $img.prop('src')
 			}, function(resp) {
 				console.dir(resp);
