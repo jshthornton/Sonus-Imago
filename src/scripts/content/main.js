@@ -1,7 +1,81 @@
 require([
-	'jquery'
-], function($) {
+	'jquery',
+	'underscore'
+], function($, _) {
 	'use strict';
+
+	chrome.runtime.sendMessage({
+		type: 'options'
+	}, function(resp) {
+		var options = JSON.parse(resp);
+
+		console.log(options);
+
+		function tabbableImage($imgs) {
+			$imgs.prop('tabIndex', 0);
+		};
+
+		$(document).ready(function() {
+			tabbableImage($('img'));
+
+			var observer = new WebKitMutationObserver(function(mutations) {
+				var insertedNodes = [];
+
+				mutations.forEach(function(mutation) {
+					for (var i = 0; i < mutation.addedNodes.length; i++) {
+						var addedNode = mutation.addedNodes[i];
+						if(addedNode.nodeName !== 'IMG') continue;
+
+						insertedNodes.push(addedNode);
+					}
+				});
+
+				tabbableImage($(insertedNodes));
+			});
+
+			observer.observe(document.body, { childList: true });
+
+			$(document).on('keyup', _.throttle(function(e) {
+				console.dir(e);
+
+				var keyCode = e.keyCode,
+					ctrlKey = e.ctrlKey,
+					altKey = e.altKey,
+					shiftKey = e.shiftKey,
+					triggerKey = options.triggerKey,
+					$active,
+					$img;
+
+				console.log(keyCode, ctrlKey, altKey, shiftKey);
+
+				if(
+					keyCode == triggerKey.keyCode && 
+					ctrlKey === triggerKey.ctrl && 
+					altKey === triggerKey.alt && 
+					shiftKey === triggerKey.shift
+				) {
+					$active = $(document.activeElement);
+					console.log('Active Element:');
+					console.dir($active[0]);
+
+					if(!$active.length) return;
+					
+					//Is img?
+					if($active[0].nodeName !== 'IMG') return;
+
+					$img = $active;
+					$active = null;
+
+					chrome.runtime.sendMessage({
+						type: 'harmonise',
+						imageSrc: $img.prop('src')
+					}, function(resp) {
+						console.dir(resp);
+					});
+				}
+			}, 500, { trailing: false }));
+		});
+	});
 
 	chrome.runtime.onMessage.addListener(
 		function(request, sender, sendResponse) {
@@ -45,59 +119,4 @@ require([
 			}
 		}
 	);
-
-	function tabbableImage($imgs) {
-		$imgs.prop('tabIndex', 0);
-	};
-
-
-	$(document).ready(function() {
-		tabbableImage($('img'));
-
-		var observer = new WebKitMutationObserver(function(mutations) {
-			var insertedNodes = [];
-
-			mutations.forEach(function(mutation) {
-				for (var i = 0; i < mutation.addedNodes.length; i++) {
-					var addedNode = mutation.addedNodes[i];
-					if(addedNode.nodeName !== 'IMG') continue;
-
-					insertedNodes.push(addedNode);
-				}
-			});
-
-			tabbableImage($(insertedNodes));
-		});
-
-		observer.observe(document.body, { childList: true });
-
-		$(document).on('keyup', function(e) {
-			var keyCode = e.keyCode,
-				$active,
-				$img;
-
-			if(keyCode !== 120) return;
-
-			$active = $(document.activeElement);
-			console.log('Active Element:');
-			console.dir($active[0]);
-
-			if(!$active.length) return;
-			
-			//Is img?
-			if($active[0].nodeName !== 'IMG') return;
-
-			$img = $active;
-			$active = null;
-
-			chrome.runtime.sendMessage({
-				type: 'harmonise',
-				imageSrc: $img.prop('src')
-			}, function(resp) {
-				console.dir(resp);
-			});
-
-		});
-	});
-
 });

@@ -26,47 +26,70 @@
 	});
 
 	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		require([
-			'jquery',
-			'background/ImageAnalyser',
-			'collections/options',
-			'collections/moodPacks',
-			'libs/instruments/piano'
-		], function($, ImageAnalyser, options, moodPacks, piano) {
-			options.fetch();
+		console.groupCollapsed('Message');
 
-			var moodPackId = options.get('moodPack').get('value'),
-				moodPack = moodPacks.get(moodPackId),
-				music = moodPack.getMusicInstance();
+		switch(request.type) {
+			case 'options':
+				require([
+					'underscore',
+					'collections/options',
+				], function(_, options) {
+					options.fetch({
+						reset: true,
+						success: function() {
+							var _options = _.indexBy(options.models, 'id');
 
-			if(music.get('playing') === true) {
-				return false;
-			}
+							sendResponse(JSON.stringify(_options));
+							console.groupEnd();
 
-			console.groupCollapsed('Message');
-			
-			switch(request.type) {
-				case 'harmonise':
-					var imageAnalyser = new ImageAnalyser(request.imageSrc);
-					imageAnalyser.analyse().then(function(segments) {
-						piano.ready.then(function() {
-							var music = moodPack.generateMusic(segments);
-
-							music.onFinished(function() {
-								console.log('Finished');
-								sendResponse();
-							});
-							
-							music.play();
-						});
-
-						console.groupEnd();
+						}
 					});
-					break;
-			}
-		});
+				});
+
+				break;
+
+			case 'harmonise':
+				require([
+					'jquery',
+					'background/ImageAnalyser',
+					'collections/options',
+					'collections/moodPacks',
+					'libs/instruments/piano'
+				], function($, ImageAnalyser, options, moodPacks, piano) {
+
+					options.fetch({
+						reset: true,
+						success: function() {
+							var moodPackId = options.get('moodPack').get('value'),
+								moodPack = moodPacks.get(moodPackId),
+								music = moodPack.getMusicInstance();
+
+							if(music.get('playing') === true) {
+								return false;
+							}
+
+							var imageAnalyser = new ImageAnalyser(request.imageSrc);
+							imageAnalyser.analyse().then(function(segments) {
+								piano.ready.then(function() {
+									var music = moodPack.generateMusic(segments);
+
+									music.onFinished(function() {
+										console.log('Finished');
+										sendResponse();
+									});
+
+									music.play();
+								});
+
+								console.groupEnd();
+							});
+						}
+					});
+				});
+
+				break;
+		}
 
 		return true;
 	});
-
 }());
