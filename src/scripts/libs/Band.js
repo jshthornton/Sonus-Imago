@@ -80,7 +80,7 @@
 						onFinished(onFinishedCallback);
 					} else {
 						updateTotalPlayTime();
-						requestAnimationFrame(totalPlayTimeCalculator);
+						setTimeout(totalPlayTimeCalculator, 1000/60);
 					}
 				}
 			},
@@ -690,9 +690,11 @@
 			var seconds = Math.round(totalPlayTime);
 			if (seconds != currentSeconds) {
 				// Make callback asynchronous
-				setTimeout(function() {
-					tickerCallback(seconds);
-				}, 1);
+				if(typeof tickerCallback === 'function') {
+					setTimeout(function() {
+						tickerCallback(seconds);
+					}, 1);
+				}
 				currentSeconds = seconds;
 			}
 			currentPlayTime = ac.currentTime;
@@ -744,7 +746,7 @@
 						i = i < 0 ? 0 : i;
 						var gain = 'up' === direction ? masterVolumeLevel * 100 - i : i;
 						masterVolume.gain.value = gain / 100;
-						requestAnimationFrame(fadeTimer);
+						setTimeout(fadeTimer, 1000/60);
 					} else {
 						if (typeof cb === 'function') {
 							cb();
@@ -795,11 +797,6 @@
 
 		return copy;
 	}
-
-	var requestAnimationFrame = this.requestAnimationFrame || this.mozRequestAnimationFrame ||
-		this.webkitRequestAnimationFrame || this.msRequestAnimationFrame;
-
-	this.requestAnimationFrame = requestAnimationFrame;
 
 	// Export for CommonJS
 	if (typeof module === 'object' && module && typeof module.exports === 'object' ) {
