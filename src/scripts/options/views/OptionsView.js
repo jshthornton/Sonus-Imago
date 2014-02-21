@@ -40,6 +40,7 @@ define([
 			'change #grid-size': 'onGridSizeChange',
 			'change .volume': 'onVolumeChange',
 			'change #mood-pack': 'onMoodPackChange',
+			'keydown #trigger-key': 'onTriggerKeyKeydown',
 			'submit #options': 'onSubmit',
 			'reset #options': 'onReset'
 		},
@@ -71,6 +72,19 @@ define([
 		onMoodPackChange: function() {
 
 		},
+
+		onTriggerKeyKeydown: _.debounce(function(e) {
+			var triggerKey = options.get('triggerKey');
+
+			triggerKey.set('keyCode', e.keyCode);
+			triggerKey.set('ctrl', e.ctrlKey);
+			triggerKey.set('shift', e.shiftKey);
+			triggerKey.set('alt', e.altKey);
+
+			e.currentTarget.value = triggerKey.getPrintable();
+
+			this.$status.addClass('unsaved');
+		}, 500),
 
 		onSubmit: function(e) {
 			e.preventDefault();

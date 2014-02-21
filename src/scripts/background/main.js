@@ -76,12 +76,11 @@
 									music.onFinished(function() {
 										console.log('Finished');
 										sendResponse();
+										console.groupEnd();
 									});
 
 									music.play();
 								});
-
-								console.groupEnd();
 							});
 						}
 					});

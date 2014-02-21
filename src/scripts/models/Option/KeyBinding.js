@@ -37,14 +37,14 @@ define([
 			}
 
 			var keyCode = this.get('keyCode');
-			if(keyCode) {
+			if(keyCode !== null && keyCode !== undefined) {
 				var chr = '',
 					non_print = KeyBinding.NON_PRINTABLE[keyCode];
 
 				if(non_print) {
 					chr = non_print;
 				} else {
-					String.fromCharCode(keyCode);
+					chr = String.fromCharCode(keyCode).toLowerCase();
 				}
 
 				if(chr.length) {

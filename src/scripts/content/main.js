@@ -35,9 +35,7 @@ require([
 
 			observer.observe(document.body, { childList: true });
 
-			$(document).on('keyup', _.throttle(function(e) {
-				console.dir(e);
-
+			$(document).on('keydown', _.debounce(function(e) {
 				var keyCode = e.keyCode,
 					ctrlKey = e.ctrlKey,
 					altKey = e.altKey,
@@ -46,8 +44,6 @@ require([
 					$active,
 					$img;
 
-				console.log(keyCode, ctrlKey, altKey, shiftKey);
-
 				if(
 					keyCode == triggerKey.keyCode && 
 					ctrlKey === triggerKey.ctrl && 
@@ -55,8 +51,6 @@ require([
 					shiftKey === triggerKey.shift
 				) {
 					$active = $(document.activeElement);
-					console.log('Active Element:');
-					console.dir($active[0]);
 
 					if(!$active.length) return;
 					
@@ -70,10 +64,10 @@ require([
 						type: 'harmonise',
 						imageSrc: $img.prop('src')
 					}, function(resp) {
-						console.dir(resp);
+						//console.dir(resp);
 					});
 				}
-			}, 500, { trailing: false }));
+			}, 500));
 		});
 	});
 
@@ -83,7 +77,6 @@ require([
 				switch (request.cmd) {
 					case 'makeImage':
 						var segments = JSON.parse(request.segments);
-						console.log(segments);
 
 						var $container = $('<div id="_ProjectHarmonyContainer"></div>')
 							.css({
