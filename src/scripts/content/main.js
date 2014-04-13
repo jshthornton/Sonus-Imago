@@ -33,7 +33,10 @@ require([
 				tabbableImage($(insertedNodes));
 			});
 
-			observer.observe(document.body, { childList: true });
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
 
 			$(document).on('keydown', _.debounce(function(e) {
 				var keyCode = e.keyCode,
