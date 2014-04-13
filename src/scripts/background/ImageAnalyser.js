@@ -3,8 +3,7 @@ define([
 	'Class',
 	'underscore',
 	'collections/options',
-	'models/Option/GridSize'
-], function(require, Class, _, options, GridSize) {
+], function(require, Class, _, options) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -16,17 +15,13 @@ define([
 		init: function(imgSrc) {
 			_.bindAll(this);
 
-			var gridSizeId = options.get('gridSize').get('value'),
-				sizes = GridSize.SIZES,
-				size = sizes[gridSizeId];
-
 			this._imgSrc = imgSrc;
 			this.segments = [];
 			this.trueLength = 0;
 			this._def = new $.Deferred();
 
-			this.cols = size.cols,
-			this.rows = size.rows;
+			this.cols = options.get('gridColumn').get('value'),
+			this.rows = options.get('gridRow').get('value');
 		},
 
 		analyse: function(imgSrc) {

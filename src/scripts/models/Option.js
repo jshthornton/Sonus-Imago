@@ -5,8 +5,7 @@ define([
 	var M = Backbone.Model.extend({
 		defaults: function() {
 			return {
-				id: null,
-				value: null
+				id: null
 			}
 		}
 	});

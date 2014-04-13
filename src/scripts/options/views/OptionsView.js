@@ -3,9 +3,8 @@ define([
 	'Backbone',
 	'text!./templates/Options.jst',
 	'collections/options',
-	'collections/moodPacks',
-	'models/Option/GridSize'
-], function(_, Backbone, template, options, moodPacks, GridSize) {
+	'collections/moodPacks'
+], function(_, Backbone, template, options, moodPacks) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -22,8 +21,7 @@ define([
 			var compiled = _.template(template),
 				output = compiled({
 					options: options,
-					moodPacks: moodPacks,
-					sizes: GridSize.SIZES
+					moodPacks: moodPacks
 				}),
 				$tmpl = $(output);
 
@@ -37,7 +35,7 @@ define([
 
 		//Events
 		events: {
-			'change #grid-size': 'onGridSizeChange',
+			'change .grid-input': 'onGridChange',
 			'change .volume': 'onVolumeChange',
 			'change #mood-pack': 'onMoodPackChange',
 			'keydown #trigger-key': 'onTriggerKeyKeydown',
@@ -45,12 +43,13 @@ define([
 			'reset #options': 'onReset'
 		},
 
-		onGridSizeChange: function(e) {
-			var select = e.currentTarget,
-				value = select.selectedOptions[0].value,
-				gridSize = options.get('gridSize');
+		onGridChange: function(e) {
+			var input = e.currentTarget,
+				value = input.valueAsNumber,
+				optionId = (input.name === 'grid-column') ? 'gridColumn' : 'gridRow',
+				gridOption = options.get(optionId);
 
-			gridSize.set('value', value);
+			gridOption.set('value', value);
 
 			this.$status.addClass('unsaved');
 		},

@@ -21,7 +21,7 @@ define([
 			
 			music.setMasterVolume(volume / 100);
 			music.setTimeSignature(4, 4);
-			music.setTempo(120);
+			music.setTempo(160);
 
 
 			MoodPack.instruments.length = 0;

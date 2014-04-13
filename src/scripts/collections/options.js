@@ -2,10 +2,9 @@ define([
 	'Backbone',
 	'./AppCollection',
 	'models/Option',
-	'models/Option/GridSize',
 	'models/Option/KeyBinding',
 	'localstorage'
-], function(Backbone, AppCollection, Option, GridSize, KeyBinding) {
+], function(Backbone, AppCollection, Option, KeyBinding) {
 	'use strict';
 
 	var C = AppCollection.extend({
@@ -16,9 +15,6 @@ define([
 
 				if(typeof attr.__cast !== undefined) {
 					switch(attr.__cast) {
-						case 'GridSize':
-							cls = GridSize;
-							break;
 						case 'KeyBinding':
 							cls = KeyBinding;
 							break;
@@ -35,8 +31,12 @@ define([
 
 				this.add([
 					{
-						__cast: 'GridSize',
-						value: '4x4'
+						id: 'gridColumn',
+						value: 4
+					},
+					{
+						id: 'gridRow',
+						value: 4
 					},
 					{
 						id: 'volume',

@@ -3,14 +3,12 @@
 	<section>
 		<h2>Image</h2>
 
-		<label for="grid-size">Grid size</label>
-		<select id="grid-size">
-			<% var gridSize = it.options.get('gridSize'); %>
+		<h3>Grid</h3>
+		<label for="grid-column">Column</label>
+		<input class="grid-input" id="grid-column" type="range" name="grid-column" min="4" max="10" value="<%= it.options.get('gridColumn').get('value') %>">
 
-			<% _.forOwn(it.sizes, function(_size, key) { %>
-				<option <% if(gridSize.get('value') === key) { %> selected="selected" <% } %> value="<%= key %>"><%= _size.label %></option>
-			<% }); %>
-		</select>
+		<label for="grid-row">Row</label>
+		<input class="grid-input" id="grid-row" type="range" name="grid-row" min="4" max="10" value="<%= it.options.get('gridRow').get('value') %>">
 	</section>
 
 	<section>
@@ -25,15 +23,12 @@
 			<% it.moodPacks.forEach(function(moodPack) { %>
 				<option value="<%= moodPack.get('id') %>"><%= moodPack.get('name') %></option>
 			<% }) %>
-			<!--<option value="custom">Custom</option>-->
 		</select>
-
-		<!--<button type="button">Calibrate</button>-->
 	</section>
 
 	<section>
 		<h2>Key bindings</h2>
-		<label for="trigger-key">
+		<label for="trigger-key">Start / Stop</label>
 		<input id="trigger-key" type="text" name="trigger-key" value="<%= it.options.get('triggerKey').getPrintable() %>">
 	</section>
 
