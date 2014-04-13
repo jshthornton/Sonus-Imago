@@ -4,78 +4,111 @@ require([
 ], function($, _) {
 	'use strict';
 
-	chrome.runtime.sendMessage({
-		type: 'options'
-	}, function(resp) {
-		var options = JSON.parse(resp);
+	var main = {
+		init: function() {
+			_.bindAll(this);
 
-		console.log(options);
+			chrome.runtime.onMessage.addListener(this.onMessage);
 
-		function tabbableImage($imgs) {
-			$imgs.prop('tabIndex', 0);
-		};
+			var optionsPromise = this.fetchOptions(),
+				domReadyPromise = this.isDomReady();
 
-		$(document).ready(function() {
-			tabbableImage($('img'));
+			$.when(optionsPromise, domReadyPromise).then(_.bind(function(options) {
+				this.options = options;
 
-			var observer = new WebKitMutationObserver(function(mutations) {
-				var insertedNodes = [];
+				this.tabbableImage($('img', document.body));
 
-				mutations.forEach(function(mutation) {
-					for (var i = 0; i < mutation.addedNodes.length; i++) {
-						var addedNode = mutation.addedNodes[i];
-						if(addedNode.nodeName !== 'IMG') continue;
+				var observer = new WebKitMutationObserver(this.onMutation);
 
-						insertedNodes.push(addedNode);
-					}
+				observer.observe(document.body, {
+					childList: true,
+					subtree: true
 				});
 
-				tabbableImage($(insertedNodes));
+				$(document).on('keydown', _.debounce(this.onKeydown, 500));
+			}, this));
+		},
+
+		tabbableImage: function($imgs) {
+			$imgs.prop('tabIndex', 0);
+		},
+
+		isDomReady: _.once(function() {
+			var def = new $.Deferred();
+
+			$(document).ready(function() {
+				def.resolve();
 			});
 
-			observer.observe(document.body, {
-				childList: true,
-				subtree: true
+			return def.promise();
+		}),
+
+		fetchOptions: function() {
+			var def = new $.Deferred();
+
+			chrome.runtime.sendMessage({
+				type: 'options'
+			}, function(resp) {
+				var options = JSON.parse(resp);
+
+				console.log(options);
+
+				def.resolve(options);
 			});
 
-			$(document).on('keydown', _.debounce(function(e) {
-				var keyCode = e.keyCode,
-					ctrlKey = e.ctrlKey,
-					altKey = e.altKey,
-					shiftKey = e.shiftKey,
-					triggerKey = options.triggerKey,
-					$active,
-					$img;
+			return def.promise();
+		},
 
-				if(
-					keyCode == triggerKey.keyCode && 
-					ctrlKey === triggerKey.ctrl && 
-					altKey === triggerKey.alt && 
-					shiftKey === triggerKey.shift
-				) {
-					$active = $(document.activeElement);
+		onKeydown: function(e) {
+			var keyCode = e.keyCode,
+				ctrlKey = e.ctrlKey,
+				altKey = e.altKey,
+				shiftKey = e.shiftKey,
+				triggerKey = this.options.triggerKey,
+				$active,
+				img;
 
-					if(!$active.length) return;
-					
-					//Is img?
-					if($active[0].nodeName !== 'IMG') return;
+			if(
+				keyCode == triggerKey.keyCode && 
+				ctrlKey === triggerKey.ctrl && 
+				altKey === triggerKey.alt && 
+				shiftKey === triggerKey.shift
+			) {
+				$active = $(document.activeElement);
 
-					$img = $active;
-					$active = null;
+				if(!$active.length) return;
+				
+				//Is img?
+				if($active[0].nodeName !== 'IMG') return;
 
-					chrome.runtime.sendMessage({
-						type: 'harmonise',
-						imageSrc: $img.prop('src')
-					}, function(resp) {
-						//console.dir(resp);
-					});
+				img = $active[0];
+				$active = null;
+
+				chrome.runtime.sendMessage({
+					type: 'harmonise',
+					imageSrc: img.src
+				}, function(resp) {
+					//console.dir(resp);
+				});
+			}
+		},
+
+		onMutation: function(mutations) {
+			var insertedNodes = [];
+
+			mutations.forEach(function(mutation) {
+				for (var i = 0; i < mutation.addedNodes.length; i++) {
+					var addedNode = mutation.addedNodes[i];
+					if(addedNode.nodeName !== 'IMG') continue;
+
+					insertedNodes.push(addedNode);
 				}
-			}, 500));
-		});
-	});
+			});
 
-	chrome.runtime.onMessage.addListener(
-		function(request, sender, sendResponse) {
+			this.tabbableImage($(insertedNodes));
+		},
+
+		onMessage: function(request, sender, sendResponse) {
 			if(!sender.tab) {
 				switch (request.cmd) {
 					case 'makeImage':
@@ -114,5 +147,7 @@ require([
 				};
 			}
 		}
-	);
+	};
+
+	main.init();
 });
