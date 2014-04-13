@@ -22,7 +22,8 @@
 			"matches": [
 				"<all_urls>"
 			],
-			"js": ["scripts/require.js", "scripts/require-cs.js", "scripts/require-config.js", "scripts/content/main.js"]
+			"js": ["scripts/require.js", "scripts/require-cs.js", "scripts/require-config.js", "scripts/content/main.js"],
+			"css": ["styles/content.css"]
 		}
 	],
 
