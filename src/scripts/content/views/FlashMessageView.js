@@ -10,9 +10,11 @@ define([
 
 	return Backbone.View.extend({
 		msg: 'Unknown error',
+		type: 'notice',
 
 		initialize: function(opts) {
-			this.msg = opts.msg;
+			this.msg = opts.msg || this.msg;
+			this.type = opts.type || this.type;
 
 			this.render();
 
@@ -29,7 +31,8 @@ define([
 			}
 
 			var compl = tmplFn({
-					msg: this.msg
+					msg: this.msg,
+					type: this.type
 				}),
 				$el = $(compl);
 

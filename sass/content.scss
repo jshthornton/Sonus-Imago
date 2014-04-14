@@ -1,6 +1,49 @@
 #SI_FlashMessage_Container {
 	position: fixed;
 	top: 0;
-	left: 0;
 	right: 0;
+	width: 320px;
+	z-index: 999999;
+
+	.SI_FlashMessage {
+		position: relative;
+		-webkit-border-radius: 10px;
+		border-radius: 10px;
+		font-family: Tahoma, Geneva, sans-serif;
+		font-size: 14px;
+		padding: 10px;
+		min-height: 50px;
+		margin: 10px;
+
+		-webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+
+		&.SI_FlashMessage_type_notice {
+			background-color: rgb(84, 203, 247);
+		}
+
+		&.SI_FlashMessage_type_error {
+			background-color: #f93e3e;
+		}
+
+
+		.SI_FlashMessage_msg {
+			color: #000;
+		}
+
+		.SI_FlashMessage_dismiss {
+			display: block;
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background-color: red;
+			border: 0;
+			width: 20px;
+			height: 20px;
+			text-indent: -9999px;
+			padding: 0;
+			margin: 0;
+			cursor: pointer;
+		}
+	}
 }

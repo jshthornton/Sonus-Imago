@@ -33,6 +33,16 @@ require([
 				});
 
 				$(document).on('keydown', _.debounce(this.onKeydown, 500));
+
+				this.$lastFocus = $(document.activeElement);
+				var flshMsg = new FlashMessageView({
+					msg: 'Default'
+				});
+
+				var flshMsg = new FlashMessageView({
+					msg: 'Error',
+					type: 'error'
+				});
 			}, this));
 		},
 
