@@ -6,8 +6,9 @@
 	});
 
 	require([
-		'underscore'
-	], function(_) {
+		'underscore',
+		'jquery'
+	], function(_, $) {
 		var background = {
 			init: function() {
 				_.bindAll(this);
@@ -19,6 +20,8 @@
 				}
 
 				chrome.runtime.onMessage.addListener(this.onMessage);
+
+				$(document).bind('flash-message', this.onFlashMessage);
 			},
 
 			setupPiano: function() {
@@ -126,6 +129,18 @@
 				}
 
 				return true;
+			},
+
+			onFlashMessage: function(e, data) {
+				var _this = this;
+
+				chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+					_this.sendFlashMessage({
+						tab: tabs[0],
+						msg: data.msg,
+						type: data.type
+					});
+				});
 			},
 
 			sendFlashMessage: function(opts) {

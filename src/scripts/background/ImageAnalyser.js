@@ -1,9 +1,10 @@
 define([
 	'require',
+	'jquery',
 	'Class',
 	'underscore',
 	'collections/options',
-], function(require, Class, _, options) {
+], function(require, $, Class, _, options) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -163,6 +164,11 @@ define([
 
 		_onImageError: function(e) {
 			console.log('Image failed to load %O', e);
+
+			$(document).trigger('flash-message', {
+				msg: 'Image failed to load',
+				type: 'error'
+			});
 		},
 
 		_onWorkerMessage: function(e) {
