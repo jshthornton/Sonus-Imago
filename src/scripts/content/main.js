@@ -33,16 +33,6 @@ require([
 				});
 
 				$(document).on('keydown', _.debounce(this.onKeydown, 500));
-
-				this.$lastFocus = $(document.activeElement);
-				var flshMsg = new FlashMessageView({
-					msg: 'Default'
-				});
-
-				var flshMsg = new FlashMessageView({
-					msg: 'Error',
-					type: 'error'
-				});
 			}, this));
 		},
 
@@ -78,6 +68,7 @@ require([
 				var flshMsg = new FlashMessageView({
 					msg: 'Unable to fetch Sonus Imago options'
 				});
+				flshMsg = null;
 			}
 			
 			return def.promise();
@@ -126,6 +117,7 @@ require([
 					var flshMsg = new FlashMessageView({
 						msg: 'Unable to harmonise image, reason unknown'
 					});
+					flshMsg = null;
 				}
 			}
 		},
@@ -151,8 +143,10 @@ require([
 					case 'flashMessage':
 						this.$lastFocus = $(document.activeElement);
 						var flshMsg = new FlashMessageView({
-							msg: request.msg
+							msg: request.msg,
+							type: request.type
 						});
+						flshMsg = null;
 						break;
 					case 'makeImage':
 						var segments = JSON.parse(request.segments);
