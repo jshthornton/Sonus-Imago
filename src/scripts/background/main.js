@@ -1,94 +1,104 @@
-(function(undefined) {
-	'use strict';
+require([
+	'underscore'
+], function(_) {
+	var background = {
+		init: function() {
+			_.bindAll(this);
 
-	chrome.runtime.onInstalled.addListener(function(){
-		require([
-			'jquery',
-			'underscore',
-			'collections/options'
-		], function($, _, options) {
-			options.localStorage._clear(); //@TODO: remove, dev only code.
+			this.setupPiano();
 
-			if(options.length === 0) {
-				//Initial Setup
-				options.resetInitial();
-				options.saveAll();
-			}
-		});
-	});
+			chrome.runtime.onInstalled.addListener(this.onInstall);
+			chrome.runtime.onMessage.addListener(this.onMessage);
+		},
 
-	require([
-		'models/MoodPack/_Base',
-		'libs/instruments/piano'
-	], function(MoodPack, piano) {
-		var audioContext = MoodPack.music.getAudioContext();
-		piano.process(audioContext);
-	});
+		setupPiano: function() {
+			require([
+				'libs/music',
+				'libs/instruments/piano'
+			], function(music, piano) {
+				var audioContext = music.getAudioContext();
+				piano.process(audioContext);
+			});
+		},
 
-	chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-		console.groupCollapsed('Message');
+		onInstall: function() {
+			require([
+				'collections/options'
+			], function(options) {
+				options.localStorage._clear(); //@TODO: remove, dev only code.
 
-		switch(request.type) {
-			case 'options':
-				require([
-					'underscore',
-					'collections/options',
-				], function(_, options) {
-					options.fetch({
-						reset: true,
-						success: function() {
-							var _options = _.indexBy(options.models, 'id');
+				if(options.length === 0) {
+					//Initial Setup
+					options.resetInitial();
+					options.saveAll();
+				}
+			});
+		},
 
-							sendResponse(JSON.stringify(_options));
-							console.groupEnd();
+		onMessage: function(request, sender, sendResponse) {
+			console.groupCollapsed('Message');
 
-						}
-					});
-				});
+			switch(request.type) {
+				case 'options':
+					require([
+						'collections/options',
+					], function(options) {
+						options.fetch({
+							reset: true,
+							success: function() {
+								var _options = _.indexBy(options.models, 'id');
 
-				break;
-
-			case 'harmonise':
-				require([
-					'jquery',
-					'background/ImageAnalyser',
-					'collections/options',
-					'collections/moodPacks',
-					'libs/instruments/piano'
-				], function($, ImageAnalyser, options, moodPacks, piano) {
-
-					options.fetch({
-						reset: true,
-						success: function() {
-							var moodPackId = options.get('moodPack').get('value'),
-								moodPack = moodPacks.get(moodPackId),
-								music = moodPack.getMusicInstance();
-
-							if(music.get('playing') === true) {
-								return false;
+								sendResponse(JSON.stringify(_options));
+								console.groupEnd();
 							}
-
-							var imageAnalyser = new ImageAnalyser(request.imageSrc);
-							imageAnalyser.analyse().then(function(segments) {
-								piano.ready.then(function() {
-									var music = moodPack.generateMusic(segments);
-
-									music.onFinished(function() {
-										console.log('Finished');
-										sendResponse();
-										console.groupEnd();
-									});
-
-									music.play();
-								});
-							});
-						}
+						});
 					});
-				});
 
-				break;
+					break;
+
+				case 'harmonise':
+					require([
+						'background/ImageAnalyser',
+						'collections/options',
+						'collections/moodPacks',
+						'libs/music',
+						'libs/instruments/piano'
+					], function(ImageAnalyser, options, moodPacks, music, piano) {
+						options.fetch({
+							reset: true,
+							success: function() {
+								var moodPackId = options.get('moodPack').get('value'),
+									moodPack = moodPacks.get(moodPackId);
+
+								if(music.get('playing') === true) {
+									music.stop(true);
+									return;
+								}
+
+								var imageAnalyser = new ImageAnalyser(request.imageSrc);
+								imageAnalyser.analyse().then(function(segments) {
+									piano.ready.then(function() {
+										var music = moodPack.generateMusic(segments);
+
+										music.onFinished(function() {
+											console.log('Finished');
+											sendResponse();
+											console.groupEnd();
+										});
+
+										music.play();
+									});
+								});
+							}
+						});
+					});
+
+					break;
+			}
+
+			return true;
 		}
+	};
 
-		return true;
-	});
-}());
+	background.init();
+});

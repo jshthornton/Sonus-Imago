@@ -1,10 +1,10 @@
 define([
 	'Backbone',
 	'underscore',
-	'Band',
+	'libs/music',
 	'libs/instruments/piano',
 	'collections/options'
-], function(Backbone, _, Band, piano, options) {
+], function(Backbone, _, music, piano, options) {
 	var MoodPack = Backbone.Model.extend({
 		//_generateNotes
 		//_createInstruments
@@ -14,8 +14,7 @@ define([
 		},
 
 		generateMusic: function(segments) {
-			var music = MoodPack.music,
-				volume = options.get('volume').get('value');
+			var volume = options.get('volume').get('value');
 
 			music.destroy();
 			
@@ -23,8 +22,7 @@ define([
 			music.setTimeSignature(4, 4);
 			music.setTempo(160);
 
-
-			MoodPack.instruments.length = 0;
+			music.instruments.length = 0;
 			this._createInstruments();
 
 			for(var i = 0; i < segments.length; i++) {
@@ -39,20 +37,13 @@ define([
 		},
 
 		_finishInstruments: function() {
-			if(MoodPack.instruments) {
-				_.forEach(MoodPack.instruments, function(instrument) {
+			if(music.instruments) {
+				_.forEach(music.instruments, function(instrument) {
 					instrument.finish();
 				});
 			}
-		},
-
-		getMusicInstance: function() {
-			return MoodPack.music;
 		}
 	});
-
-	MoodPack.music = new Band('european');
-	MoodPack.instruments = [];
 
 	return MoodPack;
 });

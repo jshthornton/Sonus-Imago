@@ -1,8 +1,9 @@
 define([
 	'Backbone',
 	'underscore',
-	'./_Base'
-], function(Backbone, _, MoodPack) {
+	'./_Base',
+	'libs/music'
+], function(Backbone, _, MoodPack, music) {
 	var GB = MoodPack.extend({
 		defaults: {
 			id: 'gb',
@@ -390,8 +391,7 @@ define([
 		},
 
 		_createInstruments: function() {
-			var music = GB.music,
-				instruments = GB.instruments;
+			var instruments = music.instruments;
 
 			instruments[0] = music.createInstrument(undefined, 'piano');
 			instruments[1] = music.createInstrument(undefined, 'piano');
@@ -405,50 +405,7 @@ define([
 		},
 
 		_generateNotes: function(color) {
-			//return;
-			var instruments = GB.instruments;
-
-/*			//White
-			if(color.r === 255 && color.g === 255 && color.b === 255) {
-				//instruments.note1.setVolume(2);
-				instruments.note1.note('crotchet', 'C6');
-				instruments.note2.rest('crotchet');
-				instruments.note3.rest('crotchet');
-				instruments.note4.rest('crotchet');
-				return;
-			}
-
-			//Light Grey
-			if(color.r === 170 && color.g === 170 && color.b === 170) {
-				//instruments.note1.setVolume(2);
-				instruments.note1.note('crotchet', 'C6');
-				instruments.note2.note('crotchet', 'E6');
-				instruments.note3.note('crotchet', 'G6');
-				instruments.note4.note('crotchet', 'C3');
-				return;
-			}
-
-			//Dark Grey
-			if(color.r === 85 && color.g === 85 && color.b === 85) {
-				//instruments.note1.setVolume(2);
-				instruments.note1.note('crotchet', 'C5');
-				instruments.note2.note('crotchet', 'G5');
-				instruments.note3.note('crotchet', 'C3');
-				instruments.note4.note('crotchet', 'Eb5');
-				return;
-			}
-
-			//Black
-			if(color.r === 0 && color.g === 0 && color.b === 0) {
-				//instruments.note1.setVolume(2);
-				instruments.note1.note('crotchet', 'C2');
-				instruments.note2.rest('crotchet');
-				instruments.note3.rest('crotchet');
-				instruments.note4.rest('crotchet');
-				return;
-			}*/
-
-			//instruments.note1.note('crotchet', 'C4');
+			var instruments = music.instruments;
 
 			function getPaleteString(color, delim) {
 				delim = delim || ',';
@@ -476,10 +433,6 @@ define([
 					}
 				}
 			}
-
-			//console.log(notes);
-
-			//console.log(getPaleteString(color));
 		}
 	});
 

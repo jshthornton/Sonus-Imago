@@ -492,31 +492,21 @@
 					}
 
 					// If pitch is false, then it's a rest and we don't need a sound
-					if (false !== pitch) {
+					if (pitch !== false) {
 						var gain = ac.createGain();
 						// Connect volume gain to the Master Volume;
 						gain.connect(masterVolume);
 						gain.gain.value = volumeLevel;
 
-						if (typeof pitch === 'undefined') {
+						pitch.forEach(function(p) {
 							sounds.push({
 								startTime: startTime,
 								stopTime: stopTime,
-								node: instrument.instrument.createSound(gain),
+								node: instrument.instrument.createSound(gain, p.trim()),
 								gain: gain,
 								volumeLevel: volumeLevel
 							});
-						} else {
-							pitch.forEach(function(p) {
-								sounds.push({
-									startTime: startTime,
-									stopTime: stopTime,
-									node: instrument.instrument.createSound(gain, p.trim()),
-									gain: gain,
-									volumeLevel: volumeLevel
-								});
-							});
-						}
+						});
 					}
 				}
 				instrument.bufferPosition += bufferCount;
@@ -704,7 +694,8 @@
 		function reset() {
 			clearTimeout(bufferTimeout);
 			allSounds.forEach(function(sound) {
-				if (sound.node && sound.node.playbackState === sound.node.PLAYING_STATE) {
+				console.dir(sound);
+				if (sound.node && sound.node.playbackState === sound.node.PLAYING_STATE || sound.node.playbackState === sound.node.SCHEDULED_STATE) {
 					sound.node.stop(0);
 				}
 			});
