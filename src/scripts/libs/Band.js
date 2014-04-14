@@ -694,7 +694,6 @@
 		function reset() {
 			clearTimeout(bufferTimeout);
 			allSounds.forEach(function(sound) {
-				console.dir(sound);
 				if (sound.node && sound.node.playbackState === sound.node.PLAYING_STATE || sound.node.playbackState === sound.node.SCHEDULED_STATE) {
 					sound.node.stop(0);
 				}

@@ -36,6 +36,7 @@ require([
 		},
 
 		onMessage: function(request, sender, sendResponse) {
+			var _this = this;
 			console.groupCollapsed('Message');
 
 			switch(request.type) {
@@ -77,6 +78,25 @@ require([
 
 								var imageAnalyser = new ImageAnalyser(request.imageSrc);
 								imageAnalyser.analyse().then(function(segments) {
+
+									var pianoState = piano.ready.state();
+
+									if(pianoState !== 'resolved') {
+										if(pianoState === 'pending') {
+											_this.sendFlashMessage({
+												tab: sender.tab, 
+												msg: 'Waiting for music to initialise', 
+												type: 'notice'
+											});
+										} else if(pianoState === 'rejected') {
+											_this.sendFlashMessage({
+												tab: sender.tab, 
+												msg: 'Music failed to initialise, try reloading Sonus Imago extension', 
+												type: 'error'
+											});
+										}
+									}
+
 									piano.ready.then(function() {
 										var music = moodPack.generateMusic(segments);
 
@@ -97,6 +117,14 @@ require([
 			}
 
 			return true;
+		},
+
+		sendFlashMessage: function(opts) {
+			chrome.tabs.sendMessage(opts.tab.id, {
+				cmd: 'flashMessage',
+				msg: opts.msg,
+				type: opts.type
+			});
 		}
 	};
 
