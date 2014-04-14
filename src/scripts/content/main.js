@@ -8,8 +8,6 @@ require([
 	_.templateSettings.variable = 'it';
 
 	var main = {
-		//$lastFocus
-
 		init: function() {
 			_.bindAll(this);
 
@@ -17,8 +15,6 @@ require([
 
 			var optionsPromise = this.fetchOptions(),
 				domReadyPromise = this.isDomReady();
-
-			$(document).bind('SI_restore_focus', this.onRestoreFocus);
 
 			$.when(optionsPromise, domReadyPromise).then(_.bind(function(options) {
 				this.options = options;
@@ -64,7 +60,6 @@ require([
 					def.resolve(options);
 				});
 			} catch(e) {
-				this.$lastFocus = $(document.activeElement);
 				var flshMsg = new FlashMessageView({
 					msg: 'Unable to fetch Sonus Imago options'
 				});
@@ -72,12 +67,6 @@ require([
 			}
 			
 			return def.promise();
-		},
-
-		onRestoreFocus: function() {
-			if(this.$lastFocus) {
-				this.$lastFocus.focus();
-			}
 		},
 
 		onKeydown: function(e) {
@@ -113,7 +102,6 @@ require([
 						//console.dir(resp);
 					});
 				} catch(e) {
-					this.$lastFocus = $(img);
 					var flshMsg = new FlashMessageView({
 						msg: 'Unable to harmonise image, reason unknown'
 					});
@@ -141,7 +129,6 @@ require([
 			if(!sender.tab) {
 				switch (request.cmd) {
 					case 'flashMessage':
-						this.$lastFocus = $(document.activeElement);
 						var flshMsg = new FlashMessageView({
 							msg: request.msg,
 							type: request.type

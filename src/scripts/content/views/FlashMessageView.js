@@ -17,11 +17,6 @@ define([
 			this.type = opts.type || this.type;
 
 			this.render();
-
-			var $flashMessages = $('> .SI_FlashMessage', $container);
-			if($flashMessages.length === 1) {
-				$('> .SI_FlashMessage_msg', this.$el).focus();
-			}
 		},
 
 		render: function() {
@@ -47,25 +42,6 @@ define([
 		},
 
 		onDismiss: function() {
-			var _this = this,
-				$flashMessages = $('> .SI_FlashMessage', $container),
-				$nextFlashMessage;
-
-			$flashMessages.each(function(index, node) {
-				if(node === _this.el) {
-					return;
-				}
-
-				$nextFlashMessage = $(node);
-				return false;
-			});
-
-			if(!$nextFlashMessage) {
-				$(document).trigger('SI_restore_focus');
-			} else {
-				$('> .SI_FlashMessage_msg', $nextFlashMessage).focus();
-			}
-
 			this.remove();
 		}
 	});
