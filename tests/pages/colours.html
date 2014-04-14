@@ -20,6 +20,10 @@
 		.block.black {
 			width: 274px;
 		}
+		.block img {
+			width: 100%;
+			height: 100%;
+		}
 		.block span {
 			font-family: Arial;
 			font-size: 10px;
@@ -43,13 +47,31 @@
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script>
 		;(function() {
+			var canvas = document.createElement('canvas'),
+				ctx = canvas.getContext('2d');
+
+			canvas.width = 64;
+			canvas.height = 64;
+			ctx.lineWidth = '0';
+
 			function addBlock(r, g, b, $palete) {
-				var $block = $('<div class="block"><span>' + r + '_' + g + '_' + b + '</span></div>')
-					.css('background-color', 'rgb(' + r + ',' + g + ',' + b + ')');
+				var $block = $('<div class="block"><span>' + r + '_' + g + '_' + b + '</span></div>');
 
 				if(r === 0 && g === 0 && b === 0) {
 					$block.addClass('black');
 				}
+
+				ctx.beginPath();
+				ctx.fillStyle = 'rgb('+r+','+g+','+b+')';
+				ctx.rect(0,0,64,64);
+				ctx.fill();
+
+				var imgData = canvas.toDataURL('image/png'),
+					img = document.createElement('img');
+
+				img.src = imgData;
+
+				$block.append(img);
 
 				$palete.append($block);
 			}
@@ -102,40 +124,6 @@
 			palete('cyan');
 			palete('green');
 			palete('yellow');
-
-/*			var r = 255;
-			for(var g = 255; g > 0; g -= 85) {
-				for(var b = 0; b <= 255; b += 85) {
-					addBlock(r, g, b);
-				}
-			}
-
-			clearer();
-
-			var b = 255;
-			for(var g = 0; g <= 255; g += 85) {
-				for(var r = 0; r <= 255; r += 85) {
-					addBlock(r, g, b);
-				}
-			}
-
-			clearer();
-
-			var g = 255;
-			for(var r = 0; r <= 255; r += 85) {
-				for(var b = 0; b <= 255; b += 85) {
-					addBlock(r, g, b);
-				}
-			}*/
-
-			/*for(var r = 0; r <= 255; r += 85) {
-				for(var g = 0; g <= 255; g += 85) {
-					for(var b = 0; b <= 255; b += 85) {
-						
-					}
-				}
-			}*/
-
 
 		}());
 	</script>

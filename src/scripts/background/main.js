@@ -1,8 +1,18 @@
 (function() {
-	var installFlag = false;
-
 	chrome.runtime.onInstalled.addListener(function() {
-		installFlag = true;
+		require([
+			'collections/options',
+			'debug'
+		], function(options, debug) {
+			debug.log('Running install...');
+			options.localStorage._clear(); //@TODO: remove, dev only code.
+
+			if(options.length === 0) {
+				//Initial Setup
+				options.resetInitial();
+				options.saveAll();
+			}
+		});
 	});
 
 	require([
@@ -16,10 +26,6 @@
 
 				this.setupPiano();
 
-				if(installFlag) {
-					this.onInstalled;
-				}
-
 				chrome.runtime.onMessage.addListener(this.onMessage);
 
 				$(document).bind('flash-message', this.onFlashMessage);
@@ -32,21 +38,6 @@
 				], function(music, piano) {
 					var audioContext = music.getAudioContext();
 					piano.process(audioContext);
-				});
-			},
-
-			onInstalled: function() {
-				debug.log('Running install...');
-				require([
-					'collections/options'
-				], function(options) {
-					options.localStorage._clear(); //@TODO: remove, dev only code.
-
-					if(options.length === 0) {
-						//Initial Setup
-						options.resetInitial();
-						options.saveAll();
-					}
 				});
 			},
 

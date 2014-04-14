@@ -27,7 +27,7 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		b: 0,
 		a: 0
 	};
-
+	
 	var precision = parseInt((imgWidth * imgHeight) / 10000, 10),
 		segmentX = x * segmentWidth,
 		segmentY = y * segmentHeight,
