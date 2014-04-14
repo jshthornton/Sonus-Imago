@@ -7,8 +7,9 @@
 
 	require([
 		'underscore',
-		'jquery'
-	], function(_, $) {
+		'jquery',
+		'debug'
+	], function(_, $, debug) {
 		var background = {
 			init: function() {
 				_.bindAll(this);
@@ -35,6 +36,7 @@
 			},
 
 			onInstalled: function() {
+				debug.log('Running install...');
 				require([
 					'collections/options'
 				], function(options) {
@@ -50,7 +52,9 @@
 
 			onMessage: function(request, sender, sendResponse) {
 				var _this = this;
-				console.groupCollapsed('Message');
+
+				debug.groupCollapsed('Message');
+				debug.log('Request:', request);
 
 				switch(request.type) {
 					case 'options':
@@ -63,7 +67,7 @@
 									var _options = _.indexBy(options.models, 'id');
 
 									sendResponse(JSON.stringify(_options));
-									console.groupEnd();
+									debug.groupEnd();
 								}
 							});
 						});
@@ -114,9 +118,9 @@
 										var music = moodPack.generateMusic(segments);
 
 										music.onFinished(function() {
-											console.log('Finished');
+											debug.log('Music Finished');
 											sendResponse();
-											console.groupEnd();
+											debug.groupEnd();
 										});
 
 										music.play();

@@ -4,7 +4,8 @@ define([
 	'Class',
 	'underscore',
 	'collections/options',
-], function(require, $, Class, _, options) {
+	'debug'
+], function(require, $, Class, _, options, debug) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -40,13 +41,13 @@ define([
 			img.addEventListener('error', this._onImageError, false);
 			img.src = this._imgSrc;
 
-			console.log('Loading Image: %s', this._imgSrc);
+			debug.log('Loading Image: %s', this._imgSrc);
 
 			img = null;
 		},
 
 		_onImageLoad: function(e) {
-			console.log('Image Loaded');
+			debug.log('Image Loaded');
 
 			var img = e.currentTarget;
 
@@ -77,30 +78,30 @@ define([
 				fauxHeight = newHeight - excessHeight;
 
 			{ //Debug
-				console.groupCollapsed('Image Information');
-				console.log('Element: %o', img);
+				debug.groupCollapsed('Image Information');
+				debug.log('Element: %o', img);
 
-				console.groupCollapsed('Raw');
-				console.log('Width: %i', imgWidth);
-				console.log('Height: %i', imgHeight);
-				console.groupEnd();
+				debug.groupCollapsed('Raw');
+				debug.log('Width: %i', imgWidth);
+				debug.log('Height: %i', imgHeight);
+				debug.groupEnd();
 
-				console.groupCollapsed('Excess');
-				console.log('Width: %i', excessWidth);
-				console.log('Height: %i', excessHeight);
-				console.groupEnd();
+				debug.groupCollapsed('Excess');
+				debug.log('Width: %i', excessWidth);
+				debug.log('Height: %i', excessHeight);
+				debug.groupEnd();
 
-				console.groupCollapsed('Offset');
-				console.log('X: %i', offsetX);
-				console.log('Y: %i', offsetY);
-				console.groupEnd();
+				debug.groupCollapsed('Offset');
+				debug.log('X: %i', offsetX);
+				debug.log('Y: %i', offsetY);
+				debug.groupEnd();
 
-				console.groupCollapsed('Faux');
-				console.log('Width: %i', fauxWidth);
-				console.log('Height: %i', fauxHeight);
-				console.groupEnd();
+				debug.groupCollapsed('Faux');
+				debug.log('Width: %i', fauxWidth);
+				debug.log('Height: %i', fauxHeight);
+				debug.groupEnd();
 
-				console.groupEnd();
+				debug.groupEnd();
 			}
 
 			ctx.drawImage(img, 0, 0, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
@@ -119,20 +120,18 @@ define([
 				segmentWidth = imgWidth / this.cols,
 				segmentHeight = imgHeight / this.rows;
 
-			console.groupCollapsed('Image Data (Canvas Export)');
-			console.log('Width: %i', imgWidth);
-			console.log('Height: %i', imgHeight);
-			console.log('Data length: %i', imgData.data.length);
-			console.log('Data: %O', imgData.data); //Very slow, only use if needed for debugging
-			console.groupEnd();
+			debug.groupCollapsed('Image Data (Canvas Export)');
+			debug.log('Width: %i', imgWidth);
+			debug.log('Height: %i', imgHeight);
+			debug.log('Data length: %i', imgData.data.length);
+			debug.log('Data: %O', imgData.data); //Very slow, only use if needed for debugging
+			debug.groupEnd();
 
-			console.groupCollapsed('Segment');
-			console.log('Width: %i', segmentWidth);
-			console.log('Height: %i', segmentHeight);
+			debug.groupCollapsed('Segment');
+			debug.log('Width: %i', segmentWidth);
+			debug.log('Height: %i', segmentHeight);
 
 			for(var y = 0; y < this.rows; y++) {
-				//console.group('y: %i', y);
-
 				for(var x = 0; x < this.cols; x++) {
 					var worker = new Worker(workerURL);
 
@@ -149,21 +148,13 @@ define([
 						segmentHeight: segmentHeight
 					});
 				} //column
-
-				//console.groupEnd();
 			} // row
 
-			//console.log(segments);
-
-			console.groupEnd();
-
-			//console.log(data);
-
-			//return segments;
+			debug.groupEnd();
 		},
 
 		_onImageError: function(e) {
-			console.log('Image failed to load %O', e);
+			debug.log('Image failed to load %O', e);
 
 			$(document).trigger('flash-message', {
 				msg: 'Image failed to load',
@@ -176,13 +167,10 @@ define([
 			if(data.id === 'segment') {
 				var _this = this;
 				
-				//console.log(this.segments, this);
-				//console.log(data.segment);
 				this.segments[data.x + (data.y * this.cols)] = data.segment;
 				this.trueLength++;
 
 				if(this.trueLength === this.cols * this.rows) {
-					//console.log(this.segments);
 					var segments = JSON.stringify(this.segments);
 					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 						chrome.tabs.sendMessage(tabs[0].id, {
