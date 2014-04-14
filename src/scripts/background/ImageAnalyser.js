@@ -4,8 +4,9 @@ define([
 	'Class',
 	'underscore',
 	'collections/options',
-	'debug'
-], function(require, $, Class, _, options, debug) {
+	'debug',
+	'config'
+], function(require, $, Class, _, options, debug, config) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -171,15 +172,17 @@ define([
 				this.trueLength++;
 
 				if(this.trueLength === this.cols * this.rows) {
-					var segments = JSON.stringify(this.segments);
-					chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-						chrome.tabs.sendMessage(tabs[0].id, {
-							cmd: 'makeImage',
-							segments: segments,
-							numCols: _this.cols,
-							numRows: _this.rows
+					if(config.DEBUG) {
+						var segments = JSON.stringify(this.segments);
+						chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+							chrome.tabs.sendMessage(tabs[0].id, {
+								cmd: 'makeImage',
+								segments: segments,
+								numCols: _this.cols,
+								numRows: _this.rows
+							});
 						});
-					});
+					}
 
 					this._def.resolve(this.segments);
 				}
