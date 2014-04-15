@@ -61,15 +61,15 @@ define([
 				'crotchet|D5'
 			], //Red 1
 			'170_0_0': [
-				'crotchet|C3',
-				'crotchet|E3',
-				'crotchet|G3',
-				'crotchet|rest'
+				'crotchet|D2|50',
+				'crotchet|F2|50',
+				'crotchet|D4|70',
+				'crotchet|D5'
 			], //Red 1
 			'85_0_0': [
-				'crotchet|C2',
-				'crotchet|E2',
-				'crotchet|G2',
+				'crotchet|D2|40',
+				'crotchet|F2|40',
+				'crotchet|A2|40',
 				'crotchet|rest'
 			], //Red 1
 
@@ -86,37 +86,37 @@ define([
 				'crotchet|A4|50'
 			], //Red 2
 			'85_28_28': [
-				'crotchet|C2',
-				'crotchet|D2',
-				'crotchet|E2',
-				'crotchet|G2'
+				'crotchet|D2|40',
+				'crotchet|A2|40',
+				'crotchet|D5|50',
+				'crotchet|F4|50'
 			], //Red 2
 
 			'85_56_56': [
-				'crotchet|C2',
-				'crotchet|D2',
-				'crotchet|E2',
-				'crotchet|Gb2'
+				'crotchet|D2|40',
+				'crotchet|A2|40',
+				'crotchet|D4|50',
+				'crotchet|F4|50'
 			], //Red 3
 
 			//Magentas
 			'255_170_255': [
-				'crotchet|C6',
-				'crotchet|E6',
-				'crotchet|G6',
+				'crotchet|Eb3|20',
+				'crotchet|Bb2|25',
+				'crotchet|G5|80',
 				'crotchet|rest'
 			], //Magenta 1
 			'255_85_255': [
-				'crotchet|C5',
-				'crotchet|E5',
-				'crotchet|G5',
-				'crotchet|rest'
+				'crotchet|Eb2|35',
+				'crotchet|Bb2|35',
+				'crotchet|G5|90',
+				'crotchet|Bb5|90'
 			], //Magenta 1
 			'255_0_255': [
-				'crotchet|C4',
-				'crotchet|E4',
+				'crotchet|Eb2',
+				'crotchet|Bb2',
 				'crotchet|G4',
-				'crotchet|rest'
+				'crotchet|Eb5'
 			], //Magenta 1
 			'170_0_170': [
 				'crotchet|C3',
