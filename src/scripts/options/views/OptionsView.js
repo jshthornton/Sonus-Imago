@@ -3,8 +3,9 @@ define([
 	'Backbone',
 	'text!./templates/Options.jst',
 	'collections/options',
-	'collections/moodPacks'
-], function(_, Backbone, template, options, moodPacks) {
+	'collections/moodPacks',
+	'debug'
+], function(_, Backbone, template, options, moodPacks, debug) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -17,7 +18,7 @@ define([
 		//$rowRange
 
 		initialize: function() {
-			console.log(options)
+			debug.log('Loaded Options:', options);
 			this.render();
 		},
 
@@ -48,7 +49,7 @@ define([
 			'change .grid-input': 'onGridChange',
 			'change .volume': 'onVolumeChange',
 			'change #mood-pack': 'onMoodPackChange',
-			'keydown #trigger-key': 'onTriggerKeyKeydown',
+			'change .input-group-key-binding': 'onKeyBindingChange',
 			'submit #options': 'onSubmit',
 			'reset #options': 'onReset'
 		},
@@ -101,27 +102,38 @@ define([
 
 		},
 
-		onTriggerKeyKeydown: _.debounce(function(e) {
-			if(e.currentTarget !== document.activeElement) return;
+		onKeyBindingChange: function(e) {
+			var node = e.target,
+				name = node.name,
+				nameDT = name.split('.'),
+				key = nameDT[0],
+				prop = nameDT[1],
+				option = options.get(key);
 
-			var triggerKey = options.get('triggerKey');
+			if(prop === 'shift' || prop === 'ctrl' || prop === 'alt') {
+				var checked = node.checked;
+				
+				option.set(prop, checked);
+			} else if(prop === 'keyCode') {
+				var val = parseInt(node.value, 10);
 
-			triggerKey.set('keyCode', e.keyCode);
-			triggerKey.set('ctrl', e.ctrlKey);
-			triggerKey.set('shift', e.shiftKey);
-			triggerKey.set('alt', e.altKey);
-
-			e.currentTarget.value = triggerKey.getPrintable();
+				if(val === -1) {
+					option.set('keyCode', null);
+				} else {
+					option.set('keyCode', val);
+				}
+			}
 
 			this.$status
 				.removeClass('saved')
 				.addClass('unsaved');
-		}, 500),
+		},
 
 		onSubmit: function(e) {
 			e.preventDefault();
 
 			options.saveAll();
+			debug.log('Options Saved:', options);
 
 			this.$status
 				.removeClass('unsaved')

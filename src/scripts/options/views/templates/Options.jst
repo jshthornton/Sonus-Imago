@@ -36,14 +36,93 @@
 
 	<section class="module">
 		<h2>Key bindings</h2>
+		<% 
+		var keyCode,
+			option; 
+		%>
+		<div class="input-group-key-binding">
+			<h3>Start / Stop</h3>
+			<% option = it.options.get('triggerKey'); %>
 
-		<p class="key-binding-help">
-			To change the key binding just focus the text box then press the cominbation of keys you wish to use (including shift, alt, and ctrl).
-		</p>
+			<div class="field field-modifier">
+				<label for="trigger-key-shift">Shift</label>
+				<input type="checkbox" id="trigger-key-shift" name="triggerKey.shift" value="yes" <%= option.get('shift') ? 'checked' : '' %>>
+			</div>
 
-		<div class="input-group">
-			<label for="trigger-key">Start / Stop</label>
-			<input id="trigger-key" type="text" name="trigger-key" value="<%= it.options.get('triggerKey').getPrintable() %>">
+			<div class="field field-modifier">
+				<label for="trigger-key-ctrl">Ctrl</label>
+				<input type="checkbox" id="trigger-key-ctrl" name="triggerKey.ctrl" value="yes" <%= option.get('ctrl') ? 'checked' : '' %>>
+			</div>
+
+			<div class="field field-modifier">
+				<label for="trigger-key-alt">Alt</label>
+				<input type="checkbox" id="trigger-key-alt" name="triggerKey.alt" value="yes" <%= option.get('alt') ? 'checked' : '' %>>
+			</div>
+
+			<div class="field field-char">
+				<% keyCode = option.get('keyCode'); %>
+				<label for="trigger-key-char">Character</label>
+				<select id="trigger-key-char" name="triggerKey.keyCode">
+					<option value="-1" <%= keyCode === null ? 'selected' : '' %>>none</option>
+
+					<optgroup label="A to Z">
+						<option value="65" <%= keyCode === 65 ? 'selected' : '' %>>A</option>
+						<option value="66" <%= keyCode === 66 ? 'selected' : '' %>>B</option>
+						<option value="67" <%= keyCode === 67 ? 'selected' : '' %>>C</option>
+						<option value="68" <%= keyCode === 68 ? 'selected' : '' %>>D</option>
+						<option value="69" <%= keyCode === 69 ? 'selected' : '' %>>E</option>
+						<option value="70" <%= keyCode === 70 ? 'selected' : '' %>>F</option>
+						<option value="71" <%= keyCode === 71 ? 'selected' : '' %>>G</option>
+						<option value="72" <%= keyCode === 72 ? 'selected' : '' %>>H</option>
+						<option value="73" <%= keyCode === 73 ? 'selected' : '' %>>I</option>
+						<option value="74" <%= keyCode === 74 ? 'selected' : '' %>>J</option>
+						<option value="75" <%= keyCode === 75 ? 'selected' : '' %>>K</option>
+						<option value="76" <%= keyCode === 76 ? 'selected' : '' %>>L</option>
+						<option value="77" <%= keyCode === 77 ? 'selected' : '' %>>M</option>
+						<option value="78" <%= keyCode === 78 ? 'selected' : '' %>>N</option>
+						<option value="79" <%= keyCode === 79 ? 'selected' : '' %>>O</option>
+						<option value="80" <%= keyCode === 80 ? 'selected' : '' %>>P</option>
+						<option value="81" <%= keyCode === 81 ? 'selected' : '' %>>Q</option>
+						<option value="82" <%= keyCode === 82 ? 'selected' : '' %>>R</option>
+						<option value="83" <%= keyCode === 83 ? 'selected' : '' %>>S</option>
+						<option value="84" <%= keyCode === 84 ? 'selected' : '' %>>T</option>
+						<option value="85" <%= keyCode === 85 ? 'selected' : '' %>>U</option>
+						<option value="86" <%= keyCode === 86 ? 'selected' : '' %>>V</option>
+						<option value="87" <%= keyCode === 87 ? 'selected' : '' %>>W</option>
+						<option value="88" <%= keyCode === 88 ? 'selected' : '' %>>X</option>
+						<option value="89" <%= keyCode === 89 ? 'selected' : '' %>>Y</option>
+						<option value="90" <%= keyCode === 90 ? 'selected' : '' %>>Z</option>
+					</optgroup>
+
+					<optgroup label="0 to 9">
+						<option value="48" <%= keyCode === 48 ? 'selected' : '' %>>0</option>
+						<option value="49" <%= keyCode === 49 ? 'selected' : '' %>>1</option>
+						<option value="50" <%= keyCode === 50 ? 'selected' : '' %>>2</option>
+						<option value="51" <%= keyCode === 51 ? 'selected' : '' %>>3</option>
+						<option value="52" <%= keyCode === 52 ? 'selected' : '' %>>4</option>
+						<option value="53" <%= keyCode === 53 ? 'selected' : '' %>>5</option>
+						<option value="54" <%= keyCode === 54 ? 'selected' : '' %>>6</option>
+						<option value="55" <%= keyCode === 55 ? 'selected' : '' %>>7</option>
+						<option value="56" <%= keyCode === 56 ? 'selected' : '' %>>8</option>
+						<option value="57" <%= keyCode === 57 ? 'selected' : '' %>>9</option>
+					</optgroup>
+
+					<optgroup label="Function keys">
+						<option value="112" <%= keyCode === 112 ? 'selected' : '' %>>F1</option>
+						<option value="113" <%= keyCode === 113 ? 'selected' : '' %>>F2</option>
+						<option value="114" <%= keyCode === 114 ? 'selected' : '' %>>F3</option>
+						<option value="115" <%= keyCode === 115 ? 'selected' : '' %>>F4</option>
+						<option value="116" <%= keyCode === 116 ? 'selected' : '' %>>F5</option>
+						<option value="117" <%= keyCode === 117 ? 'selected' : '' %>>F6</option>
+						<option value="118" <%= keyCode === 118 ? 'selected' : '' %>>F7</option>
+						<option value="119" <%= keyCode === 119 ? 'selected' : '' %>>F8</option>
+						<option value="120" <%= keyCode === 120 ? 'selected' : '' %>>F9</option>
+						<option value="121" <%= keyCode === 121 ? 'selected' : '' %>>F10</option>
+						<option value="122" <%= keyCode === 122 ? 'selected' : '' %>>F11</option>
+						<option value="123" <%= keyCode === 123 ? 'selected' : '' %>>F12</option>
+					</optgroup>
+				</select>
+			</div>
 		</div>
 	</section>
 
