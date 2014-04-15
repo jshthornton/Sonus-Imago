@@ -148,11 +148,18 @@ h1 {
 }
 
 /* line 96, ../../sass/options.scss */
+.key-binding-help {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+/* line 102, ../../sass/options.scss */
 .ctas {
   text-align: center;
 }
 
-/* line 100, ../../sass/options.scss */
+/* line 106, ../../sass/options.scss */
 #save {
   background: #7bcb34;
   border: 0;
@@ -167,7 +174,7 @@ h1 {
   margin-right: 30px;
 }
 
-/* line 114, ../../sass/options.scss */
+/* line 120, ../../sass/options.scss */
 #reset {
   background: #676767;
   border: 0;
@@ -181,7 +188,7 @@ h1 {
   margin: 0;
 }
 
-/* line 127, ../../sass/options.scss */
+/* line 133, ../../sass/options.scss */
 #status.unsaved {
   height: 20px;
   background-color: red;
