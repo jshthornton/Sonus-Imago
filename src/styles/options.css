@@ -59,19 +59,129 @@ table {
   border-spacing: 0;
 }
 
-/* line 3, ../../sass/options.scss */
+/* line 4, ../../sass/options.scss */
 body {
-  background-color: #dedeed;
+  background: url(/images/background.jpg);
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  color: #424242;
 }
 
-/* line 7, ../../sass/options.scss */
+/* line 10, ../../sass/options.scss */
+h1 {
+  color: #1b4579;
+  font-size: 54px;
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+/* line 17, ../../sass/options.scss */
 #container {
-  width: 400px;
+  width: 505px;
   margin: 0 auto;
-  background-color: #fff;
+  margin-top: 90px;
+}
+/* line 22, ../../sass/options.scss */
+#container .module {
+  background: #fff;
+  margin-bottom: 28px;
+  padding: 20px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 3px 0px 0px #d1d1d1;
+  box-shadow: 0px 3px 0px 0px #d1d1d1;
+}
+/* line 31, ../../sass/options.scss */
+#container .module h2 {
+  font-size: 20px;
+  color: #295fa2;
+  border-bottom: 1px #c6c6c6 dashed;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+/* line 39, ../../sass/options.scss */
+#container .module .input-group {
+  overflow: hidden;
+  *zoom: 1;
+}
+/* line 42, ../../sass/options.scss */
+#container .module .input-group label {
+  display: block;
+  width: 100px;
+  float: left;
+  text-align: right;
+  margin: 11px 0;
+  margin-right: 20px;
+}
+/* line 51, ../../sass/options.scss */
+#container .module .input-group input {
+  display: block;
+  float: left;
+}
+/* line 55, ../../sass/options.scss */
+#container .module .input-group input[type="range"] {
+  width: 250px;
+  margin: 9px 0;
+}
+/* line 63, ../../sass/options.scss */
+#container .module .input-group input[type="range"]::-webkit-slider-runnable-track {
+  background: #47a56c;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 73, ../../sass/options.scss */
+#container .module .input-group input[type="range"] + input {
+  width: 38px;
+  margin-left: 25px;
+}
+/* line 79, ../../sass/options.scss */
+#container .module .input-group input[type="text"], #container .module .input-group input[type="number"] {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px #e0e0e0 solid;
+  color: #424242;
+  padding: 8px 15px;
+}
+/* line 88, ../../sass/options.scss */
+#container .module .input-group select {
+  margin: 10px 0;
+  border: 0;
 }
 
-/* line 13, ../../sass/options.scss */
+/* line 96, ../../sass/options.scss */
+.ctas {
+  text-align: center;
+}
+
+/* line 100, ../../sass/options.scss */
+#save {
+  background: #7bcb34;
+  border: 0;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 4px 0px 0px #6da13d;
+  box-shadow: 0px 4px 0px 0px #6da13d;
+  color: #fff;
+  font-size: 20px;
+  padding: 15px 40px;
+  margin: 0;
+  margin-right: 30px;
+}
+
+/* line 114, ../../sass/options.scss */
+#reset {
+  background: #676767;
+  border: 0;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 4px 0px 0px #484848;
+  box-shadow: 0px 4px 0px 0px #484848;
+  color: #fff;
+  font-size: 20px;
+  padding: 15px 40px;
+  margin: 0;
+}
+
+/* line 127, ../../sass/options.scss */
 #status.unsaved {
   height: 20px;
   background-color: red;

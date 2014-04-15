@@ -1,39 +1,50 @@
 <h1>Options</h1>
 <form id="options">
-	<section>
-		<h2>Image</h2>
+	<section class="module">
+		<h2>Image Grid</h2>
 
-		<h3>Grid</h3>
-		<label for="grid-column">Column</label>
-		<input class="grid-input" id="grid-column" type="range" name="grid-column" min="4" max="6" value="<%= it.options.get('gridColumn').get('value') %>">
-
-		<label for="grid-row">Row</label>
-		<input class="grid-input" id="grid-row" type="range" name="grid-row" min="4" max="6" value="<%= it.options.get('gridRow').get('value') %>">
+		<div class="input-group">
+			<label for="grid-column">Column</label>
+			<input class="grid-input grid-column" id="grid-column-range" type="range" name="grid-column" min="4" max="6" value="<%= it.options.get('gridColumn').get('value') %>" aria-hidden="true">
+			<input class="grid-input grid-column" type="number" id="grid-column" value="<%= it.options.get('gridColumn').get('value') %>" required pattern="^[4-6]$">
+		</div>
+		<div class="input-group">
+			<label for="grid-row">Row</label>
+			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="6" value="<%= it.options.get('gridRow').get('value') %>" aria-hidden="true">
+			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.options.get('gridColumn').get('value') %>" required pattern="^[4-6]$">
+		</div>
 	</section>
 
-	<section>
+	<section class="module">
 		<h2>Sound</h2>
 
-		<label for="volume">Volume</label>
-		<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.options.get('volume').get('value') %>" aria-hidden="true">
-		<input class="volume" type="number" id="volume" value="<%= it.options.get('volume').get('value') %>" required pattern="^[0-9][0-9]?$|^100$">
+		<div class="input-group">
+			<label for="volume">Volume</label>
+			<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.options.get('volume').get('value') %>" aria-hidden="true">
+			<input class="volume" type="number" id="volume" value="<%= it.options.get('volume').get('value') %>" required pattern="^[0-9][0-9]?$|^100$">
+		</div>
 
-		<label for="mood-pack">Mood pack</label>
-		<select id="mood-pack">
-			<% it.moodPacks.forEach(function(moodPack) { %>
-				<option value="<%= moodPack.get('id') %>"><%= moodPack.get('name') %></option>
-			<% }) %>
-		</select>
+		<div class="input-group">
+			<label for="mood-pack">Mood pack</label>
+			<select id="mood-pack">
+				<% it.moodPacks.forEach(function(moodPack) { %>
+					<option value="<%= moodPack.get('id') %>"><%= moodPack.get('name') %></option>
+				<% }) %>
+			</select>
+		</div>
 	</section>
 
-	<section>
+	<section class="module">
 		<h2>Key bindings</h2>
-		<label for="trigger-key">Start / Stop</label>
-		<input id="trigger-key" type="text" name="trigger-key" value="<%= it.options.get('triggerKey').getPrintable() %>">
+
+		<div class="input-group">
+			<label for="trigger-key">Start / Stop</label>
+			<input id="trigger-key" type="text" name="trigger-key" value="<%= it.options.get('triggerKey').getPrintable() %>">
+		</div>
 	</section>
 
-	<section>
-		<button id="save" type="submit">Save</button>
+	<section class="ctas">
+		<button id="save" type="submit">Save Changes</button>
 		<button id="reset" type="reset">Reset</button>
 		<div id="status"></div>
 	</section>

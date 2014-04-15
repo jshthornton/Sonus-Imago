@@ -11,6 +11,10 @@ define([
 		//$volumeText
 		//$volumeRange
 		//$status
+		//$columnText
+		//$columnRange
+		//$rowText
+		//$rowRange
 
 		initialize: function() {
 			console.log(options)
@@ -28,6 +32,12 @@ define([
 			this.$volumeText = $('#volume', $tmpl);
 			this.$volumeRange = $('#volume-range', $tmpl);
 
+			this.$columnText = $('#grid-column', $tmpl);
+			this.$columnRange = $('#grid-column-range', $tmpl);
+
+			this.$rowText = $('#grid-row', $tmpl);
+			this.$rowRange = $('#grid-row-range', $tmpl);
+
 			this.$status = $('#status', $tmpl);
 
 			$('main', this.$el).html($tmpl);
@@ -43,16 +53,31 @@ define([
 			'reset #options': 'onReset'
 		},
 
-		onGridChange: function(e) {
+		onGridChange: _.throttle(function(e) {
 			var input = e.currentTarget,
-				value = input.valueAsNumber,
-				optionId = (input.name === 'grid-column') ? 'gridColumn' : 'gridRow',
+				val = input.valueAsNumber,
+				which = (input.name === 'grid-column' || input.id === 'grid-column') ? 'col' : 'row',
+				optionId = (which === 'col') ? 'gridColumn' : 'gridRow',
 				gridOption = options.get(optionId);
 
-			gridOption.set('value', value);
+			if(which === 'col') {
+				if(this.$columnText[0] !== e.currentTarget) {
+					this.$columnText[0].value = val;
+				} else if(this.$columnRange[0] !== e.currentTarget) {
+					this.$columnRange[0].value = val;
+				}
+			} else {
+				if(this.$rowText[0] !== e.currentTarget) {
+					this.$rowText[0].value = val;
+				} else if(this.$rowRange[0] !== e.currentTarget) {
+					this.$rowRange[0].value = val;
+				}
+			}
+
+			gridOption.set('value', val);
 
 			this.$status.addClass('unsaved');
-		},
+		}, 100),
 
 		onVolumeChange: _.throttle(function(e) {
 			var val = e.currentTarget.value;
@@ -66,7 +91,7 @@ define([
 			options.get('volume').set('value', val);
 
 			this.$status.addClass('unsaved');
-		}, 200),
+		}, 100),
 
 		onMoodPackChange: function() {
 
