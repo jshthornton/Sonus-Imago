@@ -28,7 +28,8 @@
 	],
 
 	"web_accessible_resources": [
-		"scripts/*"
+		"scripts/*",
+		"images/*"
 	],
 	"options_page": "options.html",
 

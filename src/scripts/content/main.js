@@ -62,7 +62,8 @@ require([
 				});
 			} catch(e) {
 				var flshMsg = new FlashMessageView({
-					msg: 'Unable to fetch Sonus Imago options'
+					msg: 'Unable to fetch Sonus Imago options',
+					type: 'error'
 				});
 				flshMsg = null;
 			}
@@ -104,7 +105,8 @@ require([
 					});
 				} catch(e) {
 					var flshMsg = new FlashMessageView({
-						msg: 'Unable to harmonise image, reason unknown'
+						msg: 'Unable to harmonise image, reason unknown',
+						type: 'error'
 					});
 					flshMsg = null;
 				}

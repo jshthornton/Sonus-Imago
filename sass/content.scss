@@ -2,33 +2,42 @@
 	position: fixed;
 	top: 0;
 	right: 0;
-	width: 320px;
+	width: 505px;
 	z-index: 999999;
 
 	.SI_FlashMessage {
 		position: relative;
-		-webkit-border-radius: 10px;
-		border-radius: 10px;
-		font-family: Tahoma, Geneva, sans-serif;
 		font-size: 14px;
-		padding: 10px;
-		min-height: 50px;
+		padding: 20px 27px;
+		padding-left: 55px;
 		margin: 10px;
 
-		-webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
-		box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+		background: {
+			color: #fff;
+			repeat: no-repeat;
+			position: 20px center;
+		}
+
+		-webkit-border-radius: 5px;
+		border-radius: 5px;
+		-webkit-box-shadow: 0px 3px 0px 0px rgba(209, 209, 209, 1);
+		box-shadow: 0px 3px 0px 0px rgba(209, 209, 209, 1);
 
 		&.SI_FlashMessage_type_notice {
-			background-color: rgb(84, 203, 247);
+			background-image: url('chrome-extension://__MSG_@@extension_id__/images/notice.png');
 		}
 
 		&.SI_FlashMessage_type_error {
-			background-color: #f93e3e;
+			background-image: url('chrome-extension://__MSG_@@extension_id__/images/error.png');
 		}
 
 
 		.SI_FlashMessage_msg {
-			color: #000;
+			font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+			font-size: 20px;
+			color: #295fa2;
+			margin: 0;
+			padding: 0;
 		}
 
 		.SI_FlashMessage_dismiss {
@@ -36,7 +45,7 @@
 			position: absolute;
 			top: 10px;
 			right: 10px;
-			background-color: red;
+			background: url('chrome-extension://__MSG_@@extension_id__/images/dismiss.png') no-repeat center;
 			border: 0;
 			width: 20px;
 			height: 20px;
