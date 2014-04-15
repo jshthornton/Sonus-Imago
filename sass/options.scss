@@ -130,7 +130,20 @@ h1 {
 	margin: 0;
 }
 
-#status.unsaved {
-	height: 20px;
-	background-color: red;
+#status {
+	&.saved {
+		> .saved {
+			display: block;
+		}
+	}
+
+	&.unsaved {
+		> .unsaved {
+			display: block;
+		}
+	}
+
+	> p {
+		display: none;
+	}
 }

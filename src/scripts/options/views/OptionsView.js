@@ -76,7 +76,9 @@ define([
 
 			gridOption.set('value', val);
 
-			this.$status.addClass('unsaved');
+			this.$status
+				.removeClass('saved')
+				.addClass('unsaved');
 		}, 100),
 
 		onVolumeChange: _.throttle(function(e) {
@@ -90,7 +92,9 @@ define([
 
 			options.get('volume').set('value', val);
 
-			this.$status.addClass('unsaved');
+			this.$status
+				.removeClass('saved')
+				.addClass('unsaved');
 		}, 100),
 
 		onMoodPackChange: function() {
@@ -98,6 +102,8 @@ define([
 		},
 
 		onTriggerKeyKeydown: _.debounce(function(e) {
+			if(e.currentTarget !== document.activeElement) return;
+
 			var triggerKey = options.get('triggerKey');
 
 			triggerKey.set('keyCode', e.keyCode);
@@ -107,7 +113,9 @@ define([
 
 			e.currentTarget.value = triggerKey.getPrintable();
 
-			this.$status.addClass('unsaved');
+			this.$status
+				.removeClass('saved')
+				.addClass('unsaved');
 		}, 500),
 
 		onSubmit: function(e) {
@@ -115,7 +123,9 @@ define([
 
 			options.saveAll();
 
-			this.$status.removeClass('unsaved');
+			this.$status
+				.removeClass('unsaved')
+				.addClass('saved');
 		},
 
 		onReset: function(e) {
@@ -125,7 +135,9 @@ define([
 
 			this.render();
 
-			this.$status.addClass('unsaved');
+			this.$status
+				.removeClass('saved')
+				.addClass('unsaved');
 		}
 	});
 
