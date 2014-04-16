@@ -16,7 +16,7 @@ self.addEventListener('message', function(e) {
 			break;
 		default:
 			self.postMessage('Unknown command: ' + data.msg);
-	};
+	}
 }, false);
 
 function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHeight) {

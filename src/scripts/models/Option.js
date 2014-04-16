@@ -22,13 +22,13 @@ define([
 					alt: false,
 					ctrl: false
 				})
-			}
+			};
 		},
 
 		parse: function(resp) {
 			_.forOwn(resp, function(prop, key) {
-				if(_.isObject(prop) && prop['__name__']) {
-					var model = prop['__name__'];
+				if(_.isObject(prop) && prop.__name__) {
+					var model = prop.__name__;
 
 					if(model === 'KeyBinding') {
 						resp[key] = new KeyBinding(prop);

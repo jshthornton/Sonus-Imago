@@ -9,7 +9,7 @@ define([
 				shift: false,
 				alt: false,
 				ctrl: false
-			}
+			};
 		}
 	});
 	

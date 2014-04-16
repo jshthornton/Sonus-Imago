@@ -22,7 +22,7 @@ define([
 			this.trueLength = 0;
 			this._def = new $.Deferred();
 
-			this.cols = option.get('gridColumn'),
+			this.cols = option.get('gridColumn');
 			this.rows = option.get('gridRow');
 		},
 
@@ -133,10 +133,12 @@ define([
 
 
 			var workerPool = [],
-				poolSize = Math.min(config.THREAD_COUNT, this.cols * this.rows);
+				worker,
+				poolSize = Math.min(config.THREAD_COUNT, this.cols * this.rows),
+				i;
 
-			for(var i = 0; i < poolSize; i++) {
-				var worker = new Worker(workerURL);
+			for(i = 0; i < poolSize; i++) {
+				worker = new Worker(workerURL);
 				worker.addEventListener('message', this._onWorkerMessage, false);
 
 				workerPool.push(worker);
@@ -146,7 +148,7 @@ define([
 			var workerIndex = 0;
 			for(var y = 0; y < this.rows; y++) {
 				for(var x = 0; x < this.cols; x++) {
-					var worker = workerPool[workerIndex];
+					worker = workerPool[workerIndex];
 
 					worker.postMessage({
 						cmd: 'doSegment',
@@ -159,13 +161,15 @@ define([
 						segmentHeight: segmentHeight
 					});
 
+					worker = null;
+
 					workerIndex++;
 					workerIndex = workerIndex % poolSize;
 				} //column
 			} // row
 
-			for(var i = 0; i < poolSize; i++) {
-				var worker = workerPool[i];
+			for(i = 0; i < poolSize; i++) {
+				worker = workerPool[i];
 				worker.postMessage({
 					cmd: 'end'
 				});

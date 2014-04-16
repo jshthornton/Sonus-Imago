@@ -102,7 +102,7 @@ require([
 					}, function(resp) {
 						//console.dir(resp);
 					});
-				} catch(e) {
+				} catch(ex) {
 					var flshMsg = new FlashMessageView({
 						msg: 'Unable to harmonise image, reason unknown',
 						type: 'error'
@@ -170,7 +170,7 @@ require([
 
 						$(document.body).prepend($container);
 						break;
-				};
+				}
 			}
 		}
 	};
