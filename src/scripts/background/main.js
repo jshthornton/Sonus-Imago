@@ -72,6 +72,8 @@
 									var moodPackId = option.get('moodPack'),
 										moodPack = moodPacks.get(moodPackId);
 
+									console.log(moodPackId);
+
 									if(music.get('playing') === true) {
 										music.stop(true);
 										return;

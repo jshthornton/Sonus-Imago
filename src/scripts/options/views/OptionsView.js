@@ -18,6 +18,7 @@ define([
 
 		initialize: function() {
 			console.log('Loaded Options:', option);
+			console.log('Loaded Mood Packs:', moodPacks);
 
 			option.on('change', function() {
 				this.$status
@@ -105,8 +106,8 @@ define([
 			option.set('volume', val);
 		}, 100),
 
-		onMoodPackChange: function() {
-
+		onMoodPackChange: function(e) {
+			option.set('moodPack', e.target.value);
 		},
 
 		onKeyBindingChange: function(e) {

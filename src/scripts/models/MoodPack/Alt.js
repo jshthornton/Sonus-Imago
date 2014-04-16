@@ -4,119 +4,119 @@ define([
 	'./_Base',
 	'libs/music'
 ], function(Backbone, _, MoodPack, music) {
-	var GB = MoodPack.extend({
+	var Alt = MoodPack.extend({
 		defaults: {
-			id: 'gb',
-			name: 'Great Britain',
+			id: 'alt',
+			name: 'Alternative',
 		},
 
 		_palete: {
 			//Shades
 			'255_255_255': [
 				//White
-				'crotchet|C2|20',
-				'crotchet|E5|50',
-				'crotchet|G5|50',
+				'crotchet|C6',
+				'crotchet|rest',
+				'crotchet|rest',
 				'crotchet|rest'
 			], 
 			'170_170_170': [
 				//Light Grey
-				'crotchet|C2|40',
-				'crotchet|G2|40',
-				'crotchet|Eb5',
-				'crotchet|rest'
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
+				'crotchet|C3'
 			],
 			'85_85_85': [
 				//Dark Grey
-				'crotchet|C2|40',
-				'crotchet|G2|40',
-				'crotchet|Eb4|70',
-				'crotchet|C5|70'
+				'crotchet|C5',
+				'crotchet|G5',
+				'crotchet|C3',
+				'crotchet|Eb5'
 			],
 			'0_0_0': [
 				//Black
-				'crotchet|C2|40',
-				'crotchet|G2|40',
+				'crotchet|C2',
+				'crotchet|C3',
 				'crotchet|rest',
 				'crotchet|rest'
 			],
 
 			//Reds
 			'255_170_170': [
-				'crotchet|D2|25',
-				'crotchet|A2|25',
-				'crotchet|Gb5|80',
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
 				'crotchet|rest'
 			], //Red 1
 			'255_85_85': [
-				'crotchet|D2|35',
-				'crotchet|A2|35',
-				'crotchet|Gb5|90',
-				'crotchet|A5|90'
+				'crotchet|C5',
+				'crotchet|E5',
+				'crotchet|G5',
+				'crotchet|rest'
 			], //Red 1
 			'255_0_0': [
-				'crotchet|D2',
-				'crotchet|A2',
-				'crotchet|Gb4',
-				'crotchet|D5'
+				'crotchet|C4',
+				'crotchet|E4',
+				'crotchet|G4',
+				'crotchet|rest'
 			], //Red 1
 			'170_0_0': [
-				'crotchet|D2|50',
-				'crotchet|F2|50',
-				'crotchet|D4|70',
-				'crotchet|D5'
+				'crotchet|C3',
+				'crotchet|E3',
+				'crotchet|G3',
+				'crotchet|rest'
 			], //Red 1
 			'85_0_0': [
-				'crotchet|D2|40',
-				'crotchet|F2|40',
-				'crotchet|A2|40',
+				'crotchet|C2',
+				'crotchet|E2',
+				'crotchet|G2',
 				'crotchet|rest'
 			], //Red 1
 
 			'170_113_113': [
-				'crotchet|F2|40',
-				'crotchet|A2|40',
-				'crotchet|D4|50',
-				'crotchet|rest'
+				'crotchet|C4',
+				'crotchet|D4',
+				'crotchet|E4',
+				'crotchet|G4'
 			], //Red 2
 			'170_56_56': [
-				'crotchet|D2|40',
-				'crotchet|A2|40',
-				'crotchet|F4|50',
-				'crotchet|A4|50'
+				'crotchet|C3',
+				'crotchet|D3',
+				'crotchet|E3',
+				'crotchet|G3'
 			], //Red 2
 			'85_28_28': [
-				'crotchet|D2|40',
-				'crotchet|A2|40',
-				'crotchet|D5|50',
-				'crotchet|F4|50'
+				'crotchet|C2',
+				'crotchet|D2',
+				'crotchet|E2',
+				'crotchet|G2'
 			], //Red 2
 
 			'85_56_56': [
-				'crotchet|D2|40',
-				'crotchet|A2|40',
-				'crotchet|D4|50',
-				'crotchet|F4|50'
+				'crotchet|C2',
+				'crotchet|D2',
+				'crotchet|E2',
+				'crotchet|Gb2'
 			], //Red 3
 
 			//Magentas
 			'255_170_255': [
-				'crotchet|Eb3|20',
-				'crotchet|Bb2|25',
-				'crotchet|G5|80',
+				'crotchet|C6',
+				'crotchet|E6',
+				'crotchet|G6',
 				'crotchet|rest'
 			], //Magenta 1
 			'255_85_255': [
-				'crotchet|Eb2|35',
-				'crotchet|Bb2|35',
-				'crotchet|G5|90',
-				'crotchet|Bb5|90'
+				'crotchet|C5',
+				'crotchet|E5',
+				'crotchet|G5',
+				'crotchet|rest'
 			], //Magenta 1
 			'255_0_255': [
-				'crotchet|Eb2',
-				'crotchet|Bb2',
+				'crotchet|C4',
+				'crotchet|E4',
 				'crotchet|G4',
-				'crotchet|Eb5'
+				'crotchet|rest'
 			], //Magenta 1
 			'170_0_170': [
 				'crotchet|C3',
@@ -389,7 +389,7 @@ define([
 				'crotchet|Eb3'
 			] //Yellow 3
 		},
-
+		
 		_createInstruments: function() {
 			var instruments = music.instruments;
 
@@ -439,5 +439,5 @@ define([
 		}
 	});
 
-	return GB;
+	return Alt;
 });
