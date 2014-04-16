@@ -13,6 +13,12 @@
 			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="6" value="<%= it.option.get('gridRow') %>" aria-hidden="true">
 			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.option.get('gridRow') %>" required pattern="^[4-6]$">
 		</div>
+
+		<p class="helper-text">
+			When Sonus Imago converts an image to sound it converts the image into a grid, this is to reduce the number of notes to be played. 
+			You can increase the number of notes to listen a higher resolution of the image.
+			The total number of notes is grid column times by grid row.
+		</p>
 	</section>
 
 	<section class="module">
@@ -44,7 +50,6 @@
 			<legend>Start / Stop</legend>
 			<% 
 			keyModel = it.option.get('triggerKey'); 
-			console.log(keyModel);
 			%>
 
 			<div class="field field-modifier">
