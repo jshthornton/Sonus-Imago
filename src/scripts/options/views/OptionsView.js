@@ -19,6 +19,13 @@ define([
 
 		initialize: function() {
 			debug.log('Loaded Options:', option);
+
+			option.on('change', function() {
+				this.$status
+					.removeClass('saved')
+					.addClass('unsaved');
+			}, this);
+
 			this.render();
 		},
 
@@ -76,9 +83,6 @@ define([
 
 			option.set(optionId, val);
 
-			this.$status
-				.removeClass('saved')
-				.addClass('unsaved');
 		}, 100),
 
 		onVolumeChange: _.throttle(function(e) {
@@ -91,10 +95,6 @@ define([
 			}
 
 			option.set('volume', val);
-
-			this.$status
-				.removeClass('saved')
-				.addClass('unsaved');
 		}, 100),
 
 		onMoodPackChange: function() {
@@ -122,10 +122,6 @@ define([
 					keyModel.set('keyCode', val);
 				}
 			}
-
-			this.$status
-				.removeClass('saved')
-				.addClass('unsaved');
 		},
 
 		onSubmit: function(e) {
@@ -141,14 +137,8 @@ define([
 
 		onReset: function(e) {
 			e.preventDefault();
-
-			//options.resetInitial();
-
+			//Needs implementation
 			this.render();
-
-			this.$status
-				.removeClass('saved')
-				.addClass('unsaved');
 		}
 	});
 
