@@ -1,17 +1,14 @@
 (function() {
 	chrome.runtime.onInstalled.addListener(function() {
 		require([
-			'collections/options',
+			'models/option',
 			'debug'
-		], function(options, debug) {
+		], function(option, debug) {
 			debug.log('Running install...');
-			options.localStorage._clear(); //@TODO: remove, dev only code.
+			option.localStorage._clear(); //@TODO: remove, dev only code.
 
-			if(options.length === 0) {
-				//Initial Setup
-				options.resetInitial();
-				options.saveAll();
-			}
+			//Initial Setup
+			option.save();
 		});
 	});
 
@@ -48,16 +45,14 @@
 				debug.log('Request:', request);
 
 				switch(request.type) {
-					case 'options':
+					case 'option':
 						require([
-							'collections/options',
-						], function(options) {
-							options.fetch({
+							'models/option',
+						], function(option) {
+							option.fetch({
 								reset: true,
 								success: function() {
-									var _options = _.indexBy(options.models, 'id');
-
-									sendResponse(JSON.stringify(_options));
+									sendResponse(JSON.stringify(option));
 									debug.groupEnd();
 								}
 							});
@@ -68,15 +63,15 @@
 					case 'harmonise':
 						require([
 							'background/ImageAnalyser',
-							'collections/options',
+							'models/option',
 							'collections/moodPacks',
 							'libs/music',
 							'libs/instruments/piano'
-						], function(ImageAnalyser, options, moodPacks, music, piano) {
-							options.fetch({
+						], function(ImageAnalyser, option, moodPacks, music, piano) {
+							option.fetch({
 								reset: true,
 								success: function() {
-									var moodPackId = options.get('moodPack').get('value'),
+									var moodPackId = option.get('moodPack'),
 										moodPack = moodPacks.get(moodPackId);
 
 									if(music.get('playing') === true) {

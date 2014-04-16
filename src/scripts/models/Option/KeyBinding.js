@@ -1,7 +1,7 @@
 define([
-	'../Option'
-], function(Option) {
-	var KeyBinding = Option.extend({
+	'Backbone'
+], function(Backbone) {
+	var KeyBinding = Backbone.Model.extend({
 		defaults: function() {
 			return {
 				id: null,

@@ -14,11 +14,11 @@ require([
 
 			chrome.runtime.onMessage.addListener(this.onMessage);
 
-			var optionsPromise = this.fetchOptions(),
+			var optionPromise = this.fetchOption(),
 				domReadyPromise = this.isDomReady();
 
-			$.when(optionsPromise, domReadyPromise).then(_.bind(function(options) {
-				this.options = options;
+			$.when(optionPromise, domReadyPromise).then(_.bind(function(option) {
+				this.option = option;
 
 				this.tabbableImage($('img', document.body));
 
@@ -47,18 +47,18 @@ require([
 			return def.promise();
 		}),
 
-		fetchOptions: function() {
+		fetchOption: function() {
 			var def = new $.Deferred();
 
 			try {
 				chrome.runtime.sendMessage({
-					type: 'options'
+					type: 'option'
 				}, function(resp) {
-					var options = JSON.parse(resp);
+					var option = JSON.parse(resp);
 
-					debug.log('Fetched Options: ', options);
+					debug.log('Fetched Options: ', option);
 
-					def.resolve(options);
+					def.resolve(option);
 				});
 			} catch(e) {
 				var flshMsg = new FlashMessageView({
@@ -76,7 +76,7 @@ require([
 				ctrlKey = e.ctrlKey,
 				altKey = e.altKey,
 				shiftKey = e.shiftKey,
-				triggerKey = this.options.triggerKey,
+				triggerKey = this.option.triggerKey,
 				$active,
 				img;
 

@@ -1,14 +1,14 @@
 require([
 	'underscore',
 	'jquery',
-	'collections/options',
+	'models/option',
 	'options/views/OptionsView'
-], function(_, $, options, OptionsView) {
+], function(_, $, option, OptionsView) {
 	'use strict';
 
 	_.templateSettings.variable = 'it';
 
-	options.fetch({
+	option.fetch({
 		reset: true,
 		success: function() {
 			$(document).ready(function() {

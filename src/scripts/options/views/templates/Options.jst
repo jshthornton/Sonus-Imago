@@ -5,13 +5,13 @@
 
 		<div class="input-group">
 			<label for="grid-column">Column</label>
-			<input class="grid-input grid-column" id="grid-column-range" type="range" name="grid-column" min="4" max="6" value="<%= it.options.get('gridColumn').get('value') %>" aria-hidden="true">
-			<input class="grid-input grid-column" type="number" id="grid-column" value="<%= it.options.get('gridColumn').get('value') %>" required pattern="^[4-6]$">
+			<input class="grid-input grid-column" id="grid-column-range" type="range" name="grid-column" min="4" max="6" value="<%= it.option.get('gridColumn') %>" aria-hidden="true">
+			<input class="grid-input grid-column" type="number" id="grid-column" value="<%= it.option.get('gridColumn') %>" required pattern="^[4-6]$">
 		</div>
 		<div class="input-group">
 			<label for="grid-row">Row</label>
-			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="6" value="<%= it.options.get('gridRow').get('value') %>" aria-hidden="true">
-			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.options.get('gridColumn').get('value') %>" required pattern="^[4-6]$">
+			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="6" value="<%= it.option.get('gridRow') %>" aria-hidden="true">
+			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.option.get('gridRow') %>" required pattern="^[4-6]$">
 		</div>
 	</section>
 
@@ -20,8 +20,8 @@
 
 		<div class="input-group">
 			<label for="volume">Volume</label>
-			<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.options.get('volume').get('value') %>" aria-hidden="true">
-			<input class="volume" type="number" id="volume" value="<%= it.options.get('volume').get('value') %>" required pattern="^[0-9][0-9]?$|^100$">
+			<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.option.get('volume') %>" aria-hidden="true">
+			<input class="volume" type="number" id="volume" value="<%= it.option.get('volume') %>" required pattern="^[0-9][0-9]?$|^100$">
 		</div>
 
 		<div class="input-group">
@@ -38,29 +38,32 @@
 		<h2>Key bindings</h2>
 		<% 
 		var keyCode,
-			option; 
+			keyModel;
 		%>
 		<div class="input-group-key-binding">
 			<h3>Start / Stop</h3>
-			<% option = it.options.get('triggerKey'); %>
+			<% 
+			keyModel = it.option.get('triggerKey'); 
+			console.log(keyModel);
+			%>
 
 			<div class="field field-modifier">
 				<label for="trigger-key-shift">Shift</label>
-				<input type="checkbox" id="trigger-key-shift" name="triggerKey.shift" value="yes" <%= option.get('shift') ? 'checked' : '' %>>
+				<input type="checkbox" id="trigger-key-shift" name="triggerKey.shift" value="yes" <%= keyModel.get('shift') ? 'checked' : '' %>>
 			</div>
 
 			<div class="field field-modifier">
 				<label for="trigger-key-ctrl">Ctrl</label>
-				<input type="checkbox" id="trigger-key-ctrl" name="triggerKey.ctrl" value="yes" <%= option.get('ctrl') ? 'checked' : '' %>>
+				<input type="checkbox" id="trigger-key-ctrl" name="triggerKey.ctrl" value="yes" <%= keyModel.get('ctrl') ? 'checked' : '' %>>
 			</div>
 
 			<div class="field field-modifier">
 				<label for="trigger-key-alt">Alt</label>
-				<input type="checkbox" id="trigger-key-alt" name="triggerKey.alt" value="yes" <%= option.get('alt') ? 'checked' : '' %>>
+				<input type="checkbox" id="trigger-key-alt" name="triggerKey.alt" value="yes" <%= keyModel.get('alt') ? 'checked' : '' %>>
 			</div>
 
 			<div class="field field-char">
-				<% keyCode = option.get('keyCode'); %>
+				<% keyCode = keyModel.get('keyCode'); %>
 				<label for="trigger-key-char">Character</label>
 				<select id="trigger-key-char" name="triggerKey.keyCode">
 					<option value="-1" <%= keyCode === null ? 'selected' : '' %>>none</option>

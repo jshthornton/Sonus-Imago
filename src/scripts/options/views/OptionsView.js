@@ -2,10 +2,10 @@ define([
 	'underscore',
 	'Backbone',
 	'text!./templates/Options.jst',
-	'collections/options',
+	'models/option',
 	'collections/moodPacks',
 	'debug'
-], function(_, Backbone, template, options, moodPacks, debug) {
+], function(_, Backbone, template, option, moodPacks, debug) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -18,14 +18,14 @@ define([
 		//$rowRange
 
 		initialize: function() {
-			debug.log('Loaded Options:', options);
+			debug.log('Loaded Options:', option);
 			this.render();
 		},
 
 		render: function() {
 			var compiled = _.template(template),
 				output = compiled({
-					options: options,
+					option: option,
 					moodPacks: moodPacks
 				}),
 				$tmpl = $(output);
@@ -58,8 +58,7 @@ define([
 			var input = e.currentTarget,
 				val = input.valueAsNumber,
 				which = (input.name === 'grid-column' || input.id === 'grid-column') ? 'col' : 'row',
-				optionId = (which === 'col') ? 'gridColumn' : 'gridRow',
-				gridOption = options.get(optionId);
+				optionId = (which === 'col') ? 'gridColumn' : 'gridRow';
 
 			if(which === 'col') {
 				if(this.$columnText[0] !== e.currentTarget) {
@@ -75,7 +74,7 @@ define([
 				}
 			}
 
-			gridOption.set('value', val);
+			option.set(optionId, val);
 
 			this.$status
 				.removeClass('saved')
@@ -91,7 +90,7 @@ define([
 				this.$volumeRange[0].value = val;
 			}
 
-			options.get('volume').set('value', val);
+			option.set('volume', val);
 
 			this.$status
 				.removeClass('saved')
@@ -108,19 +107,19 @@ define([
 				nameDT = name.split('.'),
 				key = nameDT[0],
 				prop = nameDT[1],
-				option = options.get(key);
+				keyModel = option.get(key);
 
 			if(prop === 'shift' || prop === 'ctrl' || prop === 'alt') {
 				var checked = node.checked;
 				
-				option.set(prop, checked);
+				keyModel.set(prop, checked);
 			} else if(prop === 'keyCode') {
 				var val = parseInt(node.value, 10);
 
 				if(val === -1) {
-					option.set('keyCode', null);
+					keyModel.set('keyCode', null);
 				} else {
-					option.set('keyCode', val);
+					keyModel.set('keyCode', val);
 				}
 			}
 
@@ -132,7 +131,7 @@ define([
 		onSubmit: function(e) {
 			e.preventDefault();
 
-			options.saveAll();
+			option.save();
 			debug.log('Options Saved:', options);
 
 			this.$status
@@ -143,7 +142,7 @@ define([
 		onReset: function(e) {
 			e.preventDefault();
 
-			options.resetInitial();
+			//options.resetInitial();
 
 			this.render();
 

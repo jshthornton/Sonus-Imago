@@ -3,10 +3,10 @@ define([
 	'jquery',
 	'Class',
 	'underscore',
-	'collections/options',
+	'models/option',
 	'debug',
 	'config'
-], function(require, $, Class, _, options, debug, config) {
+], function(require, $, Class, _, option, debug, config) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -23,8 +23,8 @@ define([
 			this.trueLength = 0;
 			this._def = new $.Deferred();
 
-			this.cols = options.get('gridColumn').get('value'),
-			this.rows = options.get('gridRow').get('value');
+			this.cols = option.get('gridColumn'),
+			this.rows = option.get('gridRow');
 		},
 
 		analyse: function(imgSrc) {
