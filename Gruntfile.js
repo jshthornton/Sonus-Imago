@@ -16,6 +16,7 @@
 		});
 
 		grunt.loadNpmTasks('grunt-contrib-jshint');
+		grunt.loadNpmTasks('grunt-contrib-clean');
 
 		//Task to run all jshints
 		grunt.registerTask('jshint:all', ['jshint:grunt', 'jshint:src']);
