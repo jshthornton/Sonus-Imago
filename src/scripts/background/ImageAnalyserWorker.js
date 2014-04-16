@@ -10,9 +10,8 @@ self.addEventListener('message', function(e) {
 				y: data.y,
 				normalise: data.normalise
 			});
-			self.close();
 			break;
-		case 'stop':
+		case 'end':
 			self.close(); // Terminates the worker.
 			break;
 		default:

@@ -132,11 +132,22 @@ define([
 			debug.log('Width: %i', segmentWidth);
 			debug.log('Height: %i', segmentHeight);
 
+
+			var workerPool = [],
+				poolSize = Math.min(config.THREAD_COUNT, this.cols * this.rows);
+				
+			for(var i = 0; i < poolSize; i++) {
+				var worker = new Worker(workerURL);
+				worker.addEventListener('message', this._onWorkerMessage, false);
+
+				workerPool.push(worker);
+				worker = null;
+			}
+
+			var workerIndex = 0;
 			for(var y = 0; y < this.rows; y++) {
 				for(var x = 0; x < this.cols; x++) {
-					var worker = new Worker(workerURL);
-
-					worker.addEventListener('message', this._onWorkerMessage, false);
+					var worker = workerPool[workerIndex];
 
 					worker.postMessage({
 						cmd: 'doSegment',
@@ -148,8 +159,20 @@ define([
 						segmentWidth: segmentWidth,
 						segmentHeight: segmentHeight
 					});
+
+					workerIndex++;
+					workerIndex = workerIndex % poolSize;
 				} //column
 			} // row
+
+			for(var i = 0; i < poolSize; i++) {
+				var worker = workerPool[i];
+				worker.postMessage({
+					cmd: 'end'
+				});
+				worker = null;
+			}
+
 			debug.groupEnd();
 		},
 

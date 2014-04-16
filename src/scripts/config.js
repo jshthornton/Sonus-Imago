@@ -1,6 +1,7 @@
 define([
 ], function() {
 	return {
-		DEBUG: true
+		DEBUG: true,
+		THREAD_COUNT: 5
 	};
 });
