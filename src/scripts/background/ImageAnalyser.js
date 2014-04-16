@@ -4,9 +4,8 @@ define([
 	'Class',
 	'underscore',
 	'models/option',
-	'debug',
 	'config'
-], function(require, $, Class, _, option, debug, config) {
+], function(require, $, Class, _, option, config) {
 	var Cls = Class.extend({
 		//_imgSrc
 		//segments
@@ -42,13 +41,13 @@ define([
 			img.addEventListener('error', this._onImageError, false);
 			img.src = this._imgSrc;
 
-			debug.log('Loading Image: %s', this._imgSrc);
+			console.log('Loading Image: %s', this._imgSrc);
 
 			img = null;
 		},
 
 		_onImageLoad: function(e) {
-			debug.log('Image Loaded');
+			console.log('Image Loaded');
 
 			var img = e.currentTarget;
 
@@ -79,30 +78,30 @@ define([
 				fauxHeight = newHeight - excessHeight;
 
 			{ //Debug
-				debug.groupCollapsed('Image Information');
-				debug.log('Element: %o', img);
+				console.groupCollapsed('Image Information');
+				console.log('Element: %o', img);
 
-				debug.groupCollapsed('Raw');
-				debug.log('Width: %i', imgWidth);
-				debug.log('Height: %i', imgHeight);
-				debug.groupEnd();
+				console.groupCollapsed('Raw');
+				console.log('Width: %i', imgWidth);
+				console.log('Height: %i', imgHeight);
+				console.groupEnd();
 
-				debug.groupCollapsed('Excess');
-				debug.log('Width: %i', excessWidth);
-				debug.log('Height: %i', excessHeight);
-				debug.groupEnd();
+				console.groupCollapsed('Excess');
+				console.log('Width: %i', excessWidth);
+				console.log('Height: %i', excessHeight);
+				console.groupEnd();
 
-				debug.groupCollapsed('Offset');
-				debug.log('X: %i', offsetX);
-				debug.log('Y: %i', offsetY);
-				debug.groupEnd();
+				console.groupCollapsed('Offset');
+				console.log('X: %i', offsetX);
+				console.log('Y: %i', offsetY);
+				console.groupEnd();
 
-				debug.groupCollapsed('Faux');
-				debug.log('Width: %i', fauxWidth);
-				debug.log('Height: %i', fauxHeight);
-				debug.groupEnd();
+				console.groupCollapsed('Faux');
+				console.log('Width: %i', fauxWidth);
+				console.log('Height: %i', fauxHeight);
+				console.groupEnd();
 
-				debug.groupEnd();
+				console.groupEnd();
 			}
 
 			ctx.drawImage(img, 0, 0, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
@@ -121,21 +120,21 @@ define([
 				segmentWidth = imgWidth / this.cols,
 				segmentHeight = imgHeight / this.rows;
 
-			debug.groupCollapsed('Image Data (Canvas Export)');
-			debug.log('Width: %i', imgWidth);
-			debug.log('Height: %i', imgHeight);
-			debug.log('Data length: %i', imgData.data.length);
-			debug.log('Data: %O', imgData.data); //Very slow, only use if needed for debugging
-			debug.groupEnd();
+			console.groupCollapsed('Image Data (Canvas Export)');
+			console.log('Width: %i', imgWidth);
+			console.log('Height: %i', imgHeight);
+			console.log('Data length: %i', imgData.data.length);
+			console.log('Data: %O', imgData.data); //Very slow, only use if needed for debugging
+			console.groupEnd();
 
-			debug.groupCollapsed('Segment');
-			debug.log('Width: %i', segmentWidth);
-			debug.log('Height: %i', segmentHeight);
+			console.groupCollapsed('Segment');
+			console.log('Width: %i', segmentWidth);
+			console.log('Height: %i', segmentHeight);
 
 
 			var workerPool = [],
 				poolSize = Math.min(config.THREAD_COUNT, this.cols * this.rows);
-				
+
 			for(var i = 0; i < poolSize; i++) {
 				var worker = new Worker(workerURL);
 				worker.addEventListener('message', this._onWorkerMessage, false);
@@ -173,11 +172,11 @@ define([
 				worker = null;
 			}
 
-			debug.groupEnd();
+			console.groupEnd();
 		},
 
 		_onImageError: function(e) {
-			debug.log('Image failed to load %O', e);
+			console.log('Image failed to load %O', e);
 
 			$(document).trigger('flash-message', {
 				msg: 'Image failed to load',

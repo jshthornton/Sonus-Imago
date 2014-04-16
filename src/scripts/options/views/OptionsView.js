@@ -3,9 +3,8 @@ define([
 	'Backbone',
 	'text!./templates/Options.jst',
 	'models/option',
-	'collections/moodPacks',
-	'debug'
-], function(_, Backbone, template, option, moodPacks, debug) {
+	'collections/moodPacks'
+], function(_, Backbone, template, option, moodPacks) {
 	'use strict';
 
 	var V = Backbone.View.extend({
@@ -18,7 +17,7 @@ define([
 		//$rowRange
 
 		initialize: function() {
-			debug.log('Loaded Options:', option);
+			console.log('Loaded Options:', option);
 
 			option.on('change', function() {
 				this.$status
@@ -144,7 +143,7 @@ define([
 						.removeClass('unsaved error')
 						.addClass('saved');
 
-					debug.log('Options Saved:', option);
+					console.log('Options Saved:', option);
 				}
 			});
 		},

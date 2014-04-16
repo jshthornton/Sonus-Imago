@@ -1,9 +1,8 @@
 require([
 	'jquery',
 	'underscore',
-	'content/views/FlashMessageView',
-	'debug'
-], function($, _, FlashMessageView, debug) {
+	'content/views/FlashMessageView'
+], function($, _, FlashMessageView) {
 	'use strict';
 
 	_.templateSettings.variable = 'it';
@@ -56,7 +55,7 @@ require([
 				}, function(resp) {
 					var option = JSON.parse(resp);
 
-					debug.log('Fetched Options: ', option);
+					console.log('Fetched Options: ', option);
 
 					def.resolve(option);
 				});

@@ -1,10 +1,9 @@
 (function() {
 	chrome.runtime.onInstalled.addListener(function() {
 		require([
-			'models/option',
-			'debug'
+			'models/option'
 		], function(option, debug) {
-			debug.log('Running install...');
+			console.log('Running install...');
 			option.localStorage._clear(); //@TODO: remove, dev only code.
 
 			//Initial Setup
@@ -14,9 +13,8 @@
 
 	require([
 		'underscore',
-		'jquery',
-		'debug'
-	], function(_, $, debug) {
+		'jquery'
+	], function(_, $) {
 		var background = {
 			init: function() {
 				_.bindAll(this);
@@ -41,8 +39,8 @@
 			onMessage: function(request, sender, sendResponse) {
 				var _this = this;
 
-				debug.groupCollapsed('Message');
-				debug.log('Request:', request);
+				console.groupCollapsed('Message');
+				console.log('Request:', request);
 
 				switch(request.type) {
 					case 'option':
@@ -53,7 +51,7 @@
 								reset: true,
 								success: function() {
 									sendResponse(JSON.stringify(option));
-									debug.groupEnd();
+									console.groupEnd();
 								}
 							});
 						});
@@ -113,9 +111,9 @@
 										var music = moodPack.generateMusic(segments);
 
 										music.onFinished(function() {
-											debug.log('Music Finished');
+											console.log('Music Finished');
 											sendResponse();
-											debug.groupEnd();
+											console.groupEnd();
 										});
 
 										music.play();
