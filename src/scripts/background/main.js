@@ -87,6 +87,15 @@
 											msg: 'Waiting for music to initialise', 
 											type: 'notice'
 										});
+
+										piano.ready.then(function() {
+											_this.sendFlashMessage({
+												tab: sender.tab, 
+												msg: 'Music is ready, please retry', 
+												type: 'notice'
+											});
+										});
+
 										return;
 									} 
 
