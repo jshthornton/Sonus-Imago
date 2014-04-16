@@ -5,13 +5,13 @@
 
 		<div class="input-group">
 			<label for="grid-column">Column</label>
-			<input class="grid-input grid-column" id="grid-column-range" type="range" name="grid-column" min="4" max="6" value="<%= it.option.get('gridColumn') %>" aria-hidden="true">
-			<input class="grid-input grid-column" type="number" id="grid-column" value="<%= it.option.get('gridColumn') %>" required pattern="^[4-6]$">
+			<input class="grid-input grid-column" id="grid-column-range" type="range" name="grid-column" min="4" max="10" value="<%= it.option.get('gridColumn') %>" aria-hidden="true">
+			<input class="grid-input grid-column" type="number" id="grid-column" value="<%= it.option.get('gridColumn') %>" required>
 		</div>
 		<div class="input-group">
 			<label for="grid-row">Row</label>
-			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="6" value="<%= it.option.get('gridRow') %>" aria-hidden="true">
-			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.option.get('gridRow') %>" required pattern="^[4-6]$">
+			<input class="grid-input grid-row" id="grid-row-range" type="range" name="grid-row" min="4" max="10" value="<%= it.option.get('gridRow') %>" aria-hidden="true">
+			<input class="grid-input grid-row" type="number" id="grid-row" value="<%= it.option.get('gridRow') %>" required>
 		</div>
 
 		<p class="helper-text">
@@ -27,7 +27,7 @@
 		<div class="input-group">
 			<label for="volume">Volume</label>
 			<input class="volume" id="volume-range" type="range" name="volume" min="0" max="100" value="<%= it.option.get('volume') %>" aria-hidden="true">
-			<input class="volume" type="number" id="volume" value="<%= it.option.get('volume') %>" required pattern="^[0-9][0-9]?$|^100$">
+			<input class="volume" type="number" id="volume" value="<%= it.option.get('volume') %>" required>
 		</div>
 
 		<div class="input-group">
@@ -142,6 +142,8 @@
 		<p class="unsaved">
 			Options have yet to been saved
 		</p>
+
+		<p class="error" role="alert"></p>
 	</section>
 
 	<section class="ctas">

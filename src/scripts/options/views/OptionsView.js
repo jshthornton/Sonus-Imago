@@ -22,8 +22,16 @@ define([
 
 			option.on('change', function() {
 				this.$status
-					.removeClass('saved')
+					.removeClass('saved error')
 					.addClass('unsaved');
+			}, this);
+
+			option.on('invalid', function(model, error) {
+				this.$error.text(error);
+
+				this.$status
+					.removeClass('saved unsaved')
+					.addClass('error');
 			}, this);
 
 			this.render();
@@ -47,6 +55,7 @@ define([
 			this.$rowRange = $('#grid-row-range', $tmpl);
 
 			this.$status = $('#status', $tmpl);
+			this.$error = $('.error', this.$status);
 
 			$('main', this.$el).html($tmpl);
 		},
@@ -127,12 +136,17 @@ define([
 		onSubmit: function(e) {
 			e.preventDefault();
 
-			option.save();
-			debug.log('Options Saved:', options);
+			var _this = this;
 
-			this.$status
-				.removeClass('unsaved')
-				.addClass('saved');
+			option.save(null, {
+				success: function() {
+					_this.$status
+						.removeClass('unsaved error')
+						.addClass('saved');
+
+					debug.log('Options Saved:', option);
+				}
+			});
 		},
 
 		onReset: function(e) {

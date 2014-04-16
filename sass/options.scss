@@ -166,6 +166,12 @@ h1 {
 		}
 	}
 
+	&.error {
+		> .error {
+			display: block;
+		}
+	}
+
 	> p {
 		display: none;
 	}

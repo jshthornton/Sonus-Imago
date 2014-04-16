@@ -10,8 +10,8 @@ define([
 		defaults: function() {
 			return {
 				id: 1,
-				gridColumn: 4,
-				gridRow: 4,
+				gridColumn: 8,
+				gridRow: 8,
 				volume: 80,
 				moodPack: 'gb',
 				triggerKey: new KeyBinding({
@@ -37,6 +37,37 @@ define([
 			}, this);
 
 			return resp;
+		},
+
+		validate: function(attrs, options) {
+			//Grid Column
+			if(attrs.gridColumn < 4) {
+				return 'Grid column can not be less than 4';
+			}
+
+			if(attrs.gridColumn > 10) {
+				return 'Grid column can not be greater than 10';
+			}
+
+			//Grid Row
+			if(attrs.gridRow < 4) {
+				return 'Grid row can not be less than 4';
+			}
+
+			if(attrs.gridRow > 10) {
+				return 'Grid row can not be greater than 10';
+			}
+
+			//Volume
+			if(attrs.volume < 0) {
+				return 'Volume can not be less than 0';
+			}
+
+			if(attrs.volume > 100) {
+				return 'Volume can not be greater than 100';
+			}
+
+			//Mood Pack
 		}
 	});
 
