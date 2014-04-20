@@ -70,7 +70,7 @@
 			onMessage: function(request, sender, sendResponse) {
 				var _this = this;
 
-				console.groupCollapsed('Message');
+				console.log('Message');
 				console.log('Request:', request);
 
 				switch(request.type) {
@@ -83,7 +83,6 @@
 								reset: true,
 								success: function() {
 									sendResponse(JSON.stringify(option)); // Send the options to the client
-									console.groupEnd();
 								}
 							});
 						});
@@ -109,6 +108,8 @@
 									// If the music is already playing stop it
 									if(music.get('playing') === true) {
 										music.destroy();
+										console.log('Music Stopped');
+										sendResponse();
 										return;
 									}
 
@@ -148,7 +149,6 @@
 										music.onFinished(function() {
 											console.log('Music Finished');
 											sendResponse();
-											console.groupEnd();
 										});
 
 										music.play();
