@@ -12,7 +12,7 @@ define([
 				id: 1,
 				gridColumn: 8,
 				gridRow: 8,
-				volume: 80,
+				volume: 100,
 				moodPack: 'gb',
 				triggerKey: new KeyBinding({
 					__name__: 'KeyBinding',

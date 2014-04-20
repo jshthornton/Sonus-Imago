@@ -108,7 +108,7 @@
 
 									// If the music is already playing stop it
 									if(music.get('playing') === true) {
-										music.stop(true); //fade out
+										music.destroy();
 										return;
 									}
 
