@@ -5,13 +5,13 @@
 			baseUrl: chrome.extension.getURL('/scripts'),
 
 			paths: {
-				'jquery': 'libs/jquery',
-				'Class': 'libs/Class',
-				'underscore': 'libs/lodash',
-				'text': 'libs/text',
-				'Backbone': 'libs/Backbone',
-				'localstorage': 'libs/Backbone.localStorage',
-				'Band': 'libs/Band'
+				'jquery': 'lib/jquery',
+				'Class': 'lib/Class',
+				'underscore': 'lib/lodash',
+				'text': 'lib/text',
+				'Backbone': 'lib/Backbone',
+				'localstorage': 'lib/Backbone.localStorage',
+				'Band': 'lib/Band'
 			},
 
 			shim: {

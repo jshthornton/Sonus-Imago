@@ -1,25 +1,22 @@
-self.addEventListener('message', function(e) {
-	var data = e.data;
-	switch (data.cmd) {
-		case 'doSegment':
-			var segment = calcSegment(data.imgData, data.imgWidth, data.imgHeight, data.x, data.y, data.segmentWidth, data.segmentHeight);
-			self.postMessage({
-				id: 'segment',
-				segment: segment,
-				x: data.x,
-				y: data.y,
-				normalise: data.normalise
-			});
-			break;
-		case 'end':
-			self.close(); // Terminates the worker.
-			break;
-		default:
-			self.postMessage('Unknown command: ' + data.msg);
-	}
-}, false);
+var Analyser = function(data) {
+	this._imgData = data.imgData;
+	this._imgWidth = data.imgWidth;
+	this._imgHeight = data.imgHeight;
+	this._x = data.x;
+	this._y = data.y;
+	this._segmentWidth = data.segmentWidth;
+	this._segmentHeight = data.segmentHeight;
+};
 
-function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHeight) {
+Analyser.prototype.run = function() {
+	var segment = this._calculateSegment();
+
+	//return segment; // For debugging purposes
+
+	return this._normaliseSegment(segment);
+};
+
+Analyser.prototype._calculateSegment = function() {
 	var segment = {
 		r: 0,
 		g: 0,
@@ -27,96 +24,47 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		a: 0
 	};
 	
-	var precision = parseInt((imgWidth * imgHeight) / 10000, 10),
-		segmentX = x * segmentWidth,
-		segmentY = y * segmentHeight,
-		flatSegmentY = segmentY * imgWidth;
+	var segmentX = this._x * this._segmentWidth,
+		segmentY = this._y * this._segmentHeight,
+		flatSegmentY = segmentY * this._imgWidth;
 
-	if(precision < 1) {
-		precision = 1;
-	}
+	for(var offsetY = 0; offsetY < this._segmentHeight; offsetY++) {
+		var flatOffsetY = offsetY * this._imgWidth;
 
-	precision = 1;
-
-	for(var offsetY = 0; offsetY < segmentHeight; offsetY += precision) {
-		var flatOffsetY = offsetY * imgWidth;
-
-		for(var offsetX = 0; offsetX < segmentWidth; offsetX += precision) {
+		for(var offsetX = 0; offsetX < this._segmentWidth; offsetX++) {
 			var pixelIndex = segmentX + offsetX + flatSegmentY + flatOffsetY,
 				dataPoint = pixelIndex * 4;
 
-			segment.r += imgData.data[dataPoint];
-			segment.g += imgData.data[dataPoint + 1];
-			segment.b += imgData.data[dataPoint + 2];
-			segment.a += imgData.data[dataPoint + 3];
+			segment.r += this._imgData.data[dataPoint];
+			segment.g += this._imgData.data[dataPoint + 1];
+			segment.b += this._imgData.data[dataPoint + 2];
+			segment.a += this._imgData.data[dataPoint + 3];
 		}
 	}
-
 
 	//Average
-	var size = segmentWidth * segmentHeight;
+	var size = this._segmentWidth * this._segmentHeight;
 
-	function average(color, size) {
-		return parseInt(color / size, 10);
-	}
+	segment.r = this._average(segment.r, size);
+	segment.g = this._average(segment.g, size);
+	segment.b = this._average(segment.b, size);
+	segment.a = this._average(segment.a, size);
 
-	segment.r = average(segment.r, size);
-	segment.g = average(segment.g, size);
-	segment.b = average(segment.b, size);
-	segment.a = average(segment.a, size);
+	return segment;
+};
 
-	//return segment;
+Analyser.prototype._average = function(color, size) {
+	return (color / size) | 0; //Bitwise rounding down
+};
 
-	function normalise(opts) {
-		var color = opts.color,
-			precision = opts.precision,
-			direction = opts.direction,
-			low,
-			high,
-			benchmark = opts.benchmark || color,
-			max = 255;
-
-		if(!precision) {
-			if(benchmark === 0) {
-				max = 0;
-			} else if(benchmark <= 85) {
-				precision = 85/3;
-				max = 85;
-			} else if(benchmark <= 170) {
-				precision = 170/3;
-				max = 170;
-			} else if(benchmark <= 255) {
-				precision = 255/3;
-				max = 255;
-			} 
-		}
-
-		if(max === 0) return 0;
-
-		low = precision * parseInt(color / precision, 10);
-		high = low + precision;
-
-		if(direction) {
-			if(direction === 'up') {
-				color = high;
-			} else if(direction === 'down') {
-				color = low;
-			}
-		} else {
-			if(color - low < high - color) {
-				color = low;
-			} else {
-				color = high;
-			}
-		}
-
-		if(color > max) {
-			color = max;
-		} else if(color < 0) {
-			color = 0;
-		}
-
-		return parseInt(color, 10);
+Analyser.prototype._normaliseSegment = function(segment) {
+	if(segment.r === segment.g && segment.r === segment.b) {
+		segment.r = segment.g = segment.b = this._normaliseColour({
+			color: segment.r, 
+			precision: 85
+		});
+		
+		return segment;
 	}
 
 	//Check for the primary colour
@@ -160,12 +108,11 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		thirdDiff = segment[second] - segment[third];
 
 	//Normalise primary and third
-	segment[first] = normalise({
+	segment[first] = this._normaliseColour({
 		color: segment[first],
-		precision: 85//,
-		//direction: (segment[first] > 85) ? 'up' : undefined
+		precision: 85
 	});
-	segment[third] = normalise({
+	segment[third] = this._normaliseColour({
 		color: segment[third], 
 		benchmark: segment[first],
 		precision: (segment[first] === 28 || segment[first] === 0) ? 85 : undefined
@@ -178,12 +125,79 @@ function calcSegment(imgData, imgWidth, imgHeight, x, y, segmentWidth, segmentHe
 		segment[second] = segment[third];
 	}
 
-	if(segment[first] === segment[second] && segment[first] === segment[third]) {
-		segment[third] = segment[second] = segment[first] = normalise({
-			color: segment[first], 
-			precision: 85
-		});
+	return segment;
+};
+
+Analyser.prototype._normaliseColour = function(opts) {
+	var color = opts.color,
+		precision = opts.precision,
+		low,
+		high,
+		benchmark = opts.benchmark || color,
+		max = 255;
+
+	if(!precision) {
+		if(benchmark === 0) {
+			max = 0;
+		} else if(benchmark <= 85) {
+			precision = 85/3;
+			max = 85;
+		} else if(benchmark <= 170) {
+			precision = 170/3;
+			max = 170;
+		} else if(benchmark <= 255) {
+			precision = 255/3;
+			max = 255;
+		} 
 	}
 
-	return segment;
-}
+	if(max === 0) return 0;
+
+	low = precision * ((color / precision) | 0);
+	high = low + precision;
+
+	if(color - low < high - color) {
+		color = low;
+	} else {
+		color = high;
+	}
+
+	if(color > max) {
+		color = max;
+	} else if(color < 0) {
+		color = 0;
+	}
+
+	return color | 0;
+};
+
+self.addEventListener('message', function(e) {
+	var data = e.data;
+	switch (data.cmd) {
+		case 'run':
+			var analyser = new Analyser({
+				imgData: data.imgData,
+				imgWidth: data.imgWidth,
+				imgHeight: data.imgHeight,
+				x: data.x,
+				y: data.y,
+				segmentWidth: data.segmentWidth,
+				segmentHeight: data.segmentHeight
+			});
+
+			var segment = analyser.run();
+
+			self.postMessage({
+				id: 'segment',
+				segment: segment,
+				x: data.x,
+				y: data.y
+			});
+			break;
+		case 'end':
+			self.close(); // Terminates the worker.
+			break;
+		default:
+			self.postMessage('Unknown command: ' + data.msg);
+	}
+}, false);

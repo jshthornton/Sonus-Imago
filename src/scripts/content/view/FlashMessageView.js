@@ -1,7 +1,7 @@
 define([
 	'Backbone',
 	'underscore',
-	'text!./templates/FlashMessage.jst'
+	'text!./template/FlashMessage.jst'
 ], function(Backbone, _, template) {
 	_.templateSettings.variable = 'it';
 
@@ -22,7 +22,7 @@ define([
 		 * @type String
 		 * @default 'Unknown error'
 		 */
-		msg: 'Unknown error',
+		_msg: 'Unknown error',
 		/**
 		 * The type of flash to display
 		 * 
@@ -30,7 +30,7 @@ define([
 		 * @type String
 		 * @default 'notice'
 		 */
-		type: 'notice',
+		_type: 'notice',
 
 		/**
 		 * Initalises the view and auto renders it.
@@ -39,8 +39,8 @@ define([
 		 * @protected
 		 */
 		initialize: function(opts) {
-			this.msg = opts.msg || this.msg;
-			this.type = opts.type || this.type;
+			this._msg = opts.msg || this._msg;
+			this._type = opts.type || this._type;
 
 			this.render();
 		},
@@ -60,8 +60,8 @@ define([
 
 			// Generate html from template
 			var compl = tmplFn({
-					msg: this.msg,
-					type: this.type
+					msg: this._msg,
+					type: this._type
 				}),
 				$el = $(compl);
 
@@ -74,7 +74,7 @@ define([
 
 		//Events
 		events: {
-			'click .SI_FlashMessage_dismiss': 'onDismiss'
+			'click .SI_FlashMessage_dismiss': '_onDismiss'
 		},
 
 		/**
@@ -82,7 +82,7 @@ define([
 		 * 
 		 * @event onDismiss
 		 */
-		onDismiss: function() {
+		_onDismiss: function() {
 			this.remove();
 		}
 	});

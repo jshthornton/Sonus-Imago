@@ -1,8 +1,8 @@
 define([
 	'Backbone',
 	'underscore',
-	'models/MoodPack/GB',
-	'models/MoodPack/Alt'
+	'model/MoodPack/GB',
+	'model/MoodPack/Alt'
 ], function(Backbone, _, GB, Alt) {
 	var C = Backbone.Collection.extend({});
 

@@ -2,7 +2,7 @@ define([
 	'Backbone',
 	'underscore',
 	'./_Base',
-	'libs/music'
+	'lib/music'
 ], function(Backbone, _, MoodPack, music) {
 	var GB = MoodPack.extend({
 		defaults: {

@@ -1,9 +1,9 @@
 define([
 	'Backbone',
 	'underscore',
-	'libs/music',
-	'libs/instruments/piano',
-	'models/option'
+	'lib/music',
+	'lib/instrument/piano',
+	'model/option'
 ], function(Backbone, _, music, piano, option) {
 	var MoodPack = Backbone.Model.extend({
 		//_generateNotes

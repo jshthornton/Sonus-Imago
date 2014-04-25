@@ -1,11 +1,11 @@
 define([
 	'Backbone',
 	'underscore',
-	'./Option/KeyBinding',
+	'./KeyBinding',
 	'localstorage'
 ], function(Backbone, _, KeyBinding) {
 	var M = Backbone.Model.extend({
-		localStorage: new Backbone.LocalStorage('option'),
+		localStorage: new Backbone.LocalStorage('options'),
 
 		defaults: function() {
 			return {
@@ -13,7 +13,7 @@ define([
 				gridColumn: 8,
 				gridRow: 8,
 				volume: 100,
-				moodPack: 'gb',
+				moodPackId: 'gb',
 				triggerKey: new KeyBinding({
 					__name__: 'KeyBinding',
 					id: 'triggerKey',

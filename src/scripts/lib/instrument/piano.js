@@ -2,8 +2,8 @@ define([
 	'underscore',
 	'Band',
 	'jquery',
-	'libs/Base64Binary',
-	'libs/soundfont/acoustic_grand_piano-ogg'
+	'lib/Base64Binary',
+	'lib/soundfont/acoustic_grand_piano-ogg'
 ], function(_, Band, $, Base64Binary, pianoData) {
 	var _def = new $.Deferred(),
 		_buffers = {},
@@ -32,7 +32,7 @@ define([
 				});
 			});
 
-			requirejs.undef('libs/soundfont/acoustic_grand_piano-ogg');
+			requirejs.undef('lib/soundfont/acoustic_grand_piano-ogg');
 			pianoData.destroy();
 			pianoData = null;
 		})

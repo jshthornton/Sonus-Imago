@@ -3,27 +3,27 @@ define([
 	'jquery',
 	'Class',
 	'underscore',
-	'models/option',
+	'model/option',
 	'config'
 ], function(require, $, Class, _, option, config) {
 	var Cls = Class.extend({
 		//_imgSrc
-		//segments
-		//trueLength
+		//_segments
+		//_trueLength
 		//_def
-		//cols
-		//rows
+		//_cols
+		//_rows
 
 		init: function(imgSrc) {
 			_.bindAll(this);
 
 			this._imgSrc = imgSrc;
-			this.segments = [];
-			this.trueLength = 0;
+			this._segments = [];
+			this._trueLength = 0;
 			this._def = new $.Deferred();
 
-			this.cols = option.get('gridColumn');
-			this.rows = option.get('gridRow');
+			this._cols = option.get('gridColumn');
+			this._rows = option.get('gridRow');
 		},
 
 		analyse: function(imgSrc) {
@@ -57,25 +57,36 @@ define([
 				imgHeight = img.height,
 				maxWidth = 100,
 				maxHeight = 100,
-				newWidth = imgWidth,
-				newHeight = imgHeight;
+				oldWidth = imgWidth,
+				oldHeight = imgHeight,
+				width = imgWidth,
+				height = imgHeight;
 
 			if(imgWidth > maxWidth) {
-				newWidth = maxWidth;
-				newHeight = imgHeight / (imgWidth / maxWidth);
+				oldWidth = imgWidth;
+				width = maxWidth;
+
+				oldHeight = imgHeight;
+				height = height / (oldWidth / maxWidth);
 			}
 
-			if(imgHeight > maxHeight) {
-				newHeight = maxHeight;
-				newWidth = imgWidth / (imgHeight / maxHeight);
+			if(height > maxHeight) {
+				oldHeight = height;
+				height = maxHeight;
+
+				oldWidth = width;
+				width = width / (oldHeight / maxHeight);
 			}
 
-			var excessWidth = newWidth % this.cols,
-				excessHeight = newHeight % this.rows,
+			var excessWidth = width % this._cols,
+				excessHeight = height % this._rows,
 				offsetX = Math.floor(excessWidth / 2),
 				offsetY = Math.floor(excessHeight / 2),
-				fauxWidth = newWidth - excessWidth,
-				fauxHeight = newHeight - excessHeight;
+				fauxWidth = width - excessWidth,
+				fauxHeight = height - excessHeight;
+
+			canvas.width = fauxWidth;
+			canvas.height = fauxHeight;
 
 			{ //Debug
 				console.groupCollapsed('Image Information');
@@ -104,21 +115,37 @@ define([
 				console.groupEnd();
 			}
 
-			ctx.drawImage(img, 0, 0, imgWidth, imgHeight, 0, 0, newWidth, newHeight);
-			var imgData = ctx.getImageData(offsetX, offsetY, fauxWidth, fauxHeight);
+			ctx.drawImage(
+				img, 
 
-			this.getSegments(imgData);
+				0, // Source X
+				0,  // Source Y
+
+				imgWidth, // Source Width
+				imgHeight, // Source Height
+
+				0, // Dest X
+				0, // Dest Y
+
+				fauxWidth, // Dest Width
+				fauxHeight // Dest Height
+			);
+			console.log(canvas.toDataURL('image/png'));
+
+			var imgData = ctx.getImageData(0, 0, fauxWidth, fauxHeight);
+
+			this._doSegments(imgData);
 		},
 
-		getSegments: function(imgData) {
-			this.segments.length = 0;
-			this.trueLength = 0;
+		_doSegments: function(imgData) {
+			this._segments.length = 0;
+			this._trueLength = 0;
 
 			var workerURL = require.toUrl('./ImageAnalyserWorker.js'),
 				imgWidth = imgData.width,
 				imgHeight = imgData.height,
-				segmentWidth = imgWidth / this.cols,
-				segmentHeight = imgHeight / this.rows;
+				segmentWidth = imgWidth / this._cols,
+				segmentHeight = imgHeight / this._rows;
 
 			console.groupCollapsed('Image Data (Canvas Export)');
 			console.log('Width: %i', imgWidth);
@@ -131,10 +158,9 @@ define([
 			console.log('Width: %i', segmentWidth);
 			console.log('Height: %i', segmentHeight);
 
-
 			var workerPool = [],
 				worker,
-				poolSize = Math.min(config.THREAD_COUNT, this.cols * this.rows),
+				poolSize = Math.min(config.THREAD_COUNT, this._cols * this._rows),
 				i;
 
 			for(i = 0; i < poolSize; i++) {
@@ -146,12 +172,12 @@ define([
 			}
 
 			var workerIndex = 0;
-			for(var y = 0; y < this.rows; y++) {
-				for(var x = 0; x < this.cols; x++) {
+			for(var y = 0; y < this._rows; y++) {
+				for(var x = 0; x < this._cols; x++) {
 					worker = workerPool[workerIndex];
 
 					worker.postMessage({
-						cmd: 'doSegment',
+						cmd: 'run',
 						imgData: imgData,
 						imgWidth: imgWidth,
 						imgHeight: imgHeight,
@@ -193,23 +219,23 @@ define([
 			if(data.id === 'segment') {
 				var _this = this;
 				
-				this.segments[data.x + (data.y * this.cols)] = data.segment;
-				this.trueLength++;
+				this._segments[data.x + (data.y * this._cols)] = data.segment;
+				this._trueLength++;
 
-				if(this.trueLength === this.cols * this.rows) {
+				if(this._trueLength === this._cols * this._rows) {
 					if(config.DEBUG) {
-						var segments = JSON.stringify(this.segments);
+						var segments = JSON.stringify(this._segments);
 						chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 							chrome.tabs.sendMessage(tabs[0].id, {
 								cmd: 'makeImage',
 								segments: segments,
-								numCols: _this.cols,
-								numRows: _this.rows
+								numCols: _this._cols,
+								numRows: _this._rows
 							});
 						});
 					}
 
-					this._def.resolve(this.segments);
+					this._def.resolve(this._segments);
 				}
 			}
 		}

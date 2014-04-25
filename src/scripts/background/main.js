@@ -4,7 +4,7 @@
 	*/
 	chrome.runtime.onInstalled.addListener(function() {
 		require([
-			'models/option'
+			'model/option'
 		], function(option) {
 			console.log('Running install...');
 			option.localStorage._clear(); //@TODO: remove, dev only code.
@@ -33,12 +33,12 @@
 			init: function() {
 				_.bindAll(this);
 
-				this.setupPiano();
+				setTimeout(this._setupPiano, 100);
 
-				chrome.runtime.onMessage.addListener(this.onMessage);
+				chrome.runtime.onMessage.addListener(this._onMessage);
 
 				// Listen for objects to requesting that flash messages be shown
-				$(document).bind('flash-message', this.onFlashMessage);
+				$(document).bind('flash-message', this._onFlashMessage);
 			},
 
 			/**
@@ -46,10 +46,10 @@
 			 *
 			 * @method setupPiano
 			 */
-			setupPiano: function() {
+			_setupPiano: function() {
 				require([
-					'libs/music',
-					'libs/instruments/piano'
+					'lib/music',
+					'lib/instrument/piano'
 				], function(music, piano) {
 					var audioContext = music.getAudioContext();
 					piano.process(audioContext);
@@ -67,7 +67,7 @@
 			 * @param {String} request.imgSrc The url of the image to process. Used when `request.type = 'harmonise'`.
 			 * @private
 			 */
-			onMessage: function(request, sender, sendResponse) {
+			_onMessage: function(request, sender, sendResponse) {
 				var _this = this;
 
 				console.log('Message');
@@ -76,7 +76,7 @@
 				switch(request.type) {
 					case 'option':
 						require([
-							'models/option',
+							'model/option',
 						], function(option) {
 							// Load options from localstorage
 							option.fetch({
@@ -92,19 +92,15 @@
 					case 'harmonise':
 						require([
 							'background/ImageAnalyser',
-							'models/option',
-							'collections/moodPacks',
-							'libs/music',
-							'libs/instruments/piano'
+							'model/option',
+							'collection/moodPacks',
+							'lib/music',
+							'lib/instrument/piano'
 						], function(ImageAnalyser, option, moodPacks, music, piano) {
 							// Load options from localstorage
 							option.fetch({
 								reset: true,
 								success: function() {
-									// Get the user selected mood pack
-									var moodPackId = option.get('moodPack'),
-										moodPack = moodPacks.get(moodPackId);
-
 									// If the music is already playing stop it
 									if(music.get('playing') === true) {
 										music.destroy();
@@ -112,6 +108,11 @@
 										sendResponse();
 										return;
 									}
+									
+									// Get the user selected mood pack
+									var moodPackId = option.get('moodPackId'),
+										moodPack = moodPacks.get(moodPackId);
+
 
 									var pianoState = piano.ready.state();
 									// If the piano is not ready inform the client
@@ -172,7 +173,7 @@
 			 * @param {String} data.type Type of flash message, `error` or `notice`.
 			 * @private
 			 */
-			onFlashMessage: function(e, data) {
+			_onFlashMessage: function(e, data) {
 				var _this = this;
 
 				// Find the active tab of the current window, then send it the message.

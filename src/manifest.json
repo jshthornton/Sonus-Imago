@@ -2,21 +2,24 @@
 	"manifest_version": 2,
 	"name": "Sonus Imago",
 	"version": "0.1.0",
-	"description": "Assists non-sighted users with playing a amospheric melody that collerates with the colours in an image on the active webpage.",
-
+	"description": "Assists non-sighted users with playing a amospheric melody that correlates with the colours in an image on the active webpage.",
 	"author": "Joshua Thornton",
 
 	"permissions": [
 		"tabs",
-		"http://*/",
-		"https://*/"
+		"<all_urls>"
 	],
+	"web_accessible_resources": [
+		"scripts/*",
+		"images/*"
+	],
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
 
 	"background": {
 		"scripts": ["scripts/require.js", "scripts/require-config.js", "scripts/background/main.js"],
 		"persistent": true
 	},
-
 	"content_scripts": [
 		{
 			"matches": [
@@ -26,13 +29,5 @@
 			"css": ["styles/content.css"]
 		}
 	],
-
-	"web_accessible_resources": [
-		"scripts/*",
-		"images/*"
-	],
-	"options_page": "options.html",
-
-
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+	"options_page": "options.html"
 }
