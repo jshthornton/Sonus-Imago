@@ -85,8 +85,8 @@ define([
 				fauxWidth = width - excessWidth,
 				fauxHeight = height - excessHeight;
 
-			canvas.width = fauxWidth;
-			canvas.height = fauxHeight;
+			canvas.width = width;
+			canvas.height = height;
 
 			{ //Debug
 				console.groupCollapsed('Image Information');
@@ -127,12 +127,17 @@ define([
 				0, // Dest X
 				0, // Dest Y
 
-				fauxWidth, // Dest Width
-				fauxHeight // Dest Height
+				width, // Dest Width
+				height // Dest Height
 			);
 			console.log(canvas.toDataURL('image/png'));
 
-			var imgData = ctx.getImageData(0, 0, fauxWidth, fauxHeight);
+			var imgData = ctx.getImageData(
+				offsetX, 
+				offsetY, 
+				fauxWidth, 
+				fauxHeight
+			);
 
 			this._doSegments(imgData);
 		},

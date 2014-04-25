@@ -33,7 +33,7 @@
 			init: function() {
 				_.bindAll(this);
 
-				setTimeout(this._setupPiano, 100);
+				setTimeout(this._setupPiano, 500);
 
 				chrome.runtime.onMessage.addListener(this._onMessage);
 
