@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Sonus Imago",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Assists non-sighted users with playing a amospheric melody that correlates with the colours in an image on the active webpage.",
 	"author": "Joshua Thornton",
 
