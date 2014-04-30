@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Colours</title>
+
+	<style type="text/css">
+		.palete {
+			width: 280px;
+			float: left;
+		}
+		.block {
+			position: relative;
+			width: 64px;
+			height: 64px;
+			float: left;
+			border: 1px solid #ccc;
+			margin: 2px;
+		}
+		.block.black {
+			width: 274px;
+		}
+		.block img {
+			width: 100%;
+			height: 100%;
+		}
+		.block span {
+			font-family: Arial;
+			font-size: 10px;
+			text-align: center;
+			display: block;
+			font-weight: bold;
+			background-color: rgba(255, 255, 255, 0.4); 
+			padding: 3px 0px;
+			width: 100%;
+			position: absolute;
+			top: 50%;
+			margin-top: -6px;
+		}
+		.clear {
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script>
+		;(function() {
+			var canvas = document.createElement('canvas'),
+				ctx = canvas.getContext('2d');
+
+			canvas.width = 64;
+			canvas.height = 64;
+			ctx.lineWidth = '0';
+
+			function addBlock(r, g, b, $palete) {
+				var $block = $('<div class="block"><span>' + r + '_' + g + '_' + b + '</span></div>');
+
+				if(r === 0 && g === 0 && b === 0) {
+					$block.addClass('black');
+				}
+
+				ctx.beginPath();
+				ctx.fillStyle = 'rgb('+r+','+g+','+b+')';
+				ctx.rect(0,0,64,64);
+				ctx.fill();
+
+				var imgData = canvas.toDataURL('image/png'),
+					img = document.createElement('img');
+
+				img.src = imgData;
+
+				$block.append(img);
+
+				$palete.append($block);
+			}
+
+			function clearer($palete) {
+				$palete.append($('<div class="clear"></div>'));
+			}
+
+			function palete(color) {
+				var $palete = $('<div class="palete"></div>');
+
+				for(var p = 255; p >= 0; p -= 85) {
+					var dec;
+					if(p === 255) {
+						dec = 255/3;
+					} else if(p === 170) {
+						dec = 170/3;
+					} else {
+						dec = 85/3;
+					}
+					for(var i = 0; i <= 3; i++) {
+						var _s = parseInt(p - (dec * i), 10);
+
+						if(_s < 0) continue;
+
+						if(color === 'red') {
+							addBlock(p, _s, _s, $palete);
+						} else if(color === 'green') {
+							addBlock(_s, p, _s, $palete);
+						} else if(color === 'blue') {
+							addBlock(_s, _s, p, $palete);
+						} else if(color === 'magenta') {
+							addBlock(p, _s, p, $palete);
+						} else if(color === 'cyan') {
+							addBlock(_s, p, p, $palete);
+						} else if(color === 'yellow') {
+							addBlock(p, p, _s, $palete);
+						}
+					}
+
+					clearer($palete);
+				}
+
+				$(document.body).append($palete);
+			}
+
+			palete('red');
+			palete('magenta');
+			palete('blue');
+			palete('cyan');
+			palete('green');
+			palete('yellow');
+
+		}());
+	</script>
+</body>
+</html>

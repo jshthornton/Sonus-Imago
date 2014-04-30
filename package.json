@@ -1,0 +1,15 @@
+{
+	"name": "Sonus-Imago",
+	"version": "0.1.1",
+	"devDependencies": {
+		"grunt": "~0.4.1",
+		"grunt-contrib-jshint": "~0.6.3",
+		"grunt-contrib-nodeunit": "~0.2.0",
+	    "grunt-contrib-clean": "0.4.x",
+	    "grunt-contrib-requirejs": "0.4.x",
+	    "grunt-contrib-copy": "0.5.x"
+	},
+
+	"src": "src",
+	"dist": "dist"
+}
